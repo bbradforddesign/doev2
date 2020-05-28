@@ -22,5 +22,10 @@ app.post("/api/v1/users", User.create);
 app.post("/api/v1/users/login", User.login);
 app.delete("/api/v1/users/remove", Auth.verifyToken, User.delete);
 
+// test route
+app.get("/api/v1", (req, res) => {
+  res.send("Hello, API!");
+});
+
 app.listen(3000);
 console.log("app is running on port ", 3000);
