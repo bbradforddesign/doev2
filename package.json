@@ -11,6 +11,7 @@
     "build-src": "babel src -d build/src",
     "build-server": "babel server.js -d build",
     "build": "npm run build-src & npm run build-server",
+    "prestart": "npm run build",
     "heroku-postbuild": "npm install",
     "start": "node build/server.js",
     "dev-start": "babel-watch ./build/server.js"
