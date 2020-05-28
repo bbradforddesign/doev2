@@ -6,6 +6,9 @@ dotenv.config();
 const pool = new Pool({
   // connect to remote db, create new connection pool
   connectionString: process.env.DB_URL,
+  ssl: {
+    rejectUnauthorized: false,
+  },
 });
 
 pool.on("connect", () => {
