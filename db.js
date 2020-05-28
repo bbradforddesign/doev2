@@ -5,10 +5,13 @@ dotenv.config();
 
 const pool = new Pool({
   // connect to remote db, create new connection pool
-  connectionString: process.env.DB_URL,
-  ssl: {
-    rejectUnauthorized: false,
-  },
+  Host: "ec2-34-195-169-25.compute-1.amazonaws.com",
+  Database: "dag2vngju3n329",
+  User: "yswqcsuddssdag",
+  Port: "5432",
+  Password: "239eae54846e0b7a7cedab1f48afd1646ff9afdb96f7084182b1bbf1ab2444ca",
+  URI:
+    "postgres://yswqcsuddssdag:239eae54846e0b7a7cedab1f48afd1646ff9afdb96f7084182b1bbf1ab2444ca@ec2-34-195-169-25.compute-1.amazonaws.com:5432/dag2vngju3n329",
 });
 
 pool.on("connect", () => {
