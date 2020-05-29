@@ -13,7 +13,7 @@ app.use(express.json()); // allow requests to be parsed as JSON
 
 // transaction routes
 app.post("/api/v1/transactions", Auth.verifyToken, Transaction.create);
-app.get("/api/v1/transactions", Auth.verifyToken, Transaction.getAll);
+app.get("/api/v1/transactions/all", Auth.verifyToken, Transaction.getAll);
 app.get("/api/v1/transactions/:id", Auth.verifyToken, Transaction.getOne);
 app.put("/api/v1/transactions/:id", Auth.verifyToken, Transaction.update);
 app.delete("/api/v1/transactions/:id", Auth.verifyToken, Transaction.delete);

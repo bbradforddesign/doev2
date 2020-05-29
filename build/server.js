@@ -34,7 +34,7 @@ app.use(_express2.default.json()); // allow requests to be parsed as JSON
 
 // transaction routes
 app.post("/api/v1/transactions", _Auth2.default.verifyToken, _Transaction2.default.create);
-app.get("/api/v1/transactions", _Auth2.default.verifyToken, _Transaction2.default.getAll);
+app.get("/api/v1/transactions/all", _Auth2.default.verifyToken, _Transaction2.default.getAll);
 app.get("/api/v1/transactions/:id", _Auth2.default.verifyToken, _Transaction2.default.getOne);
 app.put("/api/v1/transactions/:id", _Auth2.default.verifyToken, _Transaction2.default.update);
 app.delete("/api/v1/transactions/:id", _Auth2.default.verifyToken, _Transaction2.default.delete);
@@ -48,5 +48,5 @@ app.get("/api/v1", function (req, res) {
   res.send("Hello, API!");
 });
 
-app.listen(3000);
+app.listen(process.env.PORT || 3000);
 console.log("app is running on port ", 3000);

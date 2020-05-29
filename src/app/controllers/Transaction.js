@@ -56,7 +56,7 @@ const Transaction = {
    */
   async getOne(req, res) {
     // get transaction of a given ID from table
-    const text = `SELECT * FROM transactions WHERE id = $1 AND owner_id = $2`;
+    const text = `SELECT * FROM transactions where id = $1 AND author_id= $2`;
     try {
       const { rows } = await db.query(text, [req.params.id, req.user.id]);
       if (!rows[0]) {
@@ -75,7 +75,7 @@ const Transaction = {
    */
   async update(req, res) {
     // get transaction of a given id, and pass in updated values from request body
-    const findOneQuery = `SELECT * FROM transactions WHERE id=$1 AND owner_id = $2`; // find the transaction
+    const findOneQuery = `SELECT * FROM transactions WHERE id=$1 AND author_id = $2`; // find the transaction
     const updateOneQuery = `UPDATE transactions
       SET category=$1,description=$2,amount=$3,modified_date=$4
       WHERE id=$5 AND author_id = $6 returning *`; // pass request body values into transaction

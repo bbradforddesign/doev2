@@ -131,10 +131,10 @@ var Transaction = {
           switch (_context3.prev = _context3.next) {
             case 0:
               // get transaction of a given ID from table
-              text = "SELECT * FROM transactions WHERE id = $1 AND owner_id = $2";
+              text = "SELECT * FROM transactions where id = $1";
               _context3.prev = 1;
               _context3.next = 4;
-              return _db2.default.query(text, [req.params.id, req.user.id]);
+              return _db2.default.query(text, [req.params.id]);
 
             case 4:
               _ref6 = _context3.sent;
@@ -185,7 +185,7 @@ var Transaction = {
           switch (_context4.prev = _context4.next) {
             case 0:
               // get transaction of a given id, and pass in updated values from request body
-              findOneQuery = "SELECT * FROM transactions WHERE id=$1 AND owner_id = $2"; // find the transaction
+              findOneQuery = "SELECT * FROM transactions WHERE id=$1 AND author_id = $2"; // find the transaction
 
               updateOneQuery = "UPDATE transactions\n      SET category=$1,description=$2,amount=$3,modified_date=$4\n      WHERE id=$5 AND author_id = $6 returning *"; // pass request body values into transaction
 
