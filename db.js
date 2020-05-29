@@ -1,22 +1,15 @@
-const { Pool } = require("pg");
 const dotenv = require("dotenv"); // access env vars
-
+const { Client } = require("pg");
 dotenv.config();
 
-const pool = new Pool({
-  // connect to remote db, create new connection pool
-  Host: "ec2-34-195-169-25.compute-1.amazonaws.com",
-  Database: "dag2vngju3n329",
-  User: "yswqcsuddssdag",
-  Port: "5432",
-  Password: "239eae54846e0b7a7cedab1f48afd1646ff9afdb96f7084182b1bbf1ab2444ca",
-  URI:
-    "postgres://yswqcsuddssdag:239eae54846e0b7a7cedab1f48afd1646ff9afdb96f7084182b1bbf1ab2444ca@ec2-34-195-169-25.compute-1.amazonaws.com:5432/dag2vngju3n329",
+const client = new Client({
+  connectionString: process.env.DATABASE_URL,
+  ssl: {
+    rejectUnauthorized: false,
+  },
 });
 
-pool.on("connect", () => {
-  console.log("connected to the db");
-});
+client.connect();
 
 /**
  * Create Transaction Table
@@ -36,15 +29,15 @@ const createTransactionTable = () => {
         FOREIGN KEY (author_id) REFERENCES users (id) ON DELETE CASCADE
       )`; // use foreign key to link transactions to corresponding user. When user is deleted, delete their transactions
 
-  pool
-    .query(queryText) // use pool method to return promise. once finished, close pool
+  client
+    .query(queryText) // use client method to return promise. once finished, close client
     .then((res) => {
       console.log(res);
-      pool.end();
+      client.end();
     })
     .catch((err) => {
       console.log(err);
-      pool.end();
+      client.end();
     });
 };
 
@@ -61,15 +54,15 @@ const createUserTable = () => {
       modified_date TIMESTAMP
     )`;
 
-  pool
+  client
     .query(queryText)
     .then((res) => {
       consosle.log(res);
-      pool.end();
+      client.end();
     })
     .catch((err) => {
       console.log(err);
-      pool.end();
+      client.end();
     });
 };
 
@@ -78,15 +71,15 @@ const createUserTable = () => {
  */
 const dropTransactionTable = () => {
   const queryText = `DROP TABLE IF EXISTS transactions returning *`; // remove transaction table
-  pool
+  client
     .query(queryText)
     .then((res) => {
       console.log(res);
-      pool.end();
+      client.end();
     })
     .catch((err) => {
       console.log(err);
-      pool.end();
+      client.end();
     });
 };
 
@@ -95,15 +88,15 @@ const dropTransactionTable = () => {
  */
 const dropUserTable = () => {
   const queryText = `DROP TABLE IF EXISTS users returning *`; // remove user table
-  pool
+  client
     .query(queryText)
     .then((res) => {
       console.log(res);
-      pool.end();
+      client.end();
     })
     .catch((err) => {
       console.log(err);
-      pool.end();
+      client.end();
     });
 };
 
@@ -123,8 +116,8 @@ const dropAllTables = () => {
   dropTransactionTable();
 };
 
-pool.on("remove", () => {
-  // when 'pool.remove' event emitted, exit node process
+client.on("remove", () => {
+  // when 'client.remove' event emitted, exit node process
   console.log("client removed");
   process.exit(0);
 });
