@@ -6,7 +6,7 @@ const Login = () => {
   // backend app's url
   const baseUrl = "http://localhost:3001/api/v1";
 
-  const fetchUser = async () => {
+  const handleLogin = async () => {
     await fetch(`${baseUrl}/users/login`, {
       method: "post",
       credentials: "include",
@@ -18,11 +18,18 @@ const Login = () => {
         password: creds.password,
       }),
     });
+    window.location.reload();
   };
 
-  const handleLogin = (e) => {
-    e.preventDefault();
-    fetchUser();
+  const handleLogout = async () => {
+    await fetch(`${baseUrl}/users/logout`, {
+      method: "get",
+      credentials: "include",
+      headers: new Headers({
+        "Content-Type": "application/json",
+      }),
+    });
+    window.location.reload();
   };
 
   const handleCreds = (e) => {
@@ -38,6 +45,7 @@ const Login = () => {
       <input type="text" name="password" onChange={handleCreds} />
 
       <button onClick={handleLogin}>Login</button>
+      <button onClick={handleLogout}>Logout</button>
     </div>
   );
 };
