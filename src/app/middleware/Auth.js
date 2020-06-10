@@ -10,7 +10,7 @@ const Auth = {
    * @returns {object|void} response object
    */
   async verifyToken(req, res, next) {
-    const token = req.headers["x-access-token"]; // get JWT from header
+    const token = req.cookies.token; // get JWT from token
     if (!token) {
       return res.status(400).send({ message: "Token not provided" });
     }

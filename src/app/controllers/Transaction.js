@@ -121,6 +121,7 @@ const Transaction = {
       }
       return res.status(204).send({ message: "deleted" });
     } catch (error) {
+      console.log(error);
       return res.status(400).send(error);
     }
   },

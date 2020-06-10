@@ -70,28 +70,30 @@ var User = {
               _ref2 = _context.sent;
               rows = _ref2.rows;
               token = _Helper2.default.generateToken(rows[0].id);
+
+              res.cookie("token", token, { httpOnly: true });
               return _context.abrupt("return", res.status(201).send({ token: token }));
 
-            case 16:
-              _context.prev = 16;
+            case 17:
+              _context.prev = 17;
               _context.t0 = _context["catch"](7);
 
               if (!(_context.t0.routine === "_bt_check_unique")) {
-                _context.next = 20;
+                _context.next = 21;
                 break;
               }
 
               return _context.abrupt("return", res.status(400).send({ message: "Email already registered" }));
 
-            case 20:
+            case 21:
               return _context.abrupt("return", res.status(400).send(_context.t0));
 
-            case 21:
+            case 22:
             case "end":
               return _context.stop();
           }
         }
-      }, _callee, this, [[7, 16]]);
+      }, _callee, this, [[7, 17]]);
     }));
 
     function create(_x, _x2) {
@@ -160,19 +162,21 @@ var User = {
             case 14:
               token = _Helper2.default.generateToken(rows[0].id); // generate new JWT signed with matched user's id
 
+              res.clearCookie("token");
+              res.cookie("token", token, { httpOnly: true });
               return _context2.abrupt("return", res.status(200).send({ token: token }));
 
-            case 18:
-              _context2.prev = 18;
+            case 20:
+              _context2.prev = 20;
               _context2.t0 = _context2["catch"](5);
               return _context2.abrupt("return", res.status(400).send(_context2.t0));
 
-            case 21:
+            case 23:
             case "end":
               return _context2.stop();
           }
         }
-      }, _callee2, this, [[5, 18]]);
+      }, _callee2, this, [[5, 20]]);
     }));
 
     function login(_x3, _x4) {
@@ -184,54 +188,92 @@ var User = {
 
 
   /**
+   *
+   * @param {object} req
+   * @param {object} res
+   * @returns {void} returns status 200
+   */
+  logout: function () {
+    var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(req, res) {
+      return regeneratorRuntime.wrap(function _callee3$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              _context3.prev = 0;
+
+              res.clearCookie("token");
+              return _context3.abrupt("return", res.status(200).send("Successfully logged out"));
+
+            case 5:
+              _context3.prev = 5;
+              _context3.t0 = _context3["catch"](0);
+              return _context3.abrupt("return", res.status(400).send(_context3.t0));
+
+            case 8:
+            case "end":
+              return _context3.stop();
+          }
+        }
+      }, _callee3, this, [[0, 5]]);
+    }));
+
+    function logout(_x5, _x6) {
+      return _ref5.apply(this, arguments);
+    }
+
+    return logout;
+  }(),
+
+
+  /**
    * Delete User
    * @param {object} req
    * @param {object} res
    * @returns {void} returns status 204
    */
   delete: function () {
-    var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(req, res) {
-      var deleteQuery, _ref6, rows;
+    var _ref6 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(req, res) {
+      var deleteQuery, _ref7, rows;
 
-      return regeneratorRuntime.wrap(function _callee3$(_context3) {
+      return regeneratorRuntime.wrap(function _callee4$(_context4) {
         while (1) {
-          switch (_context3.prev = _context3.next) {
+          switch (_context4.prev = _context4.next) {
             case 0:
               // search db for user of given id from request body. If match, remove user from db
               deleteQuery = "DELETE FROM users WHERE id=$1 returning *";
-              _context3.prev = 1;
-              _context3.next = 4;
+              _context4.prev = 1;
+              _context4.next = 4;
               return _db2.default.query(deleteQuery, [req.user.id]);
 
             case 4:
-              _ref6 = _context3.sent;
-              rows = _ref6.rows;
+              _ref7 = _context4.sent;
+              rows = _ref7.rows;
 
               if (rows[0]) {
-                _context3.next = 8;
+                _context4.next = 8;
                 break;
               }
 
-              return _context3.abrupt("return", res.status(404).send({ message: "user not found" }));
+              return _context4.abrupt("return", res.status(404).send({ message: "user not found" }));
 
             case 8:
-              return _context3.abrupt("return", res.status(204).send({ message: "deleted" }));
+              return _context4.abrupt("return", res.status(204).send({ message: "deleted" }));
 
             case 11:
-              _context3.prev = 11;
-              _context3.t0 = _context3["catch"](1);
-              return _context3.abrupt("return", res.status(400).send(_context3.t0));
+              _context4.prev = 11;
+              _context4.t0 = _context4["catch"](1);
+              return _context4.abrupt("return", res.status(400).send(_context4.t0));
 
             case 14:
             case "end":
-              return _context3.stop();
+              return _context4.stop();
           }
         }
-      }, _callee3, this, [[1, 11]]);
+      }, _callee4, this, [[1, 11]]);
     }));
 
-    function _delete(_x5, _x6) {
-      return _ref5.apply(this, arguments);
+    function _delete(_x7, _x8) {
+      return _ref6.apply(this, arguments);
     }
 
     return _delete;

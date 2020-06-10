@@ -131,10 +131,10 @@ var Transaction = {
           switch (_context3.prev = _context3.next) {
             case 0:
               // get transaction of a given ID from table
-              text = "SELECT * FROM transactions where id = $1";
+              text = "SELECT * FROM transactions where id = $1 AND author_id= $2";
               _context3.prev = 1;
               _context3.next = 4;
-              return _db2.default.query(text, [req.params.id]);
+              return _db2.default.query(text, [req.params.id, req.user.id]);
 
             case 4:
               _ref6 = _context3.sent;
@@ -271,9 +271,11 @@ var Transaction = {
             case 11:
               _context5.prev = 11;
               _context5.t0 = _context5["catch"](1);
+
+              console.log(_context5.t0);
               return _context5.abrupt("return", res.status(400).send(_context5.t0));
 
-            case 14:
+            case 15:
             case "end":
               return _context5.stop();
           }

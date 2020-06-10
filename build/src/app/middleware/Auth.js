@@ -32,7 +32,7 @@ var Auth = {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              token = req.headers["x-access-token"]; // get JWT from header
+              token = req.cookies.token; // get JWT from token
 
               if (token) {
                 _context.next = 3;
