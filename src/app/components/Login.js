@@ -40,13 +40,14 @@ const Login = () => {
   };
 
   return (
-    <div>
+    <form>
+      <label htmlFor="email">Email</label>
       <input type="text" name="email" onChange={handleCreds} />
-      <input type="text" name="password" onChange={handleCreds} />
-
+      <label htmlFor="password">Password</label>
+      <input type="password" name="password" onChange={handleCreds} />
       <button onClick={handleLogin}>Login</button>
       <button onClick={handleLogout}>Logout</button>
-    </div>
+    </form>
   );
 };
 

@@ -8,8 +8,14 @@ import Transactions from "./components/Transactions";
 const App = () => {
   return (
     <div>
-      <div>
-        <h1>Hello, App</h1>
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          padding: "0 5vw 0 5vw",
+        }}
+      >
+        <h1 style={{ flex: "1" }}>Hello, App</h1>
         <Login />
       </div>
       <div>

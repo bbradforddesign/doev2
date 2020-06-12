@@ -31,9 +31,22 @@
     transform: translateY(0);
   }
   50% {
-    transform: translateY(10px)
+    transform: translateY(10px);
   }
   100% {
-    transform: translateY(0px)
+    transform: translateY(0px);
   }
+}
+
+input {
+  outline: none;
+  color: black;
+}
+
+input:focus {
+  outline: 1px solid grey;
+}
+
+ul {
+  text-decoration: none;
 }
