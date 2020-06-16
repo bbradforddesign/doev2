@@ -10,6 +10,10 @@ var _dotenv2 = _interopRequireDefault(_dotenv);
 
 require("babel-polyfill");
 
+var _Goal = require("./src/app/controllers/Goal");
+
+var _Goal2 = _interopRequireDefault(_Goal);
+
 var _Transaction = require("./src/app/controllers/Transaction");
 
 var _Transaction2 = _interopRequireDefault(_Transaction);
@@ -32,9 +36,8 @@ var _cookieParser2 = _interopRequireDefault(_cookieParser);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-// methods affecting postgres db
-_dotenv2.default.config(); // allow node to utilize async and Promise features from ES6
-
+// allow node to utilize async and Promise features from ES6
+_dotenv2.default.config();
 var app = (0, _express2.default)(); // new express instance
 
 app.use(_express2.default.urlencoded({ extended: false })); // allow access to req.body
@@ -46,6 +49,12 @@ app.use((0, _cors2.default)({
 })); // allow access to only our react app. need to change origin in production, localhost only for testing
 app.use((0, _cookieParser2.default)()); // allows access to cookies to retrieve token
 
+// goal routes
+app.post("/api/v1/goals", _Auth2.default.verifyToken, _Goal2.default.create);
+app.get("/api/v1/goals/all", _Auth2.default.verifyToken, _Goal2.default.getAll);
+app.get("/api/v1/goals/:id", _Auth2.default.verifyToken, _Goal2.default.getOne);
+app.put("/api/v1/goals/:id", _Auth2.default.verifyToken, _Goal2.default.update);
+app.delete("/api/v1/goals/:id", _Auth2.default.verifyToken, _Goal2.default.delete);
 // transaction routes
 app.post("/api/v1/transactions", _Auth2.default.verifyToken, _Transaction2.default.create);
 app.get("/api/v1/transactions/all", _Auth2.default.verifyToken, _Transaction2.default.getAll);

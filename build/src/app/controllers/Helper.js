@@ -53,7 +53,7 @@ var Helper = {
   generateToken: function generateToken(id) {
     var token = _jsonwebtoken2.default.sign({
       userId: id
-    }, process.env.SECRET, { expiresIn: "7d" });
+    }, process.env.SECRET, { expiresIn: "2h" });
     return token;
   }
 };

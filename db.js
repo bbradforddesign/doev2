@@ -5,12 +5,39 @@ dotenv.config();
 
 const pool = new Pool({
   // connect to remote db, create new connection pool
-  connectionString: process.env.DB_URL,
+  connectionString: process.env.DATABASE_URL,
 });
 
 pool.on("connect", () => {
   console.log("connected to the db");
 });
+
+/**
+ * Create Goal Table
+ */
+const createGoalTable = () => {
+  const queryText = `CREATE TABLE IF NOT EXISTS 
+    goals(
+      id UUID PRIMARY KEY,
+      author_id UUID NOT NULL,
+      description TEXT NOT NULL,
+      categories TEXT NOT NULL,
+      amount float(2) NOT NULL,
+      start_date TIMESTAMP,
+      end_date TIMESTAMP,
+      FOREIGN KEY (author_id) REFERENCES users (id) ON DELETE CASCADE
+    )`;
+  pool
+    .query(queryText)
+    .then((res) => {
+      console.log(res);
+      pool.end();
+    })
+    .catch((err) => {
+      console.log(err);
+      pool.end;
+    });
+};
 
 /**
  * Create Transaction Table
@@ -58,7 +85,24 @@ const createUserTable = () => {
   pool
     .query(queryText)
     .then((res) => {
-      consosle.log(res);
+      console.log(res);
+      pool.end();
+    })
+    .catch((err) => {
+      console.log(err);
+      pool.end();
+    });
+};
+
+/**
+ * Drop Goal Table
+ */
+const dropGoalTable = () => {
+  const queryText = `DROP TABLE IF EXISTS goals returning *`;
+  pool
+    .query(queryText)
+    .then((res) => {
+      console.log(res);
       pool.end();
     })
     .catch((err) => {
@@ -107,6 +151,7 @@ const dropUserTable = () => {
 const createAllTables = () => {
   createUserTable();
   createTransactionTable();
+  createGoalTable();
 };
 
 /**
@@ -115,6 +160,7 @@ const createAllTables = () => {
 const dropAllTables = () => {
   dropUserTable();
   dropTransactionTable();
+  dropGoalTable();
 };
 
 pool.on("remove", () => {
@@ -125,9 +171,11 @@ pool.on("remove", () => {
 
 module.exports = {
   // allow methods to be accessed publically
+  createGoalTable,
   createTransactionTable,
   createUserTable,
   createAllTables,
+  dropGoalTable,
   dropUserTable,
   dropTransactionTable,
   dropAllTables,

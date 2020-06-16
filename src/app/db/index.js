@@ -7,8 +7,7 @@ dotenv.config();
 const pool = new Pool({
   // pool connections to db together
   // NOTE: to connect to Heroku Postgres, must use process.env.DATABASE_URL
-  connectionString:
-    "postgres://lzfcgrcp:uD346z-AP2T5JRS-qUEmRTDX-kuyc-DO@ruby.db.elephantsql.com:5432/lzfcgrcp",
+  connectionString: process.env.DATABASE_URL,
 });
 
 export default {

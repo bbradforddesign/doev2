@@ -1,7 +1,8 @@
 import express from "express";
 import dotenv from "dotenv";
 import "babel-polyfill"; // allow node to utilize async and Promise features from ES6
-import Transaction from "./src/app/controllers/Transaction"; // methods affecting postgres db
+import Goal from "./src/app/controllers/Goal";
+import Transaction from "./src/app/controllers/Transaction";
 import User from "./src/app/controllers/User";
 import Auth from "./src/app/middleware/Auth";
 import cors from "cors";
@@ -21,6 +22,12 @@ app.use(
 ); // allow access to only our react app. need to change origin in production, localhost only for testing
 app.use(cookieParser()); // allows access to cookies to retrieve token
 
+// goal routes
+app.post("/api/v1/goals", Auth.verifyToken, Goal.create);
+app.get("/api/v1/goals/all", Auth.verifyToken, Goal.getAll);
+app.get("/api/v1/goals/:id", Auth.verifyToken, Goal.getOne);
+app.put("/api/v1/goals/:id", Auth.verifyToken, Goal.update);
+app.delete("/api/v1/goals/:id", Auth.verifyToken, Goal.delete);
 // transaction routes
 app.post("/api/v1/transactions", Auth.verifyToken, Transaction.create);
 app.get("/api/v1/transactions/all", Auth.verifyToken, Transaction.getAll);
