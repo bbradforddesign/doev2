@@ -62,21 +62,25 @@ const Transaction = (props) => {
               />
               <br />
               <button
-                onClick={() => {
+                onClick={(e) => {
+                  e.preventDefault();
                   props.deleteItem(props.id);
                 }}
               >
                 Delete Item
               </button>
               <button
-                onClick={() => {
+                onClick={(e) => {
+                  e.preventDefault();
                   props.updateItem(props.id);
+                  props.clearInputs();
                 }}
               >
                 Update Item
               </button>
               <button
-                onClick={() => {
+                onClick={(e) => {
+                  e.preventDefault();
                   triggerDetail();
                   props.clearInputs();
                 }}
