@@ -12,19 +12,18 @@ const Goal = {
   async create(req, res) {
     // pass values from request body into new goal
     const text = `INSERT INTO
-        goals(id, author_id, description, categories, amount, start_date, end_date)
+        goals(id, author_id, description, category, amount, start_date, end_date)
         VALUES($1, $2, $3, $4, $5, $6, $7)
         returning *`;
     const values = [
       v4(),
       req.user.id,
       req.body.description,
-      req.body.categories,
+      req.body.category,
       req.body.amount,
-      req.body.start,
-      req.body.end,
+      req.body.start_date,
+      req.body.end_date,
     ];
-
     try {
       const { rows } = await db.query(text, values); // pass query to db
       return res.status(201).send(rows[0]); // if successful return the new row
@@ -77,7 +76,7 @@ const Goal = {
     // get goal of a given id, and pass in updated values from request body
     const findOneQuery = `SELECT * FROM goals WHERE id=$1 AND author_id=$2`; // find the goal
     const updateOneQuery = `UPDATE goals
-        SET description=$1,categories=$2,amount=$3,start_date=$4,end_date=$5
+        SET description=$1,category=$2,amount=$3,start_date=$4,end_date=$5
         WHERE id=$6 AND author_id=$7 returning *`;
     try {
       const { rows } = await db.query(findOneQuery, [
@@ -89,10 +88,10 @@ const Goal = {
       }
       const values = [
         req.body.description || rows[0].description,
-        req.body.categories || rows[0].categories,
+        req.body.category || rows[0].category,
         req.body.amount || rows[0].amount,
-        req.body.start || rows[0].start_date,
-        req.body.end || rows[0].end_date,
+        req.body.start_date || rows[0].start_date,
+        req.body.end_date || rows[0].end_date,
         req.params.id,
         req.user.id,
       ];

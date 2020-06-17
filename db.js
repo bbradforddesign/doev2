@@ -21,10 +21,10 @@ const createGoalTable = () => {
       id UUID PRIMARY KEY,
       author_id UUID NOT NULL,
       description TEXT NOT NULL,
-      categories TEXT NOT NULL,
+      category TEXT NOT NULL,
       amount float(2) NOT NULL,
-      start_date TIMESTAMP,
-      end_date TIMESTAMP,
+      start_date DATE NOT NULL,
+      end_date DATE NOT NULL,
       FOREIGN KEY (author_id) REFERENCES users (id) ON DELETE CASCADE
     )`;
   pool
