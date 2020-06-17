@@ -5,6 +5,7 @@ import "./App.css";
 // component imports
 import Login from "./components/Login";
 import Transactions from "./components/Transactions";
+import Goals from "./components/Goals";
 
 const App = () => {
   return (
@@ -28,6 +29,9 @@ const App = () => {
             <li>
               <Link to="/transactions">Transactions</Link>
             </li>
+            <li>
+              <Link to="/goals">Goals</Link>
+            </li>
           </ul>
         </nav>
         <Switch>
@@ -39,6 +43,11 @@ const App = () => {
           <Route path="/transactions">
             <div>
               <Transactions />
+            </div>
+          </Route>
+          <Route path="/goals">
+            <div>
+              <Goals />
             </div>
           </Route>
         </Switch>

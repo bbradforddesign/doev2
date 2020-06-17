@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const Transaction = (props) => {
+const Goal = (props) => {
   const [detailView, setDetailView] = useState(false);
 
   // trigger detailed view
@@ -36,7 +36,7 @@ const Transaction = (props) => {
             }}
           >
             <form>
-              <h2>Edit Transaction {props.id}</h2>
+              <h2>Edit Goal {props.id}</h2>
               <label htmlFor="description">Description</label>
               <input
                 type="text"
@@ -49,27 +49,9 @@ const Transaction = (props) => {
               <input
                 type="text"
                 name="category"
-                list="categoryName"
                 onChange={props.handleItem}
                 placeholder={props.category}
               />
-              <datalist id="categoryName">
-                <option value="Housing">Housing</option>
-                <option value="Transportation">Transportation</option>
-                <option value="Food">Food</option>
-                <option value="Utilities">Utilities</option>
-                <option value="Clothing">Clothing</option>
-                <option value="Healthcare">Healthcare</option>
-                <option value="Insurance">Insurance</option>
-                <option value="Household Supplies">Household Supplies</option>
-                <option value="Personal">Personal</option>
-                <option value="Debt">Debt</option>
-                <option value="Retirement">Retirement</option>
-                <option value="Education">Education</option>
-                <option value="Savings">Savings</option>
-                <option value="Gifts/Donations">Gifts/Donations</option>
-                <option value="Entertainment">Entertainment</option>
-              </datalist>
               <br />
               <label htmlFor="amount">Amount</label>
               <input
@@ -77,6 +59,22 @@ const Transaction = (props) => {
                 name="amount"
                 onChange={props.handleItem}
                 placeholder={props.amount}
+              />
+              <br />
+              <label htmlFor="start_date">Start Date</label>
+              <input
+                type="date"
+                name="start_date"
+                onChange={props.handleItem}
+                placeholder={props.start_date}
+              />
+              <br />
+              <label htmlFor="end_date">End Date</label>
+              <input
+                type="date"
+                name="end_date"
+                onChange={props.handleItem}
+                placeholder={props.end_date}
               />
               <br />
               <button
@@ -113,7 +111,8 @@ const Transaction = (props) => {
           <h1>{props.id}</h1>
           <p>
             Description: {props.description} Category: {props.category} Amount:{" "}
-            {props.amount}
+            {props.amount} Start Date: {props.start_date} End Date:{" "}
+            {props.end_date}
           </p>
           <button
             onClick={() => {
@@ -129,4 +128,4 @@ const Transaction = (props) => {
   );
 };
 
-export default Transaction;
+export default Goal;

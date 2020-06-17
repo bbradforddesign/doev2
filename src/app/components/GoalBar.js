@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import Transaction from "./Transaction";
+import Goal from "./Goal";
 
-const TransactionBar = (props) => {
+const GoalBar = (props) => {
   const [display, setDisplay] = useState(true);
 
   // clear inputs after submitting changes to prevent unwanted changes
@@ -10,12 +10,15 @@ const TransactionBar = (props) => {
       category: "",
       description: "",
       amount: 0,
+      start_date: "",
+      end_date: "",
     });
   };
 
   // Handlers. Listens for user input, and call functions when something happens.
   // preventDefault required to stop reloading page
   const handleCreate = (e) => {
+    console.log(props.item);
     e.preventDefault();
     props.apiMethods.Create();
   };
@@ -37,7 +40,7 @@ const TransactionBar = (props) => {
               alignItems: "center",
             }}
           >
-            <h3>Transaction List</h3>
+            <h3>Goal List</h3>
 
             <ul
               style={{
@@ -48,15 +51,17 @@ const TransactionBar = (props) => {
                 overflowY: "scroll",
               }}
             >
-              {props.transactions.map((e) => (
+              {props.goals.map((e) => (
                 <li key={e.id}>
-                  <Transaction
+                  <Goal
                     handleItem={handleItem}
                     updateItem={props.apiMethods.Update}
                     deleteItem={props.apiMethods.Delete}
                     description={e.description}
                     category={e.category}
                     amount={e.amount}
+                    start_date={e.start_date}
+                    end_date={e.end_date}
                     id={e.id}
                     clearInputs={clearInputs}
                   />
@@ -100,7 +105,11 @@ const TransactionBar = (props) => {
             </datalist>
             <label htmlFor="amount">Amount</label>
             <input type="number" name="amount" onChange={handleItem} />
-            <button onClick={handleCreate}>Record Transaction</button>
+            <label htmlFor="start_date">Start Date</label>
+            <input type="date" name="start_date" onChange={handleItem} />
+            <label htmlFor="end_date">End Date</label>
+            <input type="date" name="end_date" onChange={handleItem} />
+            <button onClick={handleCreate}>Record Goal</button>
           </form>
           <button onClick={() => setDisplay(false)}>Hide Bar</button>
         </div>
@@ -111,4 +120,4 @@ const TransactionBar = (props) => {
   );
 };
 
-export default TransactionBar;
+export default GoalBar;
