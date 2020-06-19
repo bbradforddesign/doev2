@@ -14,43 +14,42 @@ const App = () => {
         <div
           style={{
             display: "flex",
-            alignItems: "center",
-            padding: "0 5vw 0 5vw",
+            flexDirection: "row",
           }}
         >
-          <h1 style={{ flex: "1" }}>Hello, App</h1>
-          <Login />
+          <Switch style={{ flex: 6 }}>
+            <Route exact path="/">
+              <div>
+                <h2>Home</h2>
+              </div>
+            </Route>
+            <Route path="/transactions">
+              <div>
+                <Transactions />
+              </div>
+            </Route>
+            <Route path="/goals">
+              <div>
+                <Goals />
+              </div>
+            </Route>
+          </Switch>
+          <nav style={{ flex: 1 }}>
+            <h1 style={{ flex: "1" }}>Hello, App</h1>
+            <Login />
+            <ul>
+              <li>
+                <Link to="/">Home</Link>
+              </li>
+              <li>
+                <Link to="/transactions">Transactions</Link>
+              </li>
+              <li>
+                <Link to="/goals">Goals</Link>
+              </li>
+            </ul>
+          </nav>
         </div>
-        <nav>
-          <ul>
-            <li>
-              <Link to="/">Home</Link>
-            </li>
-            <li>
-              <Link to="/transactions">Transactions</Link>
-            </li>
-            <li>
-              <Link to="/goals">Goals</Link>
-            </li>
-          </ul>
-        </nav>
-        <Switch>
-          <Route exact path="/">
-            <div>
-              <h2>Home</h2>
-            </div>
-          </Route>
-          <Route path="/transactions">
-            <div>
-              <Transactions />
-            </div>
-          </Route>
-          <Route path="/goals">
-            <div>
-              <Goals />
-            </div>
-          </Route>
-        </Switch>
       </div>
     </Router>
   );
