@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import GraphBar from "./GraphBar";
 
 const Graph = (props) => {
@@ -28,7 +28,6 @@ const Graph = (props) => {
         />
       </div>
     );
-    console.log(barArray[0].props.children[1].props.max);
   }
   // sort bars by descending value.
   barArray.sort((a, b) =>

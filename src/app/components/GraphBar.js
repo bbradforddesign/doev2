@@ -1,8 +1,6 @@
 import React from "react";
 
 const GraphBar = (props) => {
-  console.log(props);
-
   const remaining = props.max - props.current;
   const spent = props.current;
   const whitespace = props.max

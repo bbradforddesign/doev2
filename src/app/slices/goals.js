@@ -60,7 +60,6 @@ export function fetchGoals() {
         e.end_date = moment(e.end_date).format("YYYY/MM/DD");
       });
       dispatch(getGoalsSuccess(data.rows));
-      console.log(data.rows);
     } catch (error) {
       dispatch(getGoalsFailure());
     }

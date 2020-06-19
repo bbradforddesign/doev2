@@ -30,7 +30,6 @@ const Goals = () => {
    */
   const apiMethods = {
     Create: async () => {
-      console.log(item);
       try {
         await fetch(`http://localhost:3001/api/v1/goals`, {
           method: "post",
@@ -115,9 +114,6 @@ const Goals = () => {
               setItem={setItem}
               item={item}
             />
-            <div>
-              <h1></h1>
-            </div>
           </div>
         )}
       </div>

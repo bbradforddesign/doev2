@@ -18,7 +18,6 @@ const GoalBar = (props) => {
   // Handlers. Listens for user input, and call functions when something happens.
   // preventDefault required to stop reloading page
   const handleCreate = (e) => {
-    console.log(props.item);
     e.preventDefault();
     props.apiMethods.Create();
   };
