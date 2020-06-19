@@ -16,22 +16,33 @@ const Calculator = (props) => {
    * Logic to generate transaction graph
    */
   // data structure to store graph data to be rendered
-  const [total, setTotal] = useState({ all: 0, categories: {} });
+  const [total, setTotal] = useState({ all: 0, categories: {}, maxes: {} });
   const Transactions = props.transactions;
   // shorthand for the object where category totals are stored
   const AllCats = total.categories;
+
   // calculate totals of all categories. store in local state to render graph
   useEffect(() => {
     // grand total of all transactions
     const allReduced = Transactions.reduce((x, y) => x + y.amount, 0);
     // store all user created categories in state, and total up corresponding values
     Transactions.forEach((e) => {
-      const Cat = e.category;
-      const Amt = e.amount;
-      setTotal(AllCats[Cat] ? (AllCats[Cat] += Amt) : (AllCats[Cat] = Amt));
+      setTotal(
+        AllCats[e.category]
+          ? (AllCats[e.category] += e.amount)
+          : (AllCats[e.category] = e.amount)
+      );
     });
     setTotal({ ...total, all: allReduced });
   }, [Transactions]);
+
+  // store goal amounts for each category in state to pass to graph
+  useEffect(() => {
+    goals.forEach((goal) =>
+      AllCats[goal.category] ? (total.maxes[goal.category] = goal.amount) : null
+    );
+    console.log(total);
+  }, [goals]);
 
   /**
    * Logic to determine goal progress

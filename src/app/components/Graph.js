@@ -1,73 +1,42 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
+import GraphBar from "./GraphBar";
 
 const Graph = (props) => {
-  const [bars, setBars] = useState([]);
-
   const total = props.total;
-
-  // shorthand for the object where category totals are stored
-  const AllCats = total.categories;
 
   /**
    * Use object prototype to generate bars for graph based on category names
    * and corresponding totals
    */
-  const Categories = Object.keys(AllCats);
-  const CategorySum = (e) => AllCats[e];
+  const Categories = Object.keys(total.categories);
 
   /**
    * for each category in state, generate a new bar with that category's data.
-   * when new bar is added, setBars is used to force rerender rather than pushing directly. necessary?
+   *
    */
-  useEffect(() => {
-    Categories.forEach((category) => {
-      if (bars.length < Categories.length) {
-        setBars([
-          ...bars,
-          (bars[bars.length] = (
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "flex-start",
-                alignItems: "center",
-                padding: "1px",
-              }}
-            >
-              <div
-                style={{
-                  flex: CategorySum(category),
-                  backgroundColor: "rgba(0,200,175, 1)",
-                  height: "3vh",
-                  whiteSpace: "nowrap",
-                }}
-                key={category}
-              />
-              <div
-                style={{
-                  flex: total.all - CategorySum(category),
-                }}
-              >
-                <p
-                  style={{
-                    margin: "0 1vh 0 1vh",
-                  }}
-                >
-                  {category}: ${CategorySum(category)}
-                </p>
-              </div>
-            </div>
-          )),
-        ]);
-      }
-    });
-  }, [Categories, total.all]);
 
-  // arrange the bars in order by flex value to display largest to smallest
-  const barValue = (e) => e.props.children[0].props.style.flex;
-  bars.sort((a, b) => barValue(b) - barValue(a));
+  const barArray = [];
+  for (let i = 0; i < Categories.length; i++) {
+    const category = Categories[i];
+    barArray.push(
+      <div key={i}>
+        <h4>{category}</h4>
+        <GraphBar
+          current={total.categories[category]}
+          max={total.maxes[category]}
+          total={total.all}
+        />
+      </div>
+    );
+    console.log(barArray[0].props.children[1].props.max);
+  }
+  // sort bars by descending value.
+  barArray.sort((a, b) =>
+    a.props.children[1].props.current > b.props.children[1].props.current
+      ? -1
+      : 1
+  );
 
-  // finally, render the graph and calculated total amount together
   return (
     <section>
       <h4>Expense Analysis</h4>
@@ -75,11 +44,12 @@ const Graph = (props) => {
         style={{
           display: "flex",
           flexDirection: "column",
+          width: "50vw",
         }}
       >
-        {bars.map((bar, barKey) => (
-          <React.Fragment key={barKey}>{bar}</React.Fragment>
-        ))}
+        {barArray.map((e) => {
+          return e;
+        })}
       </div>
     </section>
   );
