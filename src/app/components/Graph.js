@@ -11,7 +11,7 @@ const Graph = (props) => {
   const Categories = Object.keys(total.categories);
 
   /**
-   * for each category in state, generate a new bar with that category's data.
+   * for each category, generate a new bar with that category's data.
    *
    */
 
@@ -20,7 +20,7 @@ const Graph = (props) => {
     const category = Categories[i];
     barArray.push(
       <div key={i}>
-        <h4>{category}</h4>
+        <h5 style={{ margin: "6px 0 4px 0" }}>{category}</h5>
         <GraphBar
           current={total.categories[category]}
           max={total.maxes[category]}
@@ -38,20 +38,18 @@ const Graph = (props) => {
   );
 
   return (
-    <section>
-      <h4>Expense Analysis</h4>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          width: "50vw",
-        }}
-      >
-        {barArray.map((e) => {
-          return e;
-        })}
-      </div>
-    </section>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        width: "50vw",
+      }}
+    >
+      <h2 style={{ marginBottom: "8px" }}>Expense Analysis</h2>
+      {barArray.map((e) => {
+        return e;
+      })}
+    </div>
   );
 };
 

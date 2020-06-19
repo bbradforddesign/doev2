@@ -51,29 +51,27 @@ const Calculator = (props) => {
     if (loading) return <h3>Loading</h3>;
     if (hasErrors) return <h3>Error loading goal progress</h3>;
     return (
-      <div>
+      <div style={{ marginTop: "3vh" }}>
+        <h3 style={{ margin: 0 }}>Summary</h3>
+        <p style={{ marginTop: "6px" }}>
+          You have spent a total of ${total.all} this month.
+        </p>
         {goals && (
           <>
-            <h3>Goal Progress</h3>
-            <ul>
+            <ul style={{ padding: 0, listStyle: "none" }}>
               {goals.map((e) => (
                 <li key={e.id}>
-                  <h4>{e.category}</h4>
-                  <p>{e.description}</p>
-                  {
-                    // one extra day added to account for incomplete days since hours aren't rendered
-                    moment().diff(e.end_date, "days") * -1 > 0
-                      ? moment().diff(e.end_date, "days") * -1 +
-                        1 +
-                        " days remaining"
-                      : "Goal expired"
-                  }
-                  <p>
-                    {Object.keys(total.categories).includes(e.category)
-                      ? "$" +
-                        (e.amount - total.categories[e.category]) +
-                        " Remaining"
-                      : "No expenses within this goal"}
+                  <h4 style={{ margin: 0 }}>{e.category}</h4>
+                  <p style={{ marginTop: "4px" }}>
+                    You have spent ${AllCats[e.category]} out of your $
+                    {e.amount} goal. There are{" "}
+                    {moment().diff(e.end_date, "days") * -1} full days remaining
+                    in this goal; to stay within bounds, you will need to spend
+                    less than $
+                    {((e.amount - AllCats[e.category]) /
+                      moment().diff(e.end_date, "days")) *
+                      -7}{" "}
+                    per week.
                   </p>
                 </li>
               ))}

@@ -2,49 +2,53 @@ import React from "react";
 
 const GraphBar = (props) => {
   console.log(props);
+
+  const remaining = props.max - props.current;
+  const spent = props.current;
+  const whitespace = props.max
+    ? props.total - props.max
+    : props.total - props.current;
+
   return (
     <div
       style={{
         display: "flex",
         flexDirection: "row",
-        height: "3vh",
+        height: "2vh",
         backgroundColor: "white",
         width: "100%",
+        alignItems: "center",
+        marginBottom: "2px",
       }}
     >
       <div
         style={{
-          flex: props.current,
-          backgroundColor: "green",
-          height: "3vh",
+          flex: spent,
+          backgroundColor: "#DDD",
+          height: "2vh",
         }}
       />
       {props.max ? (
         <>
           <div
             style={{
-              flex: props.max - props.current,
-              backgroundColor: "red",
-              height: "3vh",
+              flex: remaining,
+              backgroundColor: "#444",
+              height: "2vh",
             }}
           />
-          <div
+          <p
             style={{
-              flex: props.total - props.max,
-              backgroundColor: "white",
-              height: "3vh",
+              flex: whitespace,
+              marginLeft: "1vw",
             }}
-          />
+          >
+            ${spent}/${props.max} Spent
+          </p>
         </>
       ) : (
         <>
-          <div
-            style={{
-              flex: props.total - props.current,
-              backgroundColor: "white",
-              height: "3vh",
-            }}
-          />
+          <p style={{ flex: whitespace, marginLeft: "1vw" }}>${spent} Spent</p>
         </>
       )}
     </div>
