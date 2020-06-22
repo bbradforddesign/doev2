@@ -10,6 +10,35 @@ import Goals from "./components/Goals";
 const App = () => {
   return (
     <Router>
+      <nav
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "center",
+          backgroundColor: "rgb(155,240,155)",
+        }}
+      >
+        <h1 style={{ flex: 1 }}>Hello, App</h1>
+        <ul
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            listStyle: "none",
+            flex: 1,
+          }}
+        >
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="/transactions">Transactions</Link>
+          </li>
+          <li>
+            <Link to="/goals">Goals</Link>
+          </li>
+        </ul>
+        <Login />
+      </nav>
       <div>
         <div
           style={{
@@ -17,7 +46,7 @@ const App = () => {
             flexDirection: "row",
           }}
         >
-          <Switch style={{ flex: 6 }}>
+          <Switch>
             <Route exact path="/">
               <div>
                 <h2>Home</h2>
@@ -34,21 +63,6 @@ const App = () => {
               </div>
             </Route>
           </Switch>
-          <nav style={{ flex: 1 }}>
-            <h1 style={{ flex: "1" }}>Hello, App</h1>
-            <Login />
-            <ul>
-              <li>
-                <Link to="/">Home</Link>
-              </li>
-              <li>
-                <Link to="/transactions">Transactions</Link>
-              </li>
-              <li>
-                <Link to="/goals">Goals</Link>
-              </li>
-            </ul>
-          </nav>
         </div>
       </div>
     </Router>
