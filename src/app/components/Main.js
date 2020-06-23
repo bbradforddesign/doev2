@@ -4,33 +4,45 @@ import {
   fetchTransactions,
   transactionsSelector,
 } from "../slices/transactions";
-import Calculator from "./Calculator";
+import { fetchGoals, goalsSelector } from "../slices/goals";
+import Calculator from "./Analysis/Calculator";
 
-import TransactionBar from "./TransactionBar";
+import TransactionBar from "./Transactions/TransactionBar";
+import GoalBar from "./Goals/GoalBar";
 
-const Transactions = () => {
+const Main = () => {
   // sidebar display logic
-  const [transactionView, setTransactionView] = useState(false);
-  const [goalView, setGoalView] = useState(false);
+  const [sideView, setSideView] = useState();
 
   // Redux
   const dispatch = useDispatch();
-  const { transactions, loading, hasErrors } = useSelector(
-    transactionsSelector
-  );
+  const {
+    transactions,
+    loadingTransactions,
+    hasErrorsTransactions,
+  } = useSelector(transactionsSelector);
+  const { goals, loading, hasErrors } = useSelector(goalsSelector);
 
   // on mount, fetch transactions to render
   useEffect(() => {
     dispatch(fetchTransactions());
+    dispatch(fetchGoals());
   }, [dispatch]);
 
+  const renderSide = (sideView) => {
+    if (sideView === "transactions")
+      return <TransactionBar transactions={transactions} />;
+    if (sideView === "goals") return <GoalBar goals={goals} />;
+  };
   /**
    * Conditional rendering. Represents current state from redux store.
    * Represent transactions programatically since they're constantly changing.
    */
   const renderTransactions = () => {
-    if (loading) return <p>Loading Transactions</p>;
-    if (hasErrors) return <p>Unable to Retrieve Transactions</p>;
+    if (loadingTransactions) return <p>Loading Transactions</p>;
+    if (hasErrorsTransactions) return <p>Unable to Retrieve Transactions</p>;
+    if (loading) return <p>Loading Goals</p>;
+    if (hasErrors) return <p>Unable to Retrieve Goals</p>;
 
     return (
       <div>
@@ -42,7 +54,7 @@ const Transactions = () => {
               alignItems: "center",
             }}
           >
-            {transactionView && <TransactionBar transactions={transactions} />}
+            {renderSide(sideView)}
             <div
               style={{
                 flexDirection: "column",
@@ -55,7 +67,11 @@ const Transactions = () => {
                 style={{
                   margin: "10px",
                 }}
-                onClick={() => setTransactionView(!transactionView)}
+                onClick={
+                  !sideView
+                    ? () => setSideView("transactions")
+                    : () => setSideView("")
+                }
               >
                 Toggle Transaction Bar
               </button>
@@ -63,12 +79,15 @@ const Transactions = () => {
                 style={{
                   margin: "10px",
                 }}
+                onClick={
+                  !sideView ? () => setSideView("goals") : () => setSideView("")
+                }
               >
                 Toggle Goal Bar
               </button>
             </div>
             <div style={{ flex: 1 }}>
-              <Calculator transactions={transactions} />
+              <Calculator transactions={transactions} goals={goals} />
             </div>
           </div>
         )}
@@ -79,4 +98,4 @@ const Transactions = () => {
   return <section>{renderTransactions()}</section>;
 };
 
-export default Transactions;
+export default Main;

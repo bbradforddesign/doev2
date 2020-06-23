@@ -1,17 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Graph from "./Graph";
-import { useDispatch, useSelector } from "react-redux";
-import { fetchGoals, goalsSelector } from "../slices/goals";
 import moment from "moment";
 
 const Calculator = (props) => {
-  // Redux logic. Get all goals to determine progress
-  const dispatch = useDispatch();
-  const { goals, loading, hasErrors } = useSelector(goalsSelector);
-  useEffect(() => {
-    dispatch(fetchGoals());
-  }, [dispatch]);
-
+  const goals = props.goals;
   /**
    * Logic to generate transaction graph
    */
@@ -51,13 +43,10 @@ const Calculator = (props) => {
     );
   }, [goals]);
 
-  /**
-   * Logic to determine goal progress
-   */
-  const renderGoals = () => {
-    if (loading) return <h3>Loading</h3>;
-    if (hasErrors) return <h3>Error loading goal progress</h3>;
-    return (
+  // pass calculated values on to be rendered
+  return (
+    <div>
+      <Graph total={total} />
       <div style={{ marginTop: "3vh" }}>
         <h3 style={{ margin: 0 }}>Summary</h3>
         <p style={{ marginTop: "6px" }}>
@@ -108,14 +97,6 @@ const Calculator = (props) => {
           </>
         )}
       </div>
-    );
-  };
-
-  // pass calculated values on to be rendered
-  return (
-    <div>
-      <Graph total={total} />
-      {renderGoals()}
     </div>
   );
 };

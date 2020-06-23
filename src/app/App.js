@@ -4,8 +4,7 @@ import "./App.css";
 
 // component imports
 import Login from "./components/Login";
-import Transactions from "./components/Transactions";
-import Goals from "./components/Goals";
+import Main from "./components/Main";
 
 const App = () => {
   return (
@@ -31,10 +30,7 @@ const App = () => {
             <Link to="/">Home</Link>
           </li>
           <li>
-            <Link to="/transactions">Transactions</Link>
-          </li>
-          <li>
-            <Link to="/goals">Goals</Link>
+            <Link to="/main">Main</Link>
           </li>
         </ul>
         <Login />
@@ -52,14 +48,9 @@ const App = () => {
                 <h2>Home</h2>
               </div>
             </Route>
-            <Route path="/transactions">
+            <Route path="/main">
               <div>
-                <Transactions />
-              </div>
-            </Route>
-            <Route path="/goals">
-              <div>
-                <Goals />
+                <Main />
               </div>
             </Route>
           </Switch>

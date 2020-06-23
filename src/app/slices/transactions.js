@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 export const initialState = {
-  loading: false,
-  hasErrors: false,
+  loadingTransactions: false,
+  hasErrorsTransactions: false,
   transactions: [],
 };
 
@@ -11,16 +11,16 @@ const transactionsSlice = createSlice({
   initialState,
   reducers: {
     getTransactions: (state) => {
-      state.loading = true;
+      state.loadingTransactions = true;
     },
     getTransactionsSuccess: (state, { payload }) => {
       state.transactions = payload;
-      state.loading = false;
-      state.hasErrors = false;
+      state.loadingTransactions = false;
+      state.hasErrorsTransactions = false;
     },
     getTransactionsFailure: (state) => {
-      state.loading = false;
-      state.hasErrors = true;
+      state.loadingTransactions = false;
+      state.hasErrorsTransactions = true;
     },
   },
 });
