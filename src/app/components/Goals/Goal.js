@@ -44,8 +44,7 @@ const Goal = (props) => {
           <h1>{props.id}</h1>
           <p>
             Description: {props.description} Category: {props.category} Amount:{" "}
-            {props.amount} Start Date: {props.start_date} End Date:{" "}
-            {props.end_date}
+            {props.amount} Date: {props.date}
           </p>
           <button
             onClick={() => {

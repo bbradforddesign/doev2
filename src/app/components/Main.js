@@ -23,16 +23,23 @@ const Main = () => {
   } = useSelector(transactionsSelector);
   const { goals, loading, hasErrors } = useSelector(goalsSelector);
 
-  // on mount, fetch transactions to render
-  useEffect(() => {
+  const refresh = () => {
     dispatch(fetchTransactions());
     dispatch(fetchGoals());
+  };
+
+  // on mount, fetch transactions to render
+  useEffect(() => {
+    refresh();
   }, [dispatch]);
 
   const renderSide = (sideView) => {
-    if (sideView === "transactions")
+    if (sideView === "transactions") {
       return <TransactionBar transactions={transactions} />;
-    if (sideView === "goals") return <GoalBar goals={goals} />;
+    }
+    if (sideView === "goals") {
+      return <GoalBar goals={goals} />;
+    }
   };
   /**
    * Conditional rendering. Represents current state from redux store.

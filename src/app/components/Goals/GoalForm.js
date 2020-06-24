@@ -1,34 +1,21 @@
 import React, { useState } from "react";
 import apiMethods from "../../utils/GoalApi";
+import moment from "moment";
 
 const GoalForm = (props) => {
   // local state to store input before sending to db
   const [item, setItem] = useState({
     category: "",
-    description: "",
     amount: 0,
-    start_date: new Date(),
-    end_date: new Date(),
+    date: moment().format("YYYY/MM/DD"),
   });
 
   const handleCreate = () => {
-    apiMethods.Create(
-      item.category,
-      item.description,
-      item.amount,
-      item.start_date,
-      item.end_date
-    );
+    console.log(item);
+    apiMethods.Create(item.category, item.amount, item.date);
   };
   const handleUpdate = () => {
-    apiMethods.Update(
-      props.id,
-      item.category,
-      item.description,
-      item.amount,
-      item.start_date,
-      item.end_date
-    );
+    apiMethods.Update(props.id, item.category, item.amount, item.month);
   };
   const handleDelete = () => {
     apiMethods.Delete(props.id);
@@ -67,8 +54,6 @@ const GoalForm = (props) => {
         width: "30vw",
       }}
     >
-      <label htmlFor="description">Description</label>
-      <input type="text" name="description" onChange={handleItem} />
       <label htmlFor="category">Category</label>
       <input
         type="text"
@@ -85,10 +70,6 @@ const GoalForm = (props) => {
       </datalist>
       <label htmlFor="amount">Amount</label>
       <input type="number" name="amount" onChange={handleItem} />
-      <label htmlFor="start_date">Start Date</label>
-      <input type="date" name="start_date" onChange={handleItem} />
-      <label htmlFor="end_date">End Date</label>
-      <input type="date" name="end_date" onChange={handleItem} />
       <button onClick={() => (props.id ? handleUpdate() : handleCreate())}>
         Save
       </button>

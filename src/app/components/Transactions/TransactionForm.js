@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { withRouter } from "react-router-dom";
 import apiMethods from "../../utils/TransactionApi";
 
 const TransactionForm = (props) => {
@@ -9,20 +10,33 @@ const TransactionForm = (props) => {
     amount: 0,
   });
 
-  const handleCreate = () => {
+  const routerProps = props.location.props;
+
+  const handleCreate = async () => {
     apiMethods.Create(item.category, item.description, item.amount);
   };
   const handleUpdate = () => {
-    apiMethods.Update(props.id, item.category, item.description, item.amount);
+    apiMethods.Update(
+      routerProps.id,
+      item.category,
+      item.description,
+      item.amount
+    );
   };
   const handleDelete = () => {
-    apiMethods.Delete(props.id);
+    apiMethods.Delete(routerProps.id);
   };
   const handleItem = (e) => {
     setItem({
       ...item,
       [e.target.name]: e.target.value,
     });
+  };
+
+  // redirects to main page; need to add props to keep sidebar open persistently.
+  const handleSubmit = () => {
+    props.history.replace("/main");
+    window.location.reload();
   };
 
   const categoryOptions = [
@@ -43,39 +57,88 @@ const TransactionForm = (props) => {
     "Entertainment",
   ];
 
+  /**
+   * NOTE:
+   * Using div rather than form to prevent unwanted params added to url.
+   * Desired behavior, but possible semantic problem. Better fix?
+   */
   return (
-    <form
+    <div
       style={{
+        position: "fixed",
+        width: "100vw",
+        height: "100vh",
+        top: "50%",
+        left: "50%",
+        transform: "translate(-50%, -50%)",
+        backgroundColor: "rgba(200,200,200,.75)",
         display: "flex",
-        flexDirection: "column",
         justifyContent: "center",
-        width: "30vw",
+        alignItems: "center",
       }}
     >
-      <label htmlFor="description">Description</label>
-      <input type="text" name="description" onChange={handleItem} />
-      <label htmlFor="category">Category</label>
-      <input
-        type="text"
-        name="category"
-        list="categoryName"
-        onChange={handleItem}
-      />
-      <datalist id="categoryName">
-        {categoryOptions.map((e) => (
-          <option value={e} key={e}>
-            {e}
-          </option>
-        ))}
-      </datalist>
-      <label htmlFor="amount">Amount</label>
-      <input type="number" name="amount" onChange={handleItem} />
-      <button onClick={() => (props.id ? handleUpdate() : handleCreate())}>
-        Save
-      </button>
-      {props.id && <button onClick={() => handleDelete()}>Delete</button>}
-    </form>
+      <div
+        style={{
+          backgroundColor: "#EEE",
+          width: "50vw",
+          height: "30vh",
+          position: "fixed",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center",
+            width: "30vw",
+          }}
+        >
+          <label htmlFor="description">Description</label>
+          <input type="text" name="description" onChange={handleItem} />
+          <label htmlFor="category">Category</label>
+          <input
+            type="text"
+            name="category"
+            list="categoryName"
+            onChange={handleItem}
+          />
+          <datalist id="categoryName">
+            {categoryOptions.map((e) => (
+              <option value={e} key={e}>
+                {e}
+              </option>
+            ))}
+          </datalist>
+          <label htmlFor="amount">Amount</label>
+          <input type="number" name="amount" onChange={handleItem} />
+          <button
+            onClick={() => {
+              routerProps ? handleUpdate() : handleCreate();
+              handleSubmit();
+            }}
+          >
+            Save
+          </button>
+
+          {routerProps && (
+            <button
+              onClick={async () => {
+                await handleDelete();
+                handleSubmit();
+              }}
+            >
+              Delete
+            </button>
+          )}
+
+          <button onClick={() => handleSubmit()}>Done</button>
+        </div>
+      </div>
+    </div>
   );
 };
 
-export default TransactionForm;
+export default withRouter(TransactionForm);

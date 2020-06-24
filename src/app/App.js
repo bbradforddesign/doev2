@@ -5,6 +5,7 @@ import "./App.css";
 // component imports
 import Login from "./components/Login";
 import Main from "./components/Main";
+import TransactionForm from "./components/Transactions/TransactionForm";
 
 const App = () => {
   return (
@@ -48,11 +49,18 @@ const App = () => {
                 <h2>Home</h2>
               </div>
             </Route>
-            <Route path="/main">
+            <Route exact path="/main">
               <div>
                 <Main />
               </div>
             </Route>
+            <Route path="/transaction/new">
+              <TransactionForm />
+            </Route>
+            <Route
+              path="/transaction/edit"
+              render={(props) => <TransactionForm {...props} />}
+            />
           </Switch>
         </div>
       </div>

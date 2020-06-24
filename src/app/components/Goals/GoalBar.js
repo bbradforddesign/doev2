@@ -33,8 +33,7 @@ const GoalBar = (props) => {
                     description={e.description}
                     category={e.category}
                     amount={e.amount}
-                    start_date={e.start_date}
-                    end_date={e.end_date}
+                    date={e.date}
                     id={e.id}
                   />
                 </li>

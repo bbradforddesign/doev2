@@ -1,6 +1,7 @@
 import React from "react";
-import Transaction from "./Transaction";
+import { Link } from "react-router-dom";
 
+import Transaction from "./Transaction";
 import TransactionForm from "./TransactionForm";
 
 const TransactionBar = (props) => {
@@ -31,12 +32,13 @@ const TransactionBar = (props) => {
                 category={e.category}
                 amount={e.amount}
                 id={e.id}
+                created={e.created_date}
               />
             </li>
           ))}
         </ul>
       </section>
-      <TransactionForm />
+      <Link to="/transaction/new">Form</Link>
     </div>
   );
 };

@@ -1,7 +1,7 @@
 const abortController = new AbortController();
 
 const apiMethods = {
-  Create: async (category, description, amount, start_date, end_date) => {
+  Create: async (category, amount, date) => {
     try {
       await fetch(`http://localhost:3001/api/v1/goals`, {
         method: "post",
@@ -11,10 +11,8 @@ const apiMethods = {
         }),
         body: JSON.stringify({
           category: category,
-          description: description,
           amount: amount,
-          start_date: start_date,
-          end_date: end_date,
+          date: date,
         }),
       });
     } catch (error) {
@@ -22,14 +20,7 @@ const apiMethods = {
     }
     return () => abortController.abort();
   },
-  Update: async (
-    itemId,
-    category,
-    description,
-    amount,
-    start_date,
-    end_date
-  ) => {
+  Update: async (itemId, category, amount, date) => {
     try {
       await fetch(`http://localhost:3001/api/v1/goals/${itemId}`, {
         method: "put",
@@ -39,10 +30,8 @@ const apiMethods = {
         }),
         body: JSON.stringify({
           category: category,
-          description: description,
           amount: amount,
-          start_date: start_date,
-          end_date: end_date,
+          date: date,
         }),
       });
     } catch (error) {

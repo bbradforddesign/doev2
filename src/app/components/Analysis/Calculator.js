@@ -63,33 +63,6 @@ const Calculator = (props) => {
                     <strong>
                       ${AllCats[e.category]} out of your ${e.amount} goal,
                     </strong>
-                    <br />
-                    and there are{" "}
-                    <strong>
-                      {moment().diff(e.end_date, "days") * -1} full days
-                      remaining.
-                    </strong>
-                    <br />
-                    To stay within bounds, you will need to spend less than{" "}
-                    <strong>
-                      $
-                      {cleanFloat(
-                        ((e.amount - AllCats[e.category]) /
-                          moment().diff(e.end_date, "days")) *
-                          -7
-                      )}{" "}
-                      per week.
-                    </strong>
-                  </p>
-                  <p style={{ marginTop: 0 }}>
-                    <em>
-                      {e.amount /
-                        moment(e.start_date).diff(e.end_date, "days") <
-                      (e.amount - AllCats[e.category]) /
-                        moment().diff(e.end_date, "days")
-                        ? "Be careful, you are currently spending more quickly than your goal suggests."
-                        : "On track! Keep up the good work."}
-                    </em>
                   </p>
                 </li>
               ))}
