@@ -38,8 +38,8 @@ var Goal = {
           switch (_context.prev = _context.next) {
             case 0:
               // pass values from request body into new goal
-              text = "INSERT INTO\n        goals(id, author_id, description, category, amount, start_date, end_date)\n        VALUES($1, $2, $3, $4, $5, $6, $7)\n        returning *";
-              values = [(0, _uuid.v4)(), req.user.id, req.body.description, req.body.category, req.body.amount, req.body.start_date, req.body.end_date];
+              text = "INSERT INTO\n        goals(id, author_id, category, amount, date)\n        VALUES($1, $2, $3, $4, $5)\n        returning *";
+              values = [(0, _uuid.v4)(), req.user.id, req.body.category, req.body.amount, req.body.date];
               _context.prev = 2;
               _context.next = 5;
               return _db2.default.query(text, values);
@@ -186,7 +186,7 @@ var Goal = {
               // get goal of a given id, and pass in updated values from request body
               findOneQuery = "SELECT * FROM goals WHERE id=$1 AND author_id=$2"; // find the goal
 
-              updateOneQuery = "UPDATE goals\n        SET description=$1,category=$2,amount=$3,start_date=$4,end_date=$5\n        WHERE id=$6 AND author_id=$7 returning *";
+              updateOneQuery = "UPDATE goals\n        SET category=$1,amount=$2,date=$3\n        WHERE id=$4 AND author_id=$5 returning *";
               _context4.prev = 2;
               _context4.next = 5;
               return _db2.default.query(findOneQuery, [req.params.id, req.user.id]);
@@ -203,7 +203,7 @@ var Goal = {
               return _context4.abrupt("return", res.status(404).send({ message: "goal not found" }));
 
             case 9:
-              values = [req.body.description || rows[0].description, req.body.category || rows[0].category, req.body.amount || rows[0].amount, req.body.start_date || rows[0].start_date, req.body.end_date || rows[0].end_date, req.params.id, req.user.id];
+              values = [req.body.category || rows[0].category, req.body.amount || rows[0].amount, req.body.date || rows[0].date, req.params.id, req.user.id];
               _context4.next = 12;
               return _db2.default.query(updateOneQuery, values);
 

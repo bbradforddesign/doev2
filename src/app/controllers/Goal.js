@@ -12,17 +12,15 @@ const Goal = {
   async create(req, res) {
     // pass values from request body into new goal
     const text = `INSERT INTO
-        goals(id, author_id, description, category, amount, start_date, end_date)
-        VALUES($1, $2, $3, $4, $5, $6, $7)
+        goals(id, author_id, category, amount, date)
+        VALUES($1, $2, $3, $4, $5)
         returning *`;
     const values = [
       v4(),
       req.user.id,
-      req.body.description,
       req.body.category,
       req.body.amount,
-      req.body.start_date,
-      req.body.end_date,
+      req.body.date,
     ];
     try {
       const { rows } = await db.query(text, values); // pass query to db
@@ -76,8 +74,8 @@ const Goal = {
     // get goal of a given id, and pass in updated values from request body
     const findOneQuery = `SELECT * FROM goals WHERE id=$1 AND author_id=$2`; // find the goal
     const updateOneQuery = `UPDATE goals
-        SET description=$1,category=$2,amount=$3,start_date=$4,end_date=$5
-        WHERE id=$6 AND author_id=$7 returning *`;
+        SET category=$1,amount=$2,date=$3
+        WHERE id=$4 AND author_id=$5 returning *`;
     try {
       const { rows } = await db.query(findOneQuery, [
         req.params.id,
@@ -87,11 +85,9 @@ const Goal = {
         return res.status(404).send({ message: "goal not found" });
       }
       const values = [
-        req.body.description || rows[0].description,
         req.body.category || rows[0].category,
         req.body.amount || rows[0].amount,
-        req.body.start_date || rows[0].start_date,
-        req.body.end_date || rows[0].end_date,
+        req.body.date || rows[0].date,
         req.params.id,
         req.user.id,
       ];
