@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import moment from "moment";
 
 /**
  * NOTE:
@@ -54,11 +53,6 @@ export function fetchGoals() {
         }),
       });
       const data = await response.json();
-      // date formatting since backend isn't formatting properly
-      data.rows.map((e) => {
-        e.start_date = moment(e.start_date).format("YYYY/MM/DD");
-        e.end_date = moment(e.end_date).format("YYYY/MM/DD");
-      });
       dispatch(getGoalsSuccess(data.rows));
     } catch (error) {
       dispatch(getGoalsFailure());

@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Graph from "./Graph";
-import moment from "moment";
 
 const Calculator = (props) => {
   const goals = props.goals;
@@ -45,9 +44,16 @@ const Calculator = (props) => {
 
   // pass calculated values on to be rendered
   return (
-    <div>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        width: "100%",
+      }}
+    >
       <Graph total={total} />
-      <div style={{ marginTop: "3vh" }}>
+      <div style={{ marginTop: "3vh", width: "80%" }}>
         <h3 style={{ margin: 0 }}>Summary</h3>
         <p style={{ marginTop: "6px" }}>
           You have spent a total of ${total.all} this month.

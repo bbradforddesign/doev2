@@ -21,11 +21,7 @@ const Graph = (props) => {
     barArray.push(
       <div key={i}>
         <h5 style={{ margin: "6px 0 4px 0" }}>{category}</h5>
-        <GraphBar
-          current={total.categories[category]}
-          max={total.maxes[category]}
-          total={total.all}
-        />
+        <GraphBar current={total.categories[category]} total={total.all} />
       </div>
     );
   }
@@ -37,13 +33,7 @@ const Graph = (props) => {
   );
 
   return (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        width: "50vw",
-      }}
-    >
+    <div style={{ width: "80%" }}>
       <h2 style={{ marginBottom: "8px" }}>Expense Analysis</h2>
       {barArray.map((e) => {
         return e;

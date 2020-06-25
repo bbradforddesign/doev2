@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { withRouter } from "react-router-dom";
+import { withRouter, Link } from "react-router-dom";
 import apiMethods from "../../utils/TransactionApi";
 
 const TransactionForm = (props) => {
@@ -57,6 +57,12 @@ const TransactionForm = (props) => {
     "Entertainment",
   ];
 
+  const messageArray = [
+    "Click save to submit",
+    "Amount must be greater than 0",
+  ];
+  let message = messageArray[0];
+  if (item.amount <= 0) message = messageArray[1];
   /**
    * NOTE:
    * Using div rather than form to prevent unwanted params added to url.
@@ -81,7 +87,7 @@ const TransactionForm = (props) => {
         style={{
           backgroundColor: "#EEE",
           width: "50vw",
-          height: "30vh",
+          height: "40vh",
           position: "fixed",
           display: "flex",
           justifyContent: "center",
@@ -96,14 +102,23 @@ const TransactionForm = (props) => {
             width: "30vw",
           }}
         >
+          <h2>
+            {routerProps ? routerProps.description : "Create new Transaction"}
+          </h2>
           <label htmlFor="description">Description</label>
-          <input type="text" name="description" onChange={handleItem} />
+          <input
+            type="text"
+            name="description"
+            onChange={handleItem}
+            placeholder={routerProps ? routerProps.description : "Description"}
+          />
           <label htmlFor="category">Category</label>
           <input
             type="text"
             name="category"
             list="categoryName"
             onChange={handleItem}
+            placeholder={routerProps ? routerProps.category : "Category"}
           />
           <datalist id="categoryName">
             {categoryOptions.map((e) => (
@@ -113,20 +128,27 @@ const TransactionForm = (props) => {
             ))}
           </datalist>
           <label htmlFor="amount">Amount</label>
-          <input type="number" name="amount" onChange={handleItem} />
-          <button
-            onClick={() => {
-              routerProps ? handleUpdate() : handleCreate();
-              handleSubmit();
-            }}
-          >
-            Save
-          </button>
-
+          <input
+            type="number"
+            name="amount"
+            onChange={handleItem}
+            placeholder={routerProps ? routerProps.amount : "Amount"}
+          />
+          {!routerProps && <p>{message}</p>}
+          {(message === messageArray[0] || routerProps) && (
+            <button
+              onClick={() => {
+                routerProps ? handleUpdate() : handleCreate();
+                handleSubmit();
+              }}
+            >
+              Save
+            </button>
+          )}
           {routerProps && (
             <button
-              onClick={async () => {
-                await handleDelete();
+              onClick={() => {
+                handleDelete();
                 handleSubmit();
               }}
             >
@@ -134,7 +156,13 @@ const TransactionForm = (props) => {
             </button>
           )}
 
-          <button onClick={() => handleSubmit()}>Done</button>
+          <Link
+            to={{
+              pathname: "/main",
+            }}
+          >
+            <button>Done</button>
+          </Link>
         </div>
       </div>
     </div>

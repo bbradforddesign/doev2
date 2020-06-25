@@ -4,29 +4,25 @@ import moment from "moment";
 
 const Transaction = (props) => {
   return (
-    <div style={{ backgroundColor: "#EEE", margin: "2%", borderRadius: "5%" }}>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-        }}
-      >
-        <div
-          style={{
-            flex: 1,
-          }}
-        />
-        <p>{moment(props.created).format("YYYY/MM/DD")}</p>
-      </div>
-      <h4>{props.description}</h4>
-      <p>
-        ${props.amount} {props.category}
-      </p>
+    <div
+      style={{
+        backgroundColor: "#EEE",
+        margin: "2%",
+        borderRadius: "5%",
+      }}
+    >
+      <h3>{props.description}</h3>
+      <p>{moment(props.created).format("MM/DD/YY")}</p>
+      <p>{props.category}</p>
+      <p>${props.amount}</p>
       <Link
         to={{
           pathname: "/transaction/edit",
           props: {
             id: props.id,
+            description: props.description,
+            category: props.category,
+            amount: props.amount,
           },
         }}
       >

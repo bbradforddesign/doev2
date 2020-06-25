@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchTransactions,
   transactionsSelector,
 } from "../slices/transactions";
+import { setActive, sidebarSelector } from "../slices/sidebar";
 import { fetchGoals, goalsSelector } from "../slices/goals";
 import Calculator from "./Analysis/Calculator";
 
@@ -11,9 +12,6 @@ import TransactionBar from "./Transactions/TransactionBar";
 import GoalBar from "./Goals/GoalBar";
 
 const Main = () => {
-  // sidebar display logic
-  const [sideView, setSideView] = useState();
-
   // Redux
   const dispatch = useDispatch();
   const {
@@ -21,26 +19,25 @@ const Main = () => {
     loadingTransactions,
     hasErrorsTransactions,
   } = useSelector(transactionsSelector);
+  const active = useSelector(sidebarSelector);
   const { goals, loading, hasErrors } = useSelector(goalsSelector);
-
-  const refresh = () => {
-    dispatch(fetchTransactions());
-    dispatch(fetchGoals());
-  };
 
   // on mount, fetch transactions to render
   useEffect(() => {
-    refresh();
+    dispatch(fetchTransactions());
+    dispatch(fetchGoals());
   }, [dispatch]);
 
-  const renderSide = (sideView) => {
-    if (sideView === "transactions") {
+  // sidebar display logic
+  const renderSide = (sidebar) => {
+    if (sidebar.active === "transactions") {
       return <TransactionBar transactions={transactions} />;
     }
-    if (sideView === "goals") {
+    if (sidebar.active === "goals") {
       return <GoalBar goals={goals} />;
     }
   };
+
   /**
    * Conditional rendering. Represents current state from redux store.
    * Represent transactions programatically since they're constantly changing.
@@ -52,53 +49,79 @@ const Main = () => {
     if (hasErrors) return <p>Unable to Retrieve Goals</p>;
 
     return (
-      <div>
+      <>
         {transactions && (
           <div
             style={{
               display: "flex",
               flexDirection: "row",
-              alignItems: "center",
+              alignItems: "flex-start",
+              justifyContent: "center",
+              width: "90vw",
+              height: "80vh",
             }}
           >
-            {renderSide(sideView)}
             <div
               style={{
-                flexDirection: "column",
-                justifyContent: "flex-start",
-                backgroundColor: "red",
-                width: "10vw",
+                display: "flex",
+                flexDirection: "row",
+                marginRight: "5vw",
               }}
             >
-              <button
+              {renderSide(active)}
+
+              <div
                 style={{
-                  margin: "10px",
+                  flex: "1",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "flex-start",
+                  height: "70vh",
+                  paddingTop: "5vh",
                 }}
-                onClick={
-                  !sideView
-                    ? () => setSideView("transactions")
-                    : () => setSideView("")
-                }
               >
-                Toggle Transaction Bar
-              </button>
-              <button
-                style={{
-                  margin: "10px",
-                }}
-                onClick={
-                  !sideView ? () => setSideView("goals") : () => setSideView("")
-                }
-              >
-                Toggle Goal Bar
-              </button>
+                <button
+                  style={{
+                    margin: "5% 0",
+                    height: "15%",
+                    borderRadius: "0 50% 50% 0",
+                    border: "none",
+                    backgroundColor: "rgb(150,250,150)",
+                  }}
+                  onClick={
+                    active.active === "transactions"
+                      ? () => dispatch(setActive(""))
+                      : () => dispatch(setActive("transactions"))
+                  }
+                >
+                  Transaction
+                </button>
+                <button
+                  style={{
+                    margin: "5% 0",
+                    height: "15%",
+                    borderRadius: "0 50% 50% 0",
+                    border: "none",
+                    backgroundColor: "rgb(150,200,250)",
+                  }}
+                  onClick={
+                    active.active === "goals"
+                      ? () => {
+                          dispatch(setActive(""));
+                        }
+                      : () => {
+                          dispatch(setActive("goals"));
+                        }
+                  }
+                >
+                  Goal
+                </button>
+              </div>
             </div>
-            <div style={{ flex: 1 }}>
-              <Calculator transactions={transactions} goals={goals} />
-            </div>
+            <Calculator transactions={transactions} goals={goals} />
           </div>
         )}
-      </div>
+      </>
     );
   };
 

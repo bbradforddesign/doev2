@@ -6,6 +6,7 @@ import "./App.css";
 import Login from "./components/Login";
 import Main from "./components/Main";
 import TransactionForm from "./components/Transactions/TransactionForm";
+import GoalForm from "./components/Goals/GoalForm";
 
 const App = () => {
   return (
@@ -49,17 +50,20 @@ const App = () => {
                 <h2>Home</h2>
               </div>
             </Route>
-            <Route exact path="/main">
-              <div>
-                <Main />
-              </div>
-            </Route>
+            <Route path="/main" render={(props) => <Main {...props} />} />
             <Route path="/transaction/new">
               <TransactionForm />
             </Route>
             <Route
               path="/transaction/edit"
               render={(props) => <TransactionForm {...props} />}
+            />
+            <Route path="/goal/new">
+              <GoalForm />
+            </Route>
+            <Route
+              path="/goal/edit"
+              render={(props) => <GoalForm {...props} />}
             />
           </Switch>
         </div>
