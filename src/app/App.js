@@ -1,6 +1,8 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import "./App.css";
+import { useSelector } from "react-redux";
+import { authSelector } from "./slices/auth";
 
 // component imports
 import Login from "./components/Login";
@@ -9,6 +11,9 @@ import TransactionForm from "./components/Transactions/TransactionForm";
 import GoalForm from "./components/Goals/GoalForm";
 
 const App = () => {
+  // is the user logged in?
+  const auth = useSelector(authSelector);
+
   return (
     <Router>
       <nav
@@ -20,21 +25,23 @@ const App = () => {
         }}
       >
         <h1 style={{ flex: 1 }}>Hello, App</h1>
-        <ul
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            listStyle: "none",
-            flex: 1,
-          }}
-        >
-          <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/main">Main</Link>
-          </li>
-        </ul>
+        {auth.loggedIn ? (
+          <ul
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              listStyle: "none",
+              flex: 1,
+            }}
+          >
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/main">Main</Link>
+            </li>
+          </ul>
+        ) : null}
         <Login />
       </nav>
       <div>

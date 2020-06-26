@@ -1,62 +1,31 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  loginUser,
+  logoutUser,
+  registerUser,
+  authSelector,
+} from "../slices/auth";
 
-/**
- * Concerns:
- * If user stays logged in too long, and jwt expires, will we need to change localstorage?
- * Right now, i believe that the app will still believe that they're logged on, but they won't have their credentials to fetch anything. fix?
- */
 const Login = () => {
+  // moving auth from localstorage to redux
+  const dispatch = useDispatch();
+  const auth = useSelector(authSelector);
+
   const [creds, setCreds] = useState({ email: "", password: "" });
 
-  // backend app's url
-  const baseUrl = "http://localhost:3001/api/v1";
-
-  const handleLogin = async (e) => {
-    e.preventDefault();
-    localStorage.setItem("authed", "true");
-    await fetch(`${baseUrl}/users/login`, {
-      method: "post",
-      credentials: "include",
-      headers: new Headers({
-        "Content-Type": "application/json",
-      }),
-      body: JSON.stringify({
-        email: creds.email,
-        password: creds.password,
-      }),
-    });
-    window.location.reload(false);
+  const handleLogin = () => {
+    dispatch(loginUser(creds.email, creds.password));
+    console.log(auth);
   };
 
-  const handleLogout = async (e) => {
-    e.preventDefault();
-    localStorage.setItem("authed", "false");
-    await fetch(`${baseUrl}/users/logout`, {
-      method: "get",
-      credentials: "include",
-      headers: new Headers({
-        "Content-Type": "application/json",
-      }),
-    });
-    window.location.reload(false);
+  const handleLogout = () => {
+    dispatch(logoutUser());
   };
 
   // creates new user in db. Automatically logs on with new jwt
-  const handleRegister = async (e) => {
-    e.preventDefault();
-    localStorage.setItem("authed", "true");
-    await fetch(`${baseUrl}/users`, {
-      method: "post",
-      credentials: "include",
-      headers: new Headers({
-        "Content-Type": "application/json",
-      }),
-      body: JSON.stringify({
-        email: creds.email,
-        password: creds.password,
-      }),
-    });
-    window.location.reload(false);
+  const handleRegister = () => {
+    dispatch(registerUser(creds.email, creds.password));
   };
 
   const handleCreds = (e) => {
@@ -67,7 +36,7 @@ const Login = () => {
   };
 
   return (
-    <form>
+    <div>
       <label htmlFor="email">Email</label>
       <input
         type="text"
@@ -82,13 +51,16 @@ const Login = () => {
         autoComplete="new-password"
         onChange={handleCreds}
       />
-      {localStorage.getItem("authed") === "false" ? (
-        <button onClick={handleLogin}>Login</button>
+      {auth.loggedIn ? (
+        <button onClick={() => handleLogout()}>Logout</button>
       ) : (
-        <button onClick={handleLogout}>Logout</button>
+        <>
+          {" "}
+          <button onClick={() => handleLogin()}>Login</button>{" "}
+          <button onClick={() => handleRegister()}>Register</button>
+        </>
       )}
-      <button onClick={handleRegister}>Register</button>
-    </form>
+    </div>
   );
 };
 
