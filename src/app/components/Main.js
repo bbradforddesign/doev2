@@ -6,8 +6,10 @@ import {
 } from "../slices/transactions";
 import { setActive, sidebarSelector } from "../slices/sidebar";
 import { fetchGoals, goalsSelector } from "../slices/goals";
-import Calculator from "./Analysis/Calculator";
+import { logoutUser, authSelector } from "../slices/auth";
 
+import { Redirect } from "react-router-dom";
+import Calculator from "./Analysis/Calculator";
 import TransactionBar from "./Transactions/TransactionBar";
 import GoalBar from "./Goals/GoalBar";
 
@@ -21,11 +23,16 @@ const Main = () => {
   } = useSelector(transactionsSelector);
   const active = useSelector(sidebarSelector);
   const { goals, loading, hasErrors } = useSelector(goalsSelector);
+  const auth = useSelector(authSelector);
 
   // on mount, fetch transactions to render
   useEffect(() => {
-    dispatch(fetchTransactions());
-    dispatch(fetchGoals());
+    try {
+      dispatch(fetchTransactions());
+      dispatch(fetchGoals());
+    } catch {
+      dispatch(logoutUser());
+    }
   }, [dispatch]);
 
   // sidebar display logic
@@ -125,7 +132,19 @@ const Main = () => {
     );
   };
 
-  return <section>{renderTransactions()}</section>;
+  return (
+    <div>
+      {auth.loggedIn ? (
+        renderTransactions()
+      ) : (
+        <Redirect
+          to={{
+            pathname: "/",
+          }}
+        />
+      )}
+    </div>
+  );
 };
 
 export default Main;
