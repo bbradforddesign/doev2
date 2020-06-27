@@ -7,8 +7,6 @@ import {
 import { setActive, sidebarSelector } from "../slices/sidebar";
 import { fetchGoals, goalsSelector } from "../slices/goals";
 import { logoutUser, authSelector } from "../slices/auth";
-
-import { Redirect } from "react-router-dom";
 import Calculator from "./Analysis/Calculator";
 import TransactionBar from "./Transactions/TransactionBar";
 import GoalBar from "./Goals/GoalBar";
@@ -132,19 +130,7 @@ const Main = () => {
     );
   };
 
-  return (
-    <div>
-      {auth.loggedIn ? (
-        renderTransactions()
-      ) : (
-        <Redirect
-          to={{
-            pathname: "/",
-          }}
-        />
-      )}
-    </div>
-  );
+  return <div>{auth.loggedIn && renderTransactions()}</div>;
 };
 
 export default Main;
