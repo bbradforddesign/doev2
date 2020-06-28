@@ -2,14 +2,17 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Transaction from "./Transaction";
 
-const TransactionBar = (props) => {
+const TransactionBar = React.forwardRef((props, ref) => {
   return (
     <section
       style={{
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
+        width: "100%",
+        maxWidth: "300px",
       }}
+      ref={ref}
     >
       <div
         style={{
@@ -42,17 +45,10 @@ const TransactionBar = (props) => {
         ))}
       </ul>
       <Link to="/transaction/new">
-        <button
-          style={{
-            width: "20vw",
-            height: "10vh",
-          }}
-        >
-          New Transaction
-        </button>
+        <button>New Transaction</button>
       </Link>
     </section>
   );
-};
+});
 
 export default TransactionBar;

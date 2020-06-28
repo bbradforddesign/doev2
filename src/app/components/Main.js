@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   fetchTransactions,
@@ -7,11 +7,40 @@ import {
 import { setActive, sidebarSelector } from "../slices/sidebar";
 import { fetchGoals, goalsSelector } from "../slices/goals";
 import { logoutUser, authSelector } from "../slices/auth";
+import { IconButton, Box, Slide } from "@material-ui/core";
+import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
+import TrackChangesIcon from "@material-ui/icons/TrackChanges";
+import { makeStyles } from "@material-ui/core/styles";
 import Calculator from "./Analysis/Calculator";
 import TransactionBar from "./Transactions/TransactionBar";
 import GoalBar from "./Goals/GoalBar";
 
+const useStyles = makeStyles({
+  contentBox: {
+    display: "flex",
+    flexDirection: "row",
+    alignItems: "flex-start",
+    justifyContent: "center",
+    width: "90vw",
+    height: "80vh",
+  },
+  sidebarToggle: {
+    width: "60px",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "flex-start",
+    height: "70vh",
+    paddingTop: "5vh",
+  },
+  sidebarDivider: {
+    width: "80%",
+    border: "1px solid #AAA",
+  },
+});
+
 const Main = () => {
+  const classes = useStyles();
+
   // Redux
   const dispatch = useDispatch();
   const {
@@ -33,16 +62,6 @@ const Main = () => {
     }
   }, [dispatch]);
 
-  // sidebar display logic
-  const renderSide = (sidebar) => {
-    if (sidebar.active === "transactions") {
-      return <TransactionBar transactions={transactions} />;
-    }
-    if (sidebar.active === "goals") {
-      return <GoalBar goals={goals} />;
-    }
-  };
-
   /**
    * Conditional rendering. Represents current state from redux store.
    * Represent transactions programatically since they're constantly changing.
@@ -56,81 +75,51 @@ const Main = () => {
     return (
       <>
         {transactions && (
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              alignItems: "flex-start",
-              justifyContent: "center",
-              width: "90vw",
-              height: "80vh",
-            }}
-          >
-            <div
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                marginRight: "5vw",
-              }}
-            >
-              {renderSide(active)}
-
-              <div
-                style={{
-                  flex: "1",
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "flex-start",
-                  height: "70vh",
-                  paddingTop: "5vh",
-                }}
+          <Box className={classes.contentBox}>
+            <Slide in={active.active !== ""} direction="right" unmountOnExit>
+              {active.active === "transactions" ? (
+                <TransactionBar transactions={transactions} />
+              ) : (
+                <GoalBar goals={goals} />
+              )}
+            </Slide>
+            <Box className={classes.sidebarToggle}>
+              <IconButton
+                onClick={
+                  active.active === "transactions"
+                    ? () => {
+                        dispatch(setActive(""));
+                      }
+                    : () => {
+                        dispatch(setActive("transactions"));
+                      }
+                }
               >
-                <button
-                  style={{
-                    margin: "5% 0",
-                    height: "15%",
-                    borderRadius: "0 50% 50% 0",
-                    border: "none",
-                    backgroundColor: "rgb(150,250,150)",
-                  }}
-                  onClick={
-                    active.active === "transactions"
-                      ? () => dispatch(setActive(""))
-                      : () => dispatch(setActive("transactions"))
-                  }
-                >
-                  Transaction
-                </button>
-                <button
-                  style={{
-                    margin: "5% 0",
-                    height: "15%",
-                    borderRadius: "0 50% 50% 0",
-                    border: "none",
-                    backgroundColor: "rgb(150,200,250)",
-                  }}
-                  onClick={
-                    active.active === "goals"
-                      ? () => {
-                          dispatch(setActive(""));
-                        }
-                      : () => {
-                          dispatch(setActive("goals"));
-                        }
-                  }
-                >
-                  Goal
-                </button>
-              </div>
-            </div>
+                <AttachMoneyIcon fontSize="large" />
+              </IconButton>
+              <hr className={classes.sidebarDivider} />
+              <IconButton
+                onClick={
+                  active.active === "goals"
+                    ? () => {
+                        dispatch(setActive(""));
+                      }
+                    : () => {
+                        dispatch(setActive("goals"));
+                      }
+                }
+              >
+                <TrackChangesIcon fontSize="large" />
+              </IconButton>
+            </Box>
             <Calculator transactions={transactions} goals={goals} />
-          </div>
+          </Box>
         )}
       </>
     );
   };
 
-  return <div>{auth.loggedIn && renderTransactions()}</div>;
+  return <>{auth.loggedIn && renderTransactions()}</>;
 };
 
 export default Main;

@@ -2,14 +2,17 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Goal from "./Goal";
 
-const GoalBar = (props) => {
+const GoalBar = React.forwardRef((props, ref) => {
   return (
     <section
       style={{
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
+        width: "100%",
+        maxWidth: "300px",
       }}
+      ref={ref}
     >
       <div
         style={{
@@ -42,17 +45,10 @@ const GoalBar = (props) => {
         ))}
       </ul>
       <Link to="/goal/new">
-        <button
-          style={{
-            width: "20vw",
-            height: "10vh",
-          }}
-        >
-          New Goal
-        </button>
+        <button>New Goal</button>
       </Link>
     </section>
   );
-};
+});
 
 export default GoalBar;
