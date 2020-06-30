@@ -12,23 +12,17 @@ const User = {
    */
   async create(req, res) {
     // accepts request body, validates, creates new entry in User table with request body fields, then send new JWT
-    if (!req.body.email || !req.body.password) {
+    if (!req.body.username || !req.body.password) {
       return res.status(400).send({ message: "All fields are required" });
     }
-    if (!Helper.isValidEmail(req.body.email)) {
-      return res
-        .status(400)
-        .send({ message: "Please enter a valid email address" });
-    }
     const hashPassword = Helper.hashPassword(req.body.password); // create a hash of user's entered password for security purposes
-
     const createQuery = `INSERT INTO
-            users(id, email, password, created_date, modified_date)
+            users(id, username, password, created_date, modified_date)
             VALUES($1, $2, $3, $4, $5)
             returning *`;
     const values = [
       v4(),
-      req.body.email,
+      req.body.username,
       hashPassword,
       moment(new Date()),
       moment(new Date()),
@@ -41,7 +35,7 @@ const User = {
       return res.status(201).send({ token });
     } catch (error) {
       if (error.routine === "_bt_check_unique") {
-        return res.status(400).send({ message: "Email already registered" });
+        return res.status(400).send({ message: "Username already registered" });
       }
       return res.status(400).send(error);
     }
@@ -55,15 +49,12 @@ const User = {
    */
   async login(req, res) {
     // checks request body for required credentials, searches db for match. If match, generate new JWT
-    if (!req.body.email || !req.body.password) {
-      return res.status(400).send({ message: "All fields are required" }); // check that both email and password are supplied
+    if (!req.body.username || !req.body.password) {
+      return res.status(400).send({ message: "All fields are required" }); // check that both username and password are supplied
     }
-    if (!Helper.isValidEmail(req.body.email)) {
-      return res.status(400).send({ message: "Email address is invalid" }); // validate that provided email is properly formatted
-    }
-    const text = `SELECT * FROM users WHERE email = $1`; // query to find user of given email in db
+    const text = `SELECT * FROM users WHERE username = $1`; // query to find user of given username in db
     try {
-      const { rows } = await db.query(text, [req.body.email]); // run query, passing in provided email
+      const { rows } = await db.query(text, [req.body.username]); // run query, passing in provided username
       if (!rows[0]) {
         return res.status(400).send({ message: "Invalid credentials" });
       }

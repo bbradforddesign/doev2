@@ -41,12 +41,11 @@ const createGoalTable = () => {
  * Create Transaction Table
  */
 const createTransactionTable = () => {
-  const queryText =
-    // create new table with model's values
-    `CREATE TABLE IF NOT EXISTS
+  const queryText = `CREATE TABLE IF NOT EXISTS
       transactions(
         id UUID PRIMARY KEY,
         author_id UUID NOT NULL,
+        type TEXT NOT NULL,
         category TEXT NOT NULL,
         description TEXT NOT NULL,
         amount float(2) NOT NULL,
@@ -74,7 +73,7 @@ const createUserTable = () => {
   const queryText = `CREATE TABLE IF NOT EXISTS
     users(
       id UUID PRIMARY KEY,
-      email VARCHAR(128) UNIQUE NOT NULL,
+      username VARCHAR(128) UNIQUE NOT NULL,
       password VARCHAR(128) NOT NULL,
       created_date TIMESTAMP,
       modified_date TIMESTAMP

@@ -12,8 +12,8 @@ const Transaction = {
   async create(req, res) {
     // pass values from request body into new transaction
     const text = `INSERT INTO
-      transactions(id, author_id, category, description, amount, created_date, modified_date)
-      VALUES($1, $2, $3, $4, $5, $6, $7)
+      transactions(id, author_id, category, description, amount, created_date, modified_date, type)
+      VALUES($1, $2, $3, $4, $5, $6, $7, $8)
       returning *`;
     const values = [
       v4(),
@@ -23,6 +23,7 @@ const Transaction = {
       req.body.amount,
       moment(new Date()),
       moment(new Date()),
+      req.body.type,
     ];
 
     try {
@@ -77,8 +78,8 @@ const Transaction = {
     // get transaction of a given id, and pass in updated values from request body
     const findOneQuery = `SELECT * FROM transactions WHERE id=$1 AND author_id = $2`; // find the transaction
     const updateOneQuery = `UPDATE transactions
-      SET category=$1,description=$2,amount=$3,modified_date=$4
-      WHERE id=$5 AND author_id = $6 returning *`; // pass request body values into transaction
+      SET category=$1,description=$2,amount=$3,modified_date=$4,type=$5
+      WHERE id=$6 AND author_id = $7 returning *`; // pass request body values into transaction
     try {
       const { rows } = await db.query(findOneQuery, [
         req.params.id,
@@ -92,6 +93,7 @@ const Transaction = {
         req.body.description || rows[0].description,
         req.body.amount || rows[0].amount,
         moment(new Date()),
+        req.body.type || rows[0].type,
         req.params.id,
         req.user.id,
       ];

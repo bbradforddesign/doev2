@@ -42,7 +42,7 @@ var User = {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              if (!(!req.body.email || !req.body.password)) {
+              if (!(!req.body.username || !req.body.password)) {
                 _context.next = 2;
                 break;
               }
@@ -50,23 +50,15 @@ var User = {
               return _context.abrupt("return", res.status(400).send({ message: "All fields are required" }));
 
             case 2:
-              if (_Helper2.default.isValidEmail(req.body.email)) {
-                _context.next = 4;
-                break;
-              }
-
-              return _context.abrupt("return", res.status(400).send({ message: "Please enter a valid email address" }));
-
-            case 4:
               hashPassword = _Helper2.default.hashPassword(req.body.password); // create a hash of user's entered password for security purposes
 
-              createQuery = "INSERT INTO\n            users(id, email, password, created_date, modified_date)\n            VALUES($1, $2, $3, $4, $5)\n            returning *";
-              values = [(0, _uuid.v4)(), req.body.email, hashPassword, (0, _moment2.default)(new Date()), (0, _moment2.default)(new Date())];
-              _context.prev = 7;
-              _context.next = 10;
+              createQuery = "INSERT INTO\n            users(id, username, password, created_date, modified_date)\n            VALUES($1, $2, $3, $4, $5)\n            returning *";
+              values = [(0, _uuid.v4)(), req.body.username, hashPassword, (0, _moment2.default)(new Date()), (0, _moment2.default)(new Date())];
+              _context.prev = 5;
+              _context.next = 8;
               return _db2.default.query(createQuery, values);
 
-            case 10:
+            case 8:
               _ref2 = _context.sent;
               rows = _ref2.rows;
               token = _Helper2.default.generateToken(rows[0].id);
@@ -74,26 +66,26 @@ var User = {
               res.cookie("token", token, { httpOnly: true });
               return _context.abrupt("return", res.status(201).send({ token: token }));
 
-            case 17:
-              _context.prev = 17;
-              _context.t0 = _context["catch"](7);
+            case 15:
+              _context.prev = 15;
+              _context.t0 = _context["catch"](5);
 
               if (!(_context.t0.routine === "_bt_check_unique")) {
-                _context.next = 21;
+                _context.next = 19;
                 break;
               }
 
-              return _context.abrupt("return", res.status(400).send({ message: "Email already registered" }));
+              return _context.abrupt("return", res.status(400).send({ message: "Username already registered" }));
 
-            case 21:
+            case 19:
               return _context.abrupt("return", res.status(400).send(_context.t0));
 
-            case 22:
+            case 20:
             case "end":
               return _context.stop();
           }
         }
-      }, _callee, this, [[7, 17]]);
+      }, _callee, this, [[5, 15]]);
     }));
 
     function create(_x, _x2) {
@@ -118,7 +110,7 @@ var User = {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
-              if (!(!req.body.email || !req.body.password)) {
+              if (!(!req.body.username || !req.body.password)) {
                 _context2.next = 2;
                 break;
               }
@@ -126,25 +118,25 @@ var User = {
               return _context2.abrupt("return", res.status(400).send({ message: "All fields are required" }));
 
             case 2:
-              if (_Helper2.default.isValidEmail(req.body.email)) {
-                _context2.next = 4;
-                break;
-              }
+              text = "SELECT * FROM users WHERE username = $1"; // query to find user of given username in db
 
-              return _context2.abrupt("return", res.status(400).send({ message: "Email address is invalid" }));
+              _context2.prev = 3;
+              _context2.next = 6;
+              return _db2.default.query(text, [req.body.username]);
 
-            case 4:
-              text = "SELECT * FROM users WHERE email = $1"; // query to find user of given email in db
-
-              _context2.prev = 5;
-              _context2.next = 8;
-              return _db2.default.query(text, [req.body.email]);
-
-            case 8:
+            case 6:
               _ref4 = _context2.sent;
               rows = _ref4.rows;
 
               if (rows[0]) {
+                _context2.next = 10;
+                break;
+              }
+
+              return _context2.abrupt("return", res.status(400).send({ message: "Invalid credentials" }));
+
+            case 10:
+              if (_Helper2.default.comparePassword(rows[0].password, req.body.password)) {
                 _context2.next = 12;
                 break;
               }
@@ -152,31 +144,23 @@ var User = {
               return _context2.abrupt("return", res.status(400).send({ message: "Invalid credentials" }));
 
             case 12:
-              if (_Helper2.default.comparePassword(rows[0].password, req.body.password)) {
-                _context2.next = 14;
-                break;
-              }
-
-              return _context2.abrupt("return", res.status(400).send({ message: "Invalid credentials" }));
-
-            case 14:
               token = _Helper2.default.generateToken(rows[0].id); // generate new JWT signed with matched user's id
 
               res.clearCookie("token");
               res.cookie("token", token, { httpOnly: true });
               return _context2.abrupt("return", res.status(200).send({ token: token }));
 
-            case 20:
-              _context2.prev = 20;
-              _context2.t0 = _context2["catch"](5);
+            case 18:
+              _context2.prev = 18;
+              _context2.t0 = _context2["catch"](3);
               return _context2.abrupt("return", res.status(400).send(_context2.t0));
 
-            case 23:
+            case 21:
             case "end":
               return _context2.stop();
           }
         }
-      }, _callee2, this, [[5, 20]]);
+      }, _callee2, this, [[3, 18]]);
     }));
 
     function login(_x3, _x4) {

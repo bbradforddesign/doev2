@@ -21,14 +21,6 @@ const Helper = {
     return bcrypt.compareSync(password, hashPassword);
   },
   /**
-   * isValidEmail helper
-   * @param {string} email
-   * @returns {Boolean} True of False
-   */
-  isValidEmail(email) {
-    return /\S+@\S+\.\S+/.test(email); // does the email follow format *@*.* , eg test@test.test
-  },
-  /**
    * Generate JWT
    * @param {string} id
    * @returns {string} token

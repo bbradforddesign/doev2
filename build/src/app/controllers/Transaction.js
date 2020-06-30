@@ -38,8 +38,8 @@ var Transaction = {
           switch (_context.prev = _context.next) {
             case 0:
               // pass values from request body into new transaction
-              text = "INSERT INTO\n      transactions(id, author_id, category, description, amount, created_date, modified_date)\n      VALUES($1, $2, $3, $4, $5, $6, $7)\n      returning *";
-              values = [(0, _uuid.v4)(), req.user.id, req.body.category, req.body.description, req.body.amount, (0, _moment2.default)(new Date()), (0, _moment2.default)(new Date())];
+              text = "INSERT INTO\n      transactions(id, author_id, category, description, amount, created_date, modified_date, type)\n      VALUES($1, $2, $3, $4, $5, $6, $7, $8)\n      returning *";
+              values = [(0, _uuid.v4)(), req.user.id, req.body.category, req.body.description, req.body.amount, (0, _moment2.default)(new Date()), (0, _moment2.default)(new Date()), req.body.type];
               _context.prev = 2;
               _context.next = 5;
               return _db2.default.query(text, values);
@@ -187,7 +187,7 @@ var Transaction = {
               // get transaction of a given id, and pass in updated values from request body
               findOneQuery = "SELECT * FROM transactions WHERE id=$1 AND author_id = $2"; // find the transaction
 
-              updateOneQuery = "UPDATE transactions\n      SET category=$1,description=$2,amount=$3,modified_date=$4\n      WHERE id=$5 AND author_id = $6 returning *"; // pass request body values into transaction
+              updateOneQuery = "UPDATE transactions\n      SET category=$1,description=$2,amount=$3,modified_date=$4,type=$5\n      WHERE id=$6 AND author_id = $7 returning *"; // pass request body values into transaction
 
               _context4.prev = 2;
               _context4.next = 5;
@@ -205,7 +205,7 @@ var Transaction = {
               return _context4.abrupt("return", res.status(404).send({ message: "transaction not found" }));
 
             case 9:
-              values = [req.body.category || rows[0].category, req.body.description || rows[0].description, req.body.amount || rows[0].amount, (0, _moment2.default)(new Date()), req.params.id, req.user.id];
+              values = [req.body.category || rows[0].category, req.body.description || rows[0].description, req.body.amount || rows[0].amount, (0, _moment2.default)(new Date()), req.body.type || rows[0].type, req.params.id, req.user.id];
               _context4.next = 12;
               return _db2.default.query(updateOneQuery, values);
 
