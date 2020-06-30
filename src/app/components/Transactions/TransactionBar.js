@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Transaction from "./Transaction";
+import { Button } from "@material-ui/core";
 
 const TransactionBar = React.forwardRef((props, ref) => {
   return (
@@ -46,7 +47,9 @@ const TransactionBar = React.forwardRef((props, ref) => {
         ))}
       </ul>
       <Link to="/transaction/new">
-        <button>New Transaction</button>
+        <Button variant="contained" color="primary">
+          New Transaction
+        </Button>
       </Link>
     </section>
   );

@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Goal from "./Goal";
+import { Button } from "@material-ui/core";
 
 const GoalBar = React.forwardRef((props, ref) => {
   return (
@@ -45,7 +46,9 @@ const GoalBar = React.forwardRef((props, ref) => {
         ))}
       </ul>
       <Link to="/goal/new">
-        <button>New Goal</button>
+        <Button variant="contained" color="primary">
+          New Goal
+        </Button>
       </Link>
     </section>
   );

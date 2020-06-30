@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import moment from "moment";
+import { IconButton, Card, Typography } from "@material-ui/core";
+import EditIcon from "@material-ui/icons/Edit";
 
 const Transaction = (props) => {
   const themes = {
@@ -8,31 +10,52 @@ const Transaction = (props) => {
     income: "#00FF00",
   };
   return (
-    <div
+    <Card
       style={{
         backgroundColor: themes[props.type],
         margin: "2%",
-        borderRadius: "5%",
+        flex: 1,
       }}
     >
-      <h3>{props.description}</h3>
-      <p>{moment(props.created).format("MM/DD/YY")}</p>
-      <p>{props.category}</p>
-      <p>${props.amount}</p>
-      <Link
-        to={{
-          pathname: "/transaction/edit",
-          props: {
-            id: props.id,
-            description: props.description,
-            category: props.category,
-            amount: props.amount,
-          },
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
         }}
       >
-        <button>Edit</button>
-      </Link>
-    </div>
+        <Typography variant="h4" style={{ flex: 1 }}>
+          {props.description}
+        </Typography>
+
+        <Link
+          to={{
+            pathname: "/transaction/edit",
+            props: {
+              id: props.id,
+              description: props.description,
+              category: props.category,
+              amount: props.amount,
+            },
+          }}
+          style={{
+            alignSelf: "flex-end",
+            top: 0,
+            right: 0,
+          }}
+        >
+          <IconButton variant="outlined">
+            <EditIcon />
+          </IconButton>
+        </Link>
+      </div>
+      <Typography variant="h6">
+        {props.type === "expense" ? "-$" + props.amount : "$" + props.amount}
+      </Typography>
+      <Typography variant="caption">
+        {moment(props.created).format("MM/DD/YY")}
+      </Typography>
+      <Typography variant="subtitle1">{props.category}</Typography>
+    </Card>
   );
 };
 

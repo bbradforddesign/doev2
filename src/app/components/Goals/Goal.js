@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import moment from "moment";
+import { Button } from "@material-ui/core";
 
 const Goal = (props) => {
   return (
@@ -15,8 +16,11 @@ const Goal = (props) => {
             id: props.id,
           },
         }}
+        style={{
+          textDecoration: "none",
+        }}
       >
-        <button>Edit</button>
+        <Button variant="outlined">Edit</Button>
       </Link>
     </div>
   );
