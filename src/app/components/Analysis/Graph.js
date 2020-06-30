@@ -21,7 +21,11 @@ const Graph = (props) => {
     barArray.push(
       <div key={i}>
         <h5 style={{ margin: "6px 0 4px 0" }}>{category}</h5>
-        <GraphBar current={total.categories[category]} total={total.all} />
+        <GraphBar
+          current={total.categories[category]}
+          total={total.all}
+          category={category}
+        />
       </div>
     );
   }

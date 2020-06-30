@@ -40,6 +40,7 @@ const TransactionBar = React.forwardRef((props, ref) => {
               amount={e.amount}
               id={e.id}
               created={e.created_date}
+              type={e.type}
             />
           </li>
         ))}

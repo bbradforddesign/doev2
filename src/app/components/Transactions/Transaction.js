@@ -3,10 +3,14 @@ import { Link } from "react-router-dom";
 import moment from "moment";
 
 const Transaction = (props) => {
+  const themes = {
+    expense: "#FF0000",
+    income: "#00FF00",
+  };
   return (
     <div
       style={{
-        backgroundColor: "#EEE",
+        backgroundColor: themes[props.type],
         margin: "2%",
         borderRadius: "5%",
       }}

@@ -4,6 +4,11 @@ const GraphBar = (props) => {
   const spent = props.current;
   const whitespace = props.total - props.current;
 
+  const themes = {
+    expense: "#FF0000",
+    income: "#00FF00",
+  };
+
   return (
     <div
       style={{
@@ -19,7 +24,8 @@ const GraphBar = (props) => {
       <div
         style={{
           flex: spent,
-          backgroundColor: "#DDD",
+          backgroundColor:
+            props.category === "Income" ? themes.income : themes.expense,
           height: "2vh",
         }}
       />

@@ -5,22 +5,24 @@ import apiMethods from "../../utils/TransactionApi";
 const TransactionForm = (props) => {
   // local state to store input before sending to db
   const [item, setItem] = useState({
-    category: "",
+    category: "Income",
     description: "",
     amount: 0,
+    type: "",
   });
 
   const routerProps = props.location.props;
 
   const handleCreate = async () => {
-    apiMethods.Create(item.category, item.description, item.amount);
+    apiMethods.Create(item.category, item.description, item.amount, item.type);
   };
   const handleUpdate = () => {
     apiMethods.Update(
       routerProps.id,
       item.category,
       item.description,
-      item.amount
+      item.amount,
+      item.type
     );
   };
   const handleDelete = () => {
@@ -112,21 +114,49 @@ const TransactionForm = (props) => {
             onChange={handleItem}
             placeholder={routerProps ? routerProps.description : "Description"}
           />
-          <label htmlFor="category">Category</label>
-          <input
-            type="text"
-            name="category"
-            list="categoryName"
-            onChange={handleItem}
-            placeholder={routerProps ? routerProps.category : "Category"}
-          />
-          <datalist id="categoryName">
-            {categoryOptions.map((e) => (
-              <option value={e} key={e}>
-                {e}
-              </option>
-            ))}
-          </datalist>
+          <div>
+            <label htmlFor="expense">
+              <input
+                type="radio"
+                id="expense"
+                name="type"
+                onChange={handleItem}
+                value="expense"
+              />
+              Expense
+            </label>
+          </div>
+          <div>
+            <label htmlFor="income">
+              <input
+                type="radio"
+                id="income"
+                name="type"
+                onChange={handleItem}
+                value="income"
+              />
+              Income
+            </label>
+          </div>
+          {item.type === "expense" ? (
+            <>
+              <label htmlFor="category">Category</label>
+              <input
+                type="text"
+                name="category"
+                list="categoryName"
+                onChange={handleItem}
+                placeholder={routerProps ? routerProps.category : "Category"}
+              />
+              <datalist id="categoryName">
+                {categoryOptions.map((e) => (
+                  <option value={e} key={e}>
+                    {e}
+                  </option>
+                ))}
+              </datalist>
+            </>
+          ) : null}
           <label htmlFor="amount">Amount</label>
           <input
             type="number"

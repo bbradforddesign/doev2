@@ -33,6 +33,7 @@ const Calculator = (props) => {
       );
     });
     setTotal({ ...total, all: allReduced });
+    console.log(total);
   }, [Transactions]);
 
   // store goal amounts for each category in state to pass to graph
@@ -42,6 +43,8 @@ const Calculator = (props) => {
     );
   }, [goals]);
 
+  const Spent =
+    total.all - (total.categories.Income ? total.categories.Income : 0);
   // pass calculated values on to be rendered
   return (
     <div
@@ -56,7 +59,10 @@ const Calculator = (props) => {
       <div style={{ marginTop: "3vh", width: "80%" }}>
         <h3 style={{ margin: 0 }}>Summary</h3>
         <p style={{ marginTop: "6px" }}>
-          You have spent a total of ${total.all} this month.
+          You have spent a total of ${Spent} this month
+          {total.categories.Income
+            ? `, and have $${total.categories.Income - Spent} remaining.`
+            : "."}
         </p>
         {goals && (
           <>
@@ -67,7 +73,7 @@ const Calculator = (props) => {
                   <p style={{ margin: "4px 0" }}>
                     You have spent{" "}
                     <strong>
-                      ${AllCats[e.category]} out of your ${e.amount} goal,
+                      ${AllCats[e.category]} out of your ${e.amount} goal.
                     </strong>
                   </p>
                 </li>

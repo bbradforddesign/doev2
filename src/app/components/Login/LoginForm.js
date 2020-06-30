@@ -50,12 +50,12 @@ const LoginForm = () => {
   const [creds, setCreds] = useState();
 
   const handleLogin = () => {
-    dispatch(loginUser(creds.email, creds.password));
+    dispatch(loginUser(creds.username, creds.password));
   };
 
   // creates new user in db. Automatically logs on with new jwt
   const handleRegister = () => {
-    dispatch(registerUser(creds.email, creds.password));
+    dispatch(registerUser(creds.username, creds.password));
   };
 
   const handleCreds = (e) => {
@@ -81,8 +81,8 @@ const LoginForm = () => {
             <div className={classes.formTextInput}>
               <TextField
                 type="text"
-                label="Email"
-                name="email"
+                label="Username"
+                name="username"
                 variant="outlined"
                 autoComplete="username"
                 onChange={handleCreds}

@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 export const initialState = {
   loggedIn: false,
@@ -21,7 +21,7 @@ export const authSelector = (state) => state.auth;
 
 export default authSlice.reducer;
 
-export function loginUser(e, p) {
+export function loginUser(u, p) {
   return async (dispatch) => {
     try {
       const response = await fetch(`http://localhost:3001/api/v1/users/login`, {
@@ -31,7 +31,7 @@ export function loginUser(e, p) {
           "Content-Type": "application/json",
         }),
         body: JSON.stringify({
-          email: e,
+          username: u,
           password: p,
         }),
       });
@@ -59,7 +59,7 @@ export function logoutUser() {
   };
 }
 
-export function registerUser(e, p) {
+export function registerUser(u, p) {
   return async (dispatch) => {
     await fetch(`http://localhost:3001/api/v1/users`, {
       method: "post",
@@ -68,7 +68,7 @@ export function registerUser(e, p) {
         "Content-Type": "application/json",
       }),
       body: JSON.stringify({
-        email: e,
+        username: u,
         password: p,
       }),
     });
