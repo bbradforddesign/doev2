@@ -29,23 +29,27 @@ const App = () => {
         >
           <h1 style={{ flex: 1 }}>Hello, App</h1>
           {auth.loggedIn ? (
-            <ul
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                listStyle: "none",
-                flex: 1,
-              }}
-            >
-              <li>
-                <Link to="/">Home</Link>
-              </li>
-              <li>
-                <Link to="/main">Main</Link>
-              </li>
-            </ul>
-          ) : null}
-          <Logout />
+            <>
+              <ul
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  listStyle: "none",
+                  flex: 1,
+                }}
+              >
+                <li>
+                  <Link to="/">Home</Link>
+                </li>
+                <li>
+                  <Link to="/main">Main</Link>
+                </li>
+              </ul>
+              <Logout />
+            </>
+          ) : (
+            <Link to="/login">Login</Link>
+          )}
         </nav>
         <div>
           <div

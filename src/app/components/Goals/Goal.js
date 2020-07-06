@@ -14,6 +14,8 @@ const Goal = (props) => {
           pathname: "/goal/edit",
           props: {
             id: props.id,
+            category: props.category,
+            amount: props.amount,
           },
         }}
         style={{

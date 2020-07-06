@@ -1,14 +1,58 @@
 import React, { useState } from "react";
 import { withRouter, Link } from "react-router-dom";
 import apiMethods from "../../utils/TransactionApi";
+import {
+  TextField,
+  MenuItem,
+  Radio,
+  RadioGroup,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Paper,
+  Button,
+  ButtonGroup,
+  Box,
+} from "@material-ui/core";
+import { makeStyles } from "@material-ui/styles";
+
+const useStyles = makeStyles({
+  formField: {
+    marginBottom: "5%",
+  },
+  buttonLink: {
+    textDecoration: "none",
+  },
+  formModal: {
+    padding: "3%",
+    position: "fixed",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  formBackground: {
+    position: "fixed",
+    width: "100vw",
+    height: "100vh",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    backgroundColor: "rgba(200,200,200,.75)",
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});
 
 const TransactionForm = (props) => {
+  const classes = useStyles();
+
   // local state to store input before sending to db
   const [item, setItem] = useState({
     category: "Income",
-    description: "",
     amount: 0,
-    type: "",
+    description: "",
   });
 
   const routerProps = props.location.props;
@@ -58,144 +102,117 @@ const TransactionForm = (props) => {
     "Gifts/Donations",
     "Entertainment",
   ];
-
-  const messageArray = [
-    "Click save to submit",
-    "Amount must be greater than 0",
-  ];
-  let message = messageArray[0];
-  if (item.amount <= 0) message = messageArray[1];
-  /**
-   * NOTE:
-   * Using div rather than form to prevent unwanted params added to url.
-   * Desired behavior, but possible semantic problem. Better fix?
-   */
   return (
-    <div
-      style={{
-        position: "fixed",
-        width: "100vw",
-        height: "100vh",
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
-        backgroundColor: "rgba(200,200,200,.75)",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <div
-        style={{
-          backgroundColor: "#EEE",
-          width: "50vw",
-          height: "40vh",
-          position: "fixed",
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
-            width: "30vw",
-          }}
-        >
-          <h2>
-            {routerProps ? routerProps.description : "Create new Transaction"}
-          </h2>
-          <label htmlFor="description">Description</label>
-          <input
-            type="text"
+    <Box className={classes.formBackground}>
+      <Paper className={classes.formModal}>
+        <h2>{routerProps ? routerProps.description : "New Transaction"}</h2>
+        <FormControl component="fieldset">
+          <FormLabel component="legend">Type</FormLabel>
+          <RadioGroup
+            aria-label="Type"
+            name="type"
+            value={item.type}
+            onChange={handleItem}
+            row
+            required
+            className={classes.formField}
+          >
+            <FormControlLabel
+              value="expense"
+              control={<Radio />}
+              label="Expense"
+              checked={
+                props.type === "expense" || item.type === "expense"
+                  ? true
+                  : false
+              }
+            />
+            <FormControlLabel
+              value="income"
+              control={<Radio />}
+              label="Income"
+              checked={
+                props.type === "income" || item.type === "income" ? true : false
+              }
+            />
+          </RadioGroup>
+          {item.type === "expense" ? (
+            <>
+              <TextField
+                label="Category"
+                id="category"
+                select
+                name="category"
+                value={item.category}
+                onChange={handleItem}
+                placeholder={routerProps ? routerProps.category : "Category"}
+                className={classes.formField}
+                required
+              >
+                {categoryOptions.map((e) => (
+                  <MenuItem value={e} key={e}>
+                    {e}
+                  </MenuItem>
+                ))}
+              </TextField>
+            </>
+          ) : null}
+          <TextField
+            variant="outlined"
+            label="Description"
             name="description"
             onChange={handleItem}
             placeholder={routerProps ? routerProps.description : "Description"}
+            className={classes.formField}
           />
-          <div>
-            <label htmlFor="expense">
-              <input
-                type="radio"
-                id="expense"
-                name="type"
-                onChange={handleItem}
-                value="expense"
-              />
-              Expense
-            </label>
-          </div>
-          <div>
-            <label htmlFor="income">
-              <input
-                type="radio"
-                id="income"
-                name="type"
-                onChange={handleItem}
-                value="income"
-              />
-              Income
-            </label>
-          </div>
-          {item.type === "expense" ? (
-            <>
-              <label htmlFor="category">Category</label>
-              <input
-                type="text"
-                name="category"
-                list="categoryName"
-                onChange={handleItem}
-                placeholder={routerProps ? routerProps.category : "Category"}
-              />
-              <datalist id="categoryName">
-                {categoryOptions.map((e) => (
-                  <option value={e} key={e}>
-                    {e}
-                  </option>
-                ))}
-              </datalist>
-            </>
-          ) : null}
-          <label htmlFor="amount">Amount</label>
-          <input
+          <TextField
+            variant="outlined"
+            label="Amount"
             type="number"
             name="amount"
             onChange={handleItem}
-            placeholder={routerProps ? routerProps.amount : "Amount"}
+            value={item.amount}
+            error={item.amount < 1 ? true : false}
+            helperText={item.amount < 1 && "Amount must be greater than 0"}
+            placeholder={routerProps ? String(routerProps.amount) : "Amount"}
+            className={classes.formField}
+            required
           />
-          {!routerProps && <p>{message}</p>}
-          {(message === messageArray[0] || routerProps) && (
-            <button
-              onClick={() => {
-                routerProps ? handleUpdate() : handleCreate();
-                handleSubmit();
+          <ButtonGroup variant="outlined" color="primary">
+            <Link
+              to={{
+                pathname: "/main",
               }}
+              className={classes.buttonLink}
             >
-              Save
-            </button>
-          )}
-          {routerProps && (
-            <button
-              onClick={() => {
-                handleDelete();
-                handleSubmit();
-              }}
-            >
-              Delete
-            </button>
-          )}
-
-          <Link
-            to={{
-              pathname: "/main",
-            }}
-          >
-            <button>Done</button>
-          </Link>
-        </div>
-      </div>
-    </div>
+              <Button variant="outlined" color="secondary">
+                Cancel
+              </Button>
+            </Link>
+            {(routerProps || (item.amount && item.type && item.category)) && (
+              <Button
+                onClick={() => {
+                  routerProps ? handleUpdate() : handleCreate();
+                  handleSubmit();
+                }}
+              >
+                Save
+              </Button>
+            )}
+            {routerProps && (
+              <Button
+                onClick={() => {
+                  handleDelete();
+                  handleSubmit();
+                }}
+              >
+                Delete
+              </Button>
+            )}
+          </ButtonGroup>
+        </FormControl>
+      </Paper>
+    </Box>
   );
 };
 
