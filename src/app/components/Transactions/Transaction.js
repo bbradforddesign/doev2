@@ -16,7 +16,7 @@ const Transaction = (props) => {
     <Card
       style={{
         backgroundColor: props.type === "income" ? "#0F0" : "#F00",
-        margin: "5% 10%",
+        margin: "5% 5%",
         flex: 1,
       }}
     >
@@ -33,7 +33,7 @@ const Transaction = (props) => {
             alignItems: "center",
           }}
         >
-          <Typography variant="h5">{props.description}</Typography>
+          <Typography variant="h6">{props.description}</Typography>
         </ExpansionPanelSummary>
 
         <ExpansionPanelDetails

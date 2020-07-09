@@ -43,8 +43,9 @@ const Calculator = (props) => {
     );
   }, []);
 
-  const Spent =
-    total.all - (total.categories.Income ? total.categories.Income : 0);
+  const Spent = cleanFloat(
+    total.all - (total.categories.Income ? total.categories.Income : 0)
+  );
   // pass calculated values on to be rendered
   return (
     <div

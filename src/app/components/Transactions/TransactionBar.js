@@ -22,7 +22,7 @@ const TransactionBar = React.forwardRef((props, ref) => {
           backgroundColor: "rgb(150,250,150)",
         }}
       >
-        <h3>Transaction List</h3>
+        <h3>Transactions</h3>
       </div>
       <ul
         style={{
@@ -49,7 +49,7 @@ const TransactionBar = React.forwardRef((props, ref) => {
       </ul>
       <Link to="/transaction/new">
         <Button variant="contained" color="primary">
-          New Transaction
+          New
         </Button>
       </Link>
     </section>

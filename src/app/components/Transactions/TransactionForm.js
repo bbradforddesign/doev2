@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { withRouter, Link } from "react-router-dom";
 import apiMethods from "../../utils/TransactionApi";
 import {
@@ -79,7 +79,18 @@ const TransactionForm = (props) => {
     });
   };
 
-  // redirects to main page; need to add props to keep sidebar open persistently.
+  // if editing, need to load transaction's values into form to be edited.
+  useEffect(() => {
+    if (routerProps) {
+      setItem({
+        category: routerProps.category,
+        amount: routerProps.amount,
+        description: routerProps.description,
+      });
+    }
+  }, [routerProps]);
+
+  // redirects to main page
   const handleSubmit = () => {
     props.history.replace("/main");
     window.location.reload();
@@ -105,64 +116,63 @@ const TransactionForm = (props) => {
   return (
     <Box className={classes.formBackground}>
       <Paper className={classes.formModal}>
-        <h2>{routerProps ? routerProps.description : "New Transaction"}</h2>
+        <h2>{routerProps ? "Edit Transaction" : "New Transaction"}</h2>
         <FormControl component="fieldset">
-          <FormLabel component="legend">Type</FormLabel>
-          <RadioGroup
-            aria-label="Type"
-            name="type"
-            value={item.type}
-            onChange={handleItem}
-            row
-            required
-            className={classes.formField}
-          >
-            <FormControlLabel
-              value="expense"
-              control={<Radio />}
-              label="Expense"
-              checked={
-                props.type === "expense" || item.type === "expense"
-                  ? true
-                  : false
-              }
-            />
-            <FormControlLabel
-              value="income"
-              control={<Radio />}
-              label="Income"
-              checked={
-                props.type === "income" || item.type === "income" ? true : false
-              }
-            />
-          </RadioGroup>
-          {item.type === "expense" ? (
+          {!routerProps && (
             <>
-              <TextField
-                label="Category"
-                id="category"
-                select
-                name="category"
-                value={item.category}
+              <FormLabel component="legend">Type</FormLabel>
+              <RadioGroup
+                aria-label="Type"
+                name="type"
+                value={item.type}
                 onChange={handleItem}
-                placeholder={routerProps ? routerProps.category : "Category"}
-                className={classes.formField}
+                row
                 required
+                className={classes.formField}
               >
-                {categoryOptions.map((e) => (
-                  <MenuItem value={e} key={e}>
-                    {e}
-                  </MenuItem>
-                ))}
-              </TextField>
+                <FormControlLabel
+                  value="expense"
+                  control={<Radio />}
+                  label="Expense"
+                />
+                <FormControlLabel
+                  value="income"
+                  control={<Radio />}
+                  label="Income"
+                />
+              </RadioGroup>
             </>
-          ) : null}
+          )}
+          {(routerProps && routerProps.type === "expense") ||
+          item.type === "income" ? (
+            <TextField
+              label="Category"
+              id="category"
+              select
+              name="category"
+              value={item.category}
+              onChange={handleItem}
+              placeholder={routerProps ? routerProps.category : "Category"}
+              className={classes.formField}
+              required
+            >
+              {categoryOptions.map((e) => (
+                <MenuItem value={e} key={e}>
+                  {e}
+                </MenuItem>
+              ))}
+            </TextField>
+          ) : (
+            <></>
+          )}
+
           <TextField
             variant="outlined"
             label="Description"
             name="description"
             onChange={handleItem}
-            placeholder={routerProps ? routerProps.description : "Description"}
+            placeholder={"Description"}
+            defaultValue={routerProps && routerProps.description}
             className={classes.formField}
           />
           <TextField
@@ -174,7 +184,8 @@ const TransactionForm = (props) => {
             value={item.amount}
             error={item.amount < 1 ? true : false}
             helperText={item.amount < 1 && "Amount must be greater than 0"}
-            placeholder={routerProps ? String(routerProps.amount) : "Amount"}
+            placeholder={"Amount"}
+            defaultValue={routerProps && routerProps.amount}
             className={classes.formField}
             required
           />

@@ -22,7 +22,7 @@ const GoalBar = React.forwardRef((props, ref) => {
           backgroundColor: "rgb(150,200,250)",
         }}
       >
-        <h3>Goal List</h3>
+        <h3>Goals</h3>
       </div>
       <ul
         style={{
@@ -47,7 +47,7 @@ const GoalBar = React.forwardRef((props, ref) => {
       </ul>
       <Link to="/goal/new">
         <Button variant="contained" color="primary">
-          New Goal
+          New
         </Button>
       </Link>
     </section>
