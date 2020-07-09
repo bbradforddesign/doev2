@@ -48,8 +48,18 @@ export function loginUser(u, p) {
   };
 }
 
-export function logoutUser(dispatch) {
-  dispatch(removeAuth());
+export function logoutUser() {
+  return async (dispatch) => {
+    try {
+      await fetch("http://localhost:3001/api/v1/users/logout", {
+        method: "get",
+        credentials: "include",
+      });
+      dispatch(removeAuth());
+    } catch (error) {
+      console.log(error);
+    }
+  };
 }
 
 export function registerUser(u, p) {
