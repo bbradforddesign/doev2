@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import moment from "moment";
-import { IconButton, Card, Typography } from "@material-ui/core";
+import { Card, Typography, Button } from "@material-ui/core";
 import ExpansionPanel from "@material-ui/core/ExpansionPanel";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
 import ExpansionPanelDetails from "@material-ui/core/ExpansionPanelDetails";
-import EditIcon from "@material-ui/icons/Edit";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 
 const Transaction = (props) => {
@@ -17,7 +16,7 @@ const Transaction = (props) => {
     <Card
       style={{
         backgroundColor: props.type === "income" ? "#0F0" : "#F00",
-        margin: "2%",
+        margin: "5% 10%",
         flex: 1,
       }}
     >
@@ -34,23 +33,30 @@ const Transaction = (props) => {
             alignItems: "center",
           }}
         >
-          <Typography>{props.description}</Typography>
-          <Typography variant="caption">
-            {moment(props.created).format("MM/DD/YY")}
-          </Typography>
+          <Typography variant="h5">{props.description}</Typography>
         </ExpansionPanelSummary>
 
         <ExpansionPanelDetails
           style={{
             display: "flex",
+            flexDirection: "column",
             justifyContent: "space-between",
-            alignItems: "center",
+            alignItems: "flex-start",
           }}
         >
-          <Typography variant="subtitle2">${props.amount}</Typography>
-          <Typography variant="subtitle1">{props.category}</Typography>
-
+          <Typography variant="subtitle2" style={{ paddingBottom: "5%" }}>
+            <strong>{props.category}</strong>
+            <br />
+            {moment(props.created).format("MM/DD/YY")}
+          </Typography>
+          <Typography
+            variant="h6"
+            style={{ paddingBottom: "10%", alignSelf: "flex-end" }}
+          >
+            ${props.amount}
+          </Typography>
           <Link
+            style={{ textDecoration: "none", alignSelf: "center" }}
             to={{
               pathname: "/transaction/edit",
               props: {
@@ -62,9 +68,7 @@ const Transaction = (props) => {
               },
             }}
           >
-            <IconButton variant="outlined">
-              <EditIcon />
-            </IconButton>
+            <Button variant="outlined">EDIT</Button>
           </Link>
         </ExpansionPanelDetails>
       </ExpansionPanel>

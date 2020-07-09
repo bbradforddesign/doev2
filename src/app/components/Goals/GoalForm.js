@@ -142,7 +142,7 @@ const GoalForm = (props) => {
                 Cancel
               </Button>
             </Link>
-            {(routerProps || (item.amount && item.type && item.category)) && (
+            {item.amount > 0 && (
               <Button
                 onClick={() => {
                   routerProps ? handleUpdate() : handleCreate();
@@ -152,6 +152,7 @@ const GoalForm = (props) => {
                 Save
               </Button>
             )}
+
             {routerProps && (
               <Button
                 onClick={() => {

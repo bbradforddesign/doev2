@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import moment from "moment";
 import {
   fetchTransactions,
   transactionsSelector,
@@ -60,25 +61,35 @@ const Main = () => {
     }
   }, [dispatch, auth]);
 
-  /**
-   * Conditional rendering. Represents current state from redux store.
-   * Represent transactions programatically since they're constantly changing.
-   */
+  // date filter
+  const filterMonth = (array, date) => {
+    return array.filter(
+      (e) =>
+        moment(e.created_date ? e.created_date : e.date).format("MM/YYYY") ===
+        moment(date).format("MM/YYYY")
+    );
+  };
+
   const renderTransactions = () => {
     if (loadingTransactions) return <p>Loading Transactions</p>;
     if (hasErrorsTransactions) return <p>Unable to Retrieve Transactions</p>;
     if (loading) return <p>Loading Goals</p>;
     if (hasErrors) return <p>Unable to Retrieve Goals</p>;
 
+    console.log(goals);
+    console.log(transactions);
     return (
       <>
         {transactions && (
           <Box className={classes.contentBox}>
             <Slide in={active.active !== ""} direction="right" unmountOnExit>
               {active.active === "transactions" ? (
-                <TransactionBar transactions={transactions} />
+                // should filter by current month
+                <TransactionBar
+                  transactions={filterMonth(transactions, moment())}
+                />
               ) : (
-                <GoalBar goals={goals} />
+                <GoalBar goals={filterMonth(goals, moment())} />
               )}
             </Slide>
             <Box className={classes.sidebarToggle}>
@@ -110,7 +121,10 @@ const Main = () => {
                 <TrackChangesIcon fontSize="large" />
               </IconButton>
             </Box>
-            <Calculator transactions={transactions} goals={goals} />
+            <Calculator
+              transactions={filterMonth(transactions, moment())}
+              goals={filterMonth(goals, moment())}
+            />
           </Box>
         )}
       </>

@@ -34,14 +34,14 @@ const Calculator = (props) => {
     });
     setTotal({ ...total, all: allReduced });
     console.log(total);
-  }, [Transactions]);
+  }, []);
 
-  // store goal amounts for each category in state to pass to graph
+  // store goal amounts for each category to show in analysis
   useEffect(() => {
     goals.forEach((goal) =>
       AllCats[goal.category] ? (total.maxes[goal.category] = goal.amount) : null
     );
-  }, [goals]);
+  }, []);
 
   const Spent =
     total.all - (total.categories.Income ? total.categories.Income : 0);

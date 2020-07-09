@@ -28,9 +28,10 @@ const TransactionBar = React.forwardRef((props, ref) => {
         style={{
           listStyle: "none",
           height: "50vh",
-          width: "80%",
+          width: "100%",
           overflow: "hidden",
           overflowY: "scroll",
+          padding: 0,
         }}
       >
         {props.transactions.map((e) => (
