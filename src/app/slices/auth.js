@@ -11,11 +11,13 @@ const authSlice = createSlice({
     setAuth: (state) => {
       state.loggedIn = true;
     },
-    reset: () => initialState,
+    removeAuth: (state) => {
+      state.loggedIn = false;
+    },
   },
 });
 
-export const { setAuth, reset } = authSlice.actions;
+export const { setAuth, removeAuth } = authSlice.actions;
 
 export const authSelector = (state) => state.auth;
 
@@ -46,17 +48,8 @@ export function loginUser(u, p) {
   };
 }
 
-export function logoutUser() {
-  return async (dispatch) => {
-    await fetch(`http://localhost:3001/api/v1/users/logout`, {
-      method: "get",
-      credentials: "include",
-      headers: new Headers({
-        "Content-Type": "application/json",
-      }),
-    });
-    dispatch(reset());
-  };
+export function logoutUser(dispatch) {
+  dispatch(removeAuth());
 }
 
 export function registerUser(u, p) {

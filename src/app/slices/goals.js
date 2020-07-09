@@ -52,8 +52,12 @@ export function fetchGoals() {
           "Content-Type": "application/json",
         }),
       });
-      const data = await response.json();
-      dispatch(getGoalsSuccess(data.rows));
+      if (response.status === 400) {
+        dispatch(getGoalsFailure());
+      } else {
+        const data = await response.json();
+        dispatch(getGoalsSuccess(data.rows));
+      }
     } catch (error) {
       dispatch(getGoalsFailure());
     }

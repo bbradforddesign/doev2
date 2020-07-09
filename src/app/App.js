@@ -1,8 +1,8 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import "./App.css";
-import { useSelector } from "react-redux";
-import { authSelector } from "./slices/auth";
+import { useDispatch, useSelector } from "react-redux";
+import { logoutUser, authSelector } from "./slices/auth";
 
 // component imports
 import { Container } from "@material-ui/core";
@@ -13,8 +13,15 @@ import TransactionForm from "./components/Transactions/TransactionForm";
 import GoalForm from "./components/Goals/GoalForm";
 
 const App = () => {
+  const dispatch = useDispatch();
+
   // is the user logged in?
   const auth = useSelector(authSelector);
+
+  // logout the user after two hours
+  setTimeout(() => {
+    dispatch(logoutUser);
+  }, 1000 * 60 * 120);
 
   return (
     <Router>

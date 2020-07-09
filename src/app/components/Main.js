@@ -6,7 +6,7 @@ import {
 } from "../slices/transactions";
 import { setActive, sidebarSelector } from "../slices/sidebar";
 import { fetchGoals, goalsSelector } from "../slices/goals";
-import { logoutUser, authSelector } from "../slices/auth";
+import { authSelector } from "../slices/auth";
 import { IconButton, Box, Slide } from "@material-ui/core";
 import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 import TrackChangesIcon from "@material-ui/icons/TrackChanges";
@@ -54,13 +54,11 @@ const Main = () => {
 
   // on mount, fetch transactions to render
   useEffect(() => {
-    try {
+    if (auth.loggedIn === true) {
       dispatch(fetchTransactions());
       dispatch(fetchGoals());
-    } catch {
-      dispatch(logoutUser());
     }
-  }, [dispatch]);
+  }, [dispatch, auth]);
 
   /**
    * Conditional rendering. Represents current state from redux store.
@@ -119,7 +117,7 @@ const Main = () => {
     );
   };
 
-  return <>{auth.loggedIn && renderTransactions()}</>;
+  return <>{auth.loggedIn ? renderTransactions() : <p>Please log in.</p>}</>;
 };
 
 export default Main;
