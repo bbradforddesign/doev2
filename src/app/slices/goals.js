@@ -1,10 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-/**
- * NOTE:
- * Have to format date here, as date formatting isn't working on backend. Should fix there?
- */
-
 export const initialState = {
   loading: false,
   hasErrors: false,

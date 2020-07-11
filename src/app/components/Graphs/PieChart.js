@@ -3,6 +3,8 @@ import { Pie } from "react-chartjs-2";
 import { useSelector } from "react-redux";
 import { transactionsSelector } from "../../slices/transactions";
 
+import { Paper } from "@material-ui/core";
+
 const PieChart = () => {
   const transactionState = useSelector(transactionsSelector);
   const totals = transactionState.totals;
@@ -31,8 +33,8 @@ const PieChart = () => {
     ],
   };
 
+  // insert each category's name and total into the pie chart
   for (const [key, value] of Object.entries(totals)) {
-    console.log(`${key}: ${value}`);
     if (key !== "All" && key !== "Income") {
       if (!state.labels[key]) {
         state.labels.push(key);
@@ -43,13 +45,13 @@ const PieChart = () => {
 
   // NOTE: need to set text to show data's date range
   return (
-    <div>
+    <Paper style={{ padding: "3% 0" }}>
       <Pie
         data={state}
         options={{
           title: {
             display: true,
-            text: "Average Rainfall per month",
+            text: "Expenses",
             fontSize: 20,
           },
           legend: {
@@ -58,7 +60,7 @@ const PieChart = () => {
           },
         }}
       />
-    </div>
+    </Paper>
   );
 };
 

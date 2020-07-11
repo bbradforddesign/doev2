@@ -1,7 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Goal from "./Goal";
-import { Button } from "@material-ui/core";
+import moment from "moment";
+import { Button, Typography, IconButton } from "@material-ui/core";
+import EditIcon from "@material-ui/icons/Edit";
 
 const GoalBar = React.forwardRef((props, ref) => {
   return (
@@ -22,26 +23,51 @@ const GoalBar = React.forwardRef((props, ref) => {
           backgroundColor: "rgb(150,200,250)",
         }}
       >
-        <h3>Goals</h3>
+        <h3>Goals {moment().format("MM/YY")}</h3>
       </div>
       <ul
         style={{
           listStyle: "none",
           height: "50vh",
-          width: "80%",
+          width: "100%",
           overflow: "hidden",
           overflowY: "scroll",
+          padding: 0,
         }}
       >
         {props.goals.map((e) => (
           <li key={e.id}>
-            <Goal
-              description={e.description}
-              category={e.category}
-              amount={e.amount}
-              date={e.date}
-              id={e.id}
-            />
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "space-between",
+              }}
+            >
+              <Typography>
+                <strong>{e.category}</strong>
+              </Typography>
+              <Typography>${e.amount}</Typography>
+              <Link
+                to={{
+                  pathname: "/goal/edit",
+                  props: {
+                    id: e.id,
+                    category: e.category,
+                    amount: e.amount,
+                  },
+                }}
+                style={{
+                  textDecoration: "none",
+                }}
+              >
+                <IconButton variant="outlined">
+                  <EditIcon />
+                </IconButton>
+              </Link>
+            </div>
+            <hr />
           </li>
         ))}
       </ul>

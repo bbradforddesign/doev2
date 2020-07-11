@@ -15,7 +15,9 @@ import TrackChangesIcon from "@material-ui/icons/TrackChanges";
 import { makeStyles } from "@material-ui/core/styles";
 import TransactionBar from "./Transactions/TransactionBar";
 import GoalBar from "./Goals/GoalBar";
+
 import PieChart from "./Graphs/PieChart";
+import CompoundBar from "./Graphs/CompoundBar";
 
 const useStyles = makeStyles({
   contentBox: {
@@ -126,6 +128,7 @@ const Main = () => {
               </IconButton>
             </Box>
             <PieChart />
+            <CompoundBar />
           </Box>
         )}
       </>

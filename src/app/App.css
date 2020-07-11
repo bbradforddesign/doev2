@@ -17,3 +17,16 @@
     margin-left: -50px;
   }
 }
+
+.growBar {
+  animation: growLeft 1s;
+}
+
+@keyframes growBar {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
