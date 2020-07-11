@@ -4,6 +4,7 @@ export const initialState = {
   loadingTransactions: false,
   hasErrorsTransactions: false,
   transactions: [],
+  totals: [],
 };
 
 const transactionsSlice = createSlice({
@@ -14,7 +15,8 @@ const transactionsSlice = createSlice({
       state.loadingTransactions = true;
     },
     getTransactionsSuccess: (state, { payload }) => {
-      state.transactions = payload;
+      state.transactions = payload.rows;
+      state.totals = payload.categoryTotals;
       state.loadingTransactions = false;
       state.hasErrorsTransactions = false;
     },
@@ -79,7 +81,7 @@ export function fetchTransactionsInRange(beginning, end) {
       );
       const data = await response.json();
       console.log(data);
-      dispatch(getTransactionsSuccess(data.rows));
+      dispatch(getTransactionsSuccess(data));
     } catch (error) {
       console.log(error);
       dispatch(getTransactionsFailure());

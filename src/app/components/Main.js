@@ -13,9 +13,9 @@ import { IconButton, Box, Slide } from "@material-ui/core";
 import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
 import TrackChangesIcon from "@material-ui/icons/TrackChanges";
 import { makeStyles } from "@material-ui/core/styles";
-import Calculator from "./Analysis/Calculator";
 import TransactionBar from "./Transactions/TransactionBar";
 import GoalBar from "./Goals/GoalBar";
+import PieChart from "./Graphs/PieChart";
 
 const useStyles = makeStyles({
   contentBox: {
@@ -125,10 +125,7 @@ const Main = () => {
                 <TrackChangesIcon fontSize="large" />
               </IconButton>
             </Box>
-            <Calculator
-              transactions={filterMonth(transactions, moment())}
-              goals={filterMonth(goals, moment())}
-            />
+            <PieChart />
           </Box>
         )}
       </>
