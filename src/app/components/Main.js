@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import {
   fetchTransactions,
+  fetchTransactionsInRange,
   transactionsSelector,
 } from "../slices/transactions";
 import { setActive, sidebarSelector } from "../slices/sidebar";
@@ -53,10 +54,13 @@ const Main = () => {
   const { goals, loading, hasErrors } = useSelector(goalsSelector);
   const auth = useSelector(authSelector);
 
+  const monthStart = moment().startOf("month");
+  const monthEnd = moment().endOf("moment");
+
   // on mount, fetch transactions to render
   useEffect(() => {
     if (auth.loggedIn === true) {
-      dispatch(fetchTransactions());
+      dispatch(fetchTransactionsInRange(monthStart, monthEnd));
       dispatch(fetchGoals());
     }
   }, [dispatch, auth]);

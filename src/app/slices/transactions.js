@@ -57,3 +57,32 @@ export function fetchTransactions() {
     }
   };
 }
+
+export function fetchTransactionsInRange(beginning, end) {
+  return async (dispatch) => {
+    dispatch(getTransactions());
+
+    try {
+      const response = await fetch(
+        "http://localhost:3001/api/v1/transactions/range",
+        {
+          method: "post",
+          credentials: "include",
+          headers: new Headers({
+            "Content-Type": "application/json",
+          }),
+          body: JSON.stringify({
+            beginning: beginning,
+            end: end,
+          }),
+        }
+      );
+      const data = await response.json();
+      console.log(data);
+      dispatch(getTransactionsSuccess(data.rows));
+    } catch (error) {
+      console.log(error);
+      dispatch(getTransactionsFailure());
+    }
+  };
+}

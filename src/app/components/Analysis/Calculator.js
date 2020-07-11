@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Graph from "./Graph";
+import PieChart from "./PieChart";
 
 const Calculator = (props) => {
   const goals = props.goals;
@@ -56,6 +57,7 @@ const Calculator = (props) => {
         width: "100%",
       }}
     >
+      <PieChart />
       <Graph total={total} />
       <div style={{ marginTop: "3vh", width: "80%" }}>
         <h3 style={{ margin: 0 }}>Summary</h3>
