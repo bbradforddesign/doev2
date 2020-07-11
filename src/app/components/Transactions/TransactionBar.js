@@ -1,7 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import Transaction from "./Transaction";
-import { Button } from "@material-ui/core";
+import moment from "moment";
+import { Button, Typography, IconButton } from "@material-ui/core";
+import EditIcon from "@material-ui/icons/Edit";
 
 const TransactionBar = React.forwardRef((props, ref) => {
   return (
@@ -36,14 +37,55 @@ const TransactionBar = React.forwardRef((props, ref) => {
       >
         {props.transactions.map((e) => (
           <li key={e.id}>
-            <Transaction
-              description={e.description}
-              category={e.category}
-              amount={e.amount}
-              id={e.id}
-              created={e.created_date}
-              type={e.type}
-            />
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "flex-start",
+                justifyContent: "space-between",
+                marginBottom: "5%",
+              }}
+            >
+              <Typography
+                variant="caption"
+                textAlign="left"
+                style={{ alignSelf: "center" }}
+              >
+                <strong>
+                  {e.category} - {moment(e.created).format("MM/DD/YYYY")}
+                </strong>
+              </Typography>
+              <Link
+                style={{ textDecoration: "none" }}
+                to={{
+                  pathname: "/transaction/edit",
+                  props: {
+                    id: e.id,
+                    description: e.description,
+                    category: e.category,
+                    amount: e.amount,
+                    type: e.type,
+                  },
+                }}
+              >
+                <IconButton>
+                  <EditIcon />
+                </IconButton>
+              </Link>
+            </div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "flex-start",
+              }}
+            >
+              <Typography variant="subtitle1">
+                {e.description} ...... ${e.amount}
+              </Typography>
+            </div>
+            <hr />
           </li>
         ))}
       </ul>
