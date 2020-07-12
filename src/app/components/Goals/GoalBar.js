@@ -1,8 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import moment from "moment";
-import { Button, Typography, IconButton } from "@material-ui/core";
+import { Typography, IconButton } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
+import AddCircleIcon from "@material-ui/icons/AddCircle";
 
 const GoalBar = React.forwardRef((props, ref) => {
   return (
@@ -13,18 +14,11 @@ const GoalBar = React.forwardRef((props, ref) => {
         alignItems: "center",
         width: "100%",
         maxWidth: "300px",
+        padding: "3% 0",
       }}
       ref={ref}
     >
-      <div
-        style={{
-          width: "100%",
-          textAlign: "center",
-          backgroundColor: "rgb(150,200,250)",
-        }}
-      >
-        <h3>Goals {moment().format("MM/YY")}</h3>
-      </div>
+      <Typography variant="h4">Goals</Typography>
       <ul
         style={{
           listStyle: "none",
@@ -41,14 +35,20 @@ const GoalBar = React.forwardRef((props, ref) => {
               style={{
                 display: "flex",
                 flexDirection: "row",
-                alignItems: "center",
+                alignItems: "flex-start",
                 justifyContent: "space-between",
+                marginBottom: "5%",
               }}
             >
-              <Typography>
-                <strong>{e.category}</strong>
+              <Typography
+                variant="caption"
+                textAlign="left"
+                style={{ alignSelf: "center" }}
+              >
+                <strong>
+                  {e.category} - {moment(e.date).format("MM/YYYY")}
+                </strong>
               </Typography>
-              <Typography>${e.amount}</Typography>
               <Link
                 to={{
                   pathname: "/goal/edit",
@@ -62,20 +62,38 @@ const GoalBar = React.forwardRef((props, ref) => {
                   textDecoration: "none",
                 }}
               >
-                <IconButton variant="outlined">
+                <IconButton>
                   <EditIcon />
                 </IconButton>
               </Link>
             </div>
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                alignItems: "center",
+                justifyContent: "flex-start",
+              }}
+            >
+              <Typography>${e.amount}</Typography>
+            </div>
             <hr />
           </li>
         ))}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+          }}
+        >
+          <Link to="/goal/new">
+            <IconButton>
+              <AddCircleIcon fontSize="large" />
+            </IconButton>
+          </Link>
+        </div>
       </ul>
-      <Link to="/goal/new">
-        <Button variant="contained" color="primary">
-          New
-        </Button>
-      </Link>
     </section>
   );
 });

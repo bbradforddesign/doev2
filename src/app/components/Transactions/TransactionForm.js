@@ -144,7 +144,7 @@ const TransactionForm = (props) => {
             </>
           )}
           {(routerProps && routerProps.type === "expense") ||
-          item.type === "income" ? (
+          item.type !== "income" ? (
             <TextField
               label="Category"
               id="category"

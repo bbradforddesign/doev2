@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 export const initialState = {
-  active: "",
+  active: "transactions",
 };
 
 const sidebarSlice = createSlice({

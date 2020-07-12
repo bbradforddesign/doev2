@@ -45,8 +45,9 @@ const PieChart = () => {
 
   // NOTE: need to set text to show data's date range
   return (
-    <Paper style={{ padding: "3% 0" }}>
+    <Paper style={{ padding: "10% 0", height: "60%", width: "40%" }}>
       <Pie
+        height={200}
         data={state}
         options={{
           title: {

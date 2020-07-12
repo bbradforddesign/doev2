@@ -9,9 +9,7 @@ import {
 import { setActive, sidebarSelector } from "../slices/sidebar";
 import { fetchGoals, goalsSelector } from "../slices/goals";
 import { authSelector } from "../slices/auth";
-import { IconButton, Box, Slide } from "@material-ui/core";
-import AttachMoneyIcon from "@material-ui/icons/AttachMoney";
-import TrackChangesIcon from "@material-ui/icons/TrackChanges";
+import { Button, ButtonGroup, Box, Paper } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import TransactionBar from "./Transactions/TransactionBar";
 import GoalBar from "./Goals/GoalBar";
@@ -24,21 +22,13 @@ const useStyles = makeStyles({
     display: "flex",
     flexDirection: "row",
     alignItems: "flex-start",
-    justifyContent: "center",
+    justifyContent: "space-between",
     width: "90vw",
     height: "80vh",
   },
-  sidebarToggle: {
-    width: "60px",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "flex-start",
-    height: "70vh",
-    paddingTop: "5vh",
-  },
-  sidebarDivider: {
-    width: "80%",
-    border: "1px solid #AAA",
+  sidebar: {
+    width: "20%",
+    padding: "2%",
   },
 });
 
@@ -67,15 +57,6 @@ const Main = () => {
     }
   }, [dispatch, auth]);
 
-  // date filter
-  const filterMonth = (array, date) => {
-    return array.filter(
-      (e) =>
-        moment(e.created_date ? e.created_date : e.date).format("MM/YYYY") ===
-        moment(date).format("MM/YYYY")
-    );
-  };
-
   const renderTransactions = () => {
     if (loadingTransactions) return <p>Loading Transactions</p>;
     if (hasErrorsTransactions) return <p>Unable to Retrieve Transactions</p>;
@@ -88,45 +69,35 @@ const Main = () => {
       <>
         {transactions && (
           <Box className={classes.contentBox}>
-            <Slide in={active.active !== ""} direction="right" unmountOnExit>
+            <Paper className={classes.sidebar}>
               {active.active === "transactions" ? (
                 // should filter by current month
-                <TransactionBar
-                  transactions={filterMonth(transactions, moment())}
-                />
+                <TransactionBar transactions={transactions} />
               ) : (
-                <GoalBar goals={filterMonth(goals, moment())} />
+                <GoalBar goals={goals} />
               )}
-            </Slide>
-            <Box className={classes.sidebarToggle}>
-              <IconButton
-                onClick={
-                  active.active === "transactions"
-                    ? () => {
-                        dispatch(setActive(""));
-                      }
-                    : () => {
-                        dispatch(setActive("transactions"));
-                      }
-                }
+              <ButtonGroup
+                style={{
+                  width: "90%",
+                  margin: "0 5%",
+                }}
               >
-                <AttachMoneyIcon fontSize="large" />
-              </IconButton>
-              <hr className={classes.sidebarDivider} />
-              <IconButton
-                onClick={
-                  active.active === "goals"
-                    ? () => {
-                        dispatch(setActive(""));
-                      }
-                    : () => {
-                        dispatch(setActive("goals"));
-                      }
-                }
-              >
-                <TrackChangesIcon fontSize="large" />
-              </IconButton>
-            </Box>
+                <Button
+                  variant={
+                    active.active === "transactions" ? "contained" : "outlined"
+                  }
+                  onClick={() => dispatch(setActive("transactions"))}
+                >
+                  Transactions
+                </Button>
+                <Button
+                  variant={active.active === "goals" ? "contained" : "outlined"}
+                  onClick={() => dispatch(setActive("goals"))}
+                >
+                  Goals
+                </Button>
+              </ButtonGroup>
+            </Paper>
             <PieChart />
             <CompoundBar />
           </Box>

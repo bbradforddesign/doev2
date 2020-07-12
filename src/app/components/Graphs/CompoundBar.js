@@ -21,16 +21,16 @@ const GoalProgress = (props) => {
       }}
     >
       <div
-        className="growBar"
         style={{
-          backgroundColor: "#a6a6a6",
-          flex: props.max - props.current,
+          backgroundColor: "#777",
+          flex: props.current,
         }}
       />
       <div
+        className="growBar"
         style={{
-          backgroundColor: "#fdfdfd",
-          flex: props.current,
+          backgroundColor: "#f0f0f0",
+          flex: props.max - props.current,
         }}
       />
     </div>

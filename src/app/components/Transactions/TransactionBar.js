@@ -1,8 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import moment from "moment";
-import { Button, Typography, IconButton } from "@material-ui/core";
+import { Typography, IconButton } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
+import AddCircleIcon from "@material-ui/icons/AddCircle";
 
 const TransactionBar = React.forwardRef((props, ref) => {
   return (
@@ -13,18 +14,11 @@ const TransactionBar = React.forwardRef((props, ref) => {
         alignItems: "center",
         width: "100%",
         maxWidth: "300px",
+        padding: "3% 0",
       }}
       ref={ref}
     >
-      <div
-        style={{
-          width: "100%",
-          textAlign: "center",
-          backgroundColor: "rgb(150,250,150)",
-        }}
-      >
-        <h3>Transactions</h3>
-      </div>
+      <Typography variant="h4">Transactions</Typography>
       <ul
         style={{
           listStyle: "none",
@@ -52,7 +46,7 @@ const TransactionBar = React.forwardRef((props, ref) => {
                 style={{ alignSelf: "center" }}
               >
                 <strong>
-                  {e.category} - {moment(e.created).format("MM/DD/YYYY")}
+                  {e.category} - {moment(e.created_date).format("MM/DD/YYYY")}
                 </strong>
               </Typography>
               <Link
@@ -88,12 +82,20 @@ const TransactionBar = React.forwardRef((props, ref) => {
             <hr />
           </li>
         ))}
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "center",
+          }}
+        >
+          <Link to="/transaction/new">
+            <IconButton>
+              <AddCircleIcon fontSize="large" />
+            </IconButton>
+          </Link>
+        </div>
       </ul>
-      <Link to="/transaction/new">
-        <Button variant="contained" color="primary">
-          New
-        </Button>
-      </Link>
     </section>
   );
 });

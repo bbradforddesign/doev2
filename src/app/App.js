@@ -25,16 +25,21 @@ const App = () => {
 
   return (
     <Router>
-      <Container>
+      <Container style={{ backgroundColor: "#F6F6F6" }}>
         <nav
           style={{
             display: "flex",
             flexDirection: "row",
             alignItems: "center",
-            backgroundColor: "rgb(155,240,155)",
+            width: "100%",
           }}
         >
-          <h1 style={{ flex: 1 }}>Hello, App</h1>
+          <div style={{ flex: 1 }}>
+            <h1>Doe</h1>
+            <h3>
+              <em>Save Bucks, Use Doe</em>
+            </h3>
+          </div>
           {auth.loggedIn ? (
             <>
               <ul
@@ -46,10 +51,14 @@ const App = () => {
                 }}
               >
                 <li>
-                  <Link to="/">Home</Link>
+                  <Link to="/" style={{ textDecoration: "none" }}>
+                    Home
+                  </Link>
                 </li>
                 <li>
-                  <Link to="/main">Main</Link>
+                  <Link to="/main" style={{ textDecoration: "none" }}>
+                    Main
+                  </Link>
                 </li>
               </ul>
               <Logout />
