@@ -18,7 +18,7 @@ const GoalBar = React.forwardRef((props, ref) => {
       }}
       ref={ref}
     >
-      <Typography variant="h4">Goals</Typography>
+      <Typography variant="h5">Set Goals</Typography>
       <ul
         style={{
           listStyle: "none",
@@ -56,6 +56,7 @@ const GoalBar = React.forwardRef((props, ref) => {
                     id: e.id,
                     category: e.category,
                     amount: e.amount,
+                    description: e.description,
                   },
                 }}
                 style={{
@@ -72,10 +73,14 @@ const GoalBar = React.forwardRef((props, ref) => {
                 display: "flex",
                 flexDirection: "row",
                 alignItems: "center",
-                justifyContent: "flex-start",
+                justifyContent: "space-between",
+                marginRight: "5%",
               }}
             >
-              <Typography>${e.amount}</Typography>
+              <Typography variant="subtitle1">{e.description}</Typography>
+              <Typography variant="subtitle1">
+                <strong>${e.amount}</strong>
+              </Typography>
             </div>
             <hr />
           </li>

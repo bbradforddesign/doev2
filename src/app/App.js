@@ -7,10 +7,10 @@ import { logoutUser, authSelector } from "./slices/auth";
 // component imports
 import { Container } from "@material-ui/core";
 import Logout from "./components/Login/Logout";
-import LoginForm from "./components/Login/LoginForm";
+import LoginForm from "./components/Forms/LoginForm";
 import Main from "./components/Main";
-import TransactionForm from "./components/Transactions/TransactionForm";
-import GoalForm from "./components/Goals/GoalForm";
+import TransactionForm from "./components/Forms/TransactionForm";
+import GoalForm from "./components/Forms/GoalForm";
 
 const App = () => {
   const dispatch = useDispatch();

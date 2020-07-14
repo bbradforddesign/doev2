@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import moment from "moment";
 import {
   fetchTransactions,
   fetchTransactionsInRange,
@@ -11,9 +10,10 @@ import { fetchGoals, goalsSelector } from "../slices/goals";
 import { authSelector } from "../slices/auth";
 import { Button, ButtonGroup, Box, Paper } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
-import TransactionBar from "./Transactions/TransactionBar";
-import GoalBar from "./Goals/GoalBar";
+import TransactionBar from "./Sidebar/TransactionBar";
+import GoalBar from "./Sidebar/GoalBar";
 
+import LineGraph from "./Graphs/LineGraph";
 import PieChart from "./Graphs/PieChart";
 import CompoundBar from "./Graphs/CompoundBar";
 
@@ -46,13 +46,10 @@ const Main = () => {
   const { goals, loading, hasErrors } = useSelector(goalsSelector);
   const auth = useSelector(authSelector);
 
-  const monthStart = moment().startOf("month");
-  const monthEnd = moment().endOf("moment");
-
-  // on mount, fetch transactions to render
+  // on mount, fetch transactions to render. Need to add date filter
   useEffect(() => {
     if (auth.loggedIn === true) {
-      dispatch(fetchTransactionsInRange(monthStart, monthEnd));
+      dispatch(fetchTransactions());
       dispatch(fetchGoals());
     }
   }, [dispatch, auth]);
@@ -63,8 +60,6 @@ const Main = () => {
     if (loading) return <p>Loading Goals</p>;
     if (hasErrors) return <p>Unable to Retrieve Goals</p>;
 
-    console.log(goals);
-    console.log(transactions);
     return (
       <>
         {transactions && (
@@ -99,7 +94,10 @@ const Main = () => {
               </ButtonGroup>
             </Paper>
             <PieChart />
-            <CompoundBar />
+            <div>
+              <CompoundBar />
+              <LineGraph />
+            </div>
           </Box>
         )}
       </>

@@ -4,6 +4,7 @@ export const initialState = {
   loading: false,
   hasErrors: false,
   goals: [],
+  totals: [],
 };
 
 const goalsSlice = createSlice({
@@ -14,7 +15,8 @@ const goalsSlice = createSlice({
       state.loading = true;
     },
     getGoalsSuccess: (state, { payload }) => {
-      state.goals = payload;
+      state.goals = payload.rows;
+      state.totals = payload.categoryTotals;
       state.loading = false;
       state.hasErrors = false;
     },
@@ -51,7 +53,7 @@ export function fetchGoals() {
         dispatch(getGoalsFailure());
       } else {
         const data = await response.json();
-        dispatch(getGoalsSuccess(data.rows));
+        dispatch(getGoalsSuccess(data));
       }
     } catch (error) {
       dispatch(getGoalsFailure());

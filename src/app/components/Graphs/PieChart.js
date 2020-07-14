@@ -35,7 +35,7 @@ const PieChart = () => {
 
   // insert each category's name and total into the pie chart
   for (const [key, value] of Object.entries(totals)) {
-    if (key !== "All" && key !== "Income") {
+    if (key !== "All") {
       if (!state.labels[key]) {
         state.labels.push(key);
         state.datasets[0].data.push(value);
@@ -45,19 +45,18 @@ const PieChart = () => {
 
   // NOTE: need to set text to show data's date range
   return (
-    <Paper style={{ padding: "10% 0", height: "60%", width: "40%" }}>
+    <Paper style={{ height: "80%", width: "40%" }}>
+      <div style={{ textAlign: "center", top: 10, bottom: 10 }}>
+        <h2>Expense Report</h2>
+        <h4>${totals.All} Total Spent This Month</h4>
+      </div>
       <Pie
         height={200}
         data={state}
         options={{
-          title: {
-            display: true,
-            text: "Expenses",
-            fontSize: 20,
-          },
           legend: {
             display: true,
-            position: "right",
+            position: "bottom",
           },
         }}
       />

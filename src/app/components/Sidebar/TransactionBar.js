@@ -18,7 +18,7 @@ const TransactionBar = React.forwardRef((props, ref) => {
       }}
       ref={ref}
     >
-      <Typography variant="h4">Transactions</Typography>
+      <Typography variant="h5">Record Transactions</Typography>
       <ul
         style={{
           listStyle: "none",
@@ -58,7 +58,7 @@ const TransactionBar = React.forwardRef((props, ref) => {
                     description: e.description,
                     category: e.category,
                     amount: e.amount,
-                    type: e.type,
+                    date: e.created_date,
                   },
                 }}
               >
@@ -72,11 +72,13 @@ const TransactionBar = React.forwardRef((props, ref) => {
                 display: "flex",
                 flexDirection: "row",
                 alignItems: "center",
-                justifyContent: "flex-start",
+                justifyContent: "space-between",
+                marginRight: "5%",
               }}
             >
+              <Typography variant="subtitle1">{e.description}</Typography>
               <Typography variant="subtitle1">
-                {e.description} ...... ${e.amount}
+                <strong>${e.amount}</strong>
               </Typography>
             </div>
             <hr />

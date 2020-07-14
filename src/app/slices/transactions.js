@@ -53,7 +53,7 @@ export function fetchTransactions() {
         }
       );
       const data = await response.json();
-      dispatch(getTransactionsSuccess(data.rows));
+      dispatch(getTransactionsSuccess(data));
     } catch (error) {
       dispatch(getTransactionsFailure());
     }
@@ -80,10 +80,8 @@ export function fetchTransactionsInRange(beginning, end) {
         }
       );
       const data = await response.json();
-      console.log(data);
       dispatch(getTransactionsSuccess(data));
     } catch (error) {
-      console.log(error);
       dispatch(getTransactionsFailure());
     }
   };

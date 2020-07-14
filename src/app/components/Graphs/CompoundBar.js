@@ -16,7 +16,8 @@ const GoalProgress = (props) => {
       style={{
         display: "flex",
         flexDirection: "row",
-        height: "14px",
+        height: "10px",
+        width: "18vw",
         boxShadow: "2px 2px 4px #CCC",
       }}
     >
@@ -40,8 +41,17 @@ const GoalProgress = (props) => {
 const CompoundBar = () => {
   // pull goals from redux store
   const goalState = useSelector(goalsSelector);
+  const totals = goalState.totals;
   // pull transactions to determine goal progress
   const transactionState = useSelector(transactionsSelector);
+
+  const bars = [];
+
+  for (const [key, value] of Object.entries(totals)) {
+    if (key !== "All") {
+      bars.push({ category: key, amount: value });
+    }
+  }
 
   return (
     <Paper
@@ -50,9 +60,10 @@ const CompoundBar = () => {
         flexDirection: "column",
         justifyContent: "flex-start",
         alignItems: "flex-start",
-        width: "15vw",
-        margin: "0 1vw",
+        width: "18vw",
+        margin: "0 1vw 5vh",
         padding: "0 2%",
+        height: "40vh",
       }}
     >
       <p>Goal Forecast</p>
@@ -62,8 +73,8 @@ const CompoundBar = () => {
           listStyle: "none",
         }}
       >
-        {goalState.goals.map((e) => (
-          <li key={e.id}>
+        {bars.map((e) => (
+          <li key={e.category}>
             <p style={{ marginBottom: 2, fontSize: ".85em" }}>
               {e.category}: $
               {e.amount -
@@ -79,7 +90,7 @@ const CompoundBar = () => {
                   ? transactionState.totals[e.category]
                   : 0
               }
-              label={e.category}
+              label={e.label}
             />
           </li>
         ))}
