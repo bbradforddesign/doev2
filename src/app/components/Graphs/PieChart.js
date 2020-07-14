@@ -45,13 +45,12 @@ const PieChart = () => {
 
   // NOTE: need to set text to show data's date range
   return (
-    <Paper style={{ height: "80%", width: "40%" }}>
-      <div style={{ textAlign: "center", top: 10, bottom: 10 }}>
-        <h2>Expense Report</h2>
-        <h4>${totals.All} Total Spent This Month</h4>
-      </div>
+    <div style={{ textAlign: "center", top: 10, bottom: 10 }}>
+      <h2>Expense Report</h2>
+      <h4>${totals.All} Total Spent This Month</h4>
+
       <Pie
-        height={200}
+        height={150}
         data={state}
         options={{
           legend: {
@@ -60,7 +59,7 @@ const PieChart = () => {
           },
         }}
       />
-    </Paper>
+    </div>
   );
 };
 

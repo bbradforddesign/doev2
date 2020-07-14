@@ -93,11 +93,11 @@ const Main = () => {
                 </Button>
               </ButtonGroup>
             </Paper>
-            <PieChart />
-            <div>
-              <CompoundBar />
+            <Paper style={{ height: "100%", width: "40%" }}>
+              <PieChart />
               <LineGraph />
-            </div>
+            </Paper>
+            <CompoundBar />
           </Box>
         )}
       </>
