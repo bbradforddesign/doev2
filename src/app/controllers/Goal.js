@@ -2,6 +2,20 @@ import moment from "moment"; // date formatting
 import { v4 } from "uuid"; // generating unique id
 import db from "../db"; // access to database functions
 
+// category total calculation utility. Should be separated?
+const calculateTotals = (arr) => {
+  const Totals = {
+    All: 0,
+  };
+  arr.map((e) => {
+    Totals.All += e.amount;
+    Totals[e.category]
+      ? (Totals[e.category] += e.amount)
+      : (Totals[e.category] = e.amount);
+  });
+  return Totals;
+};
+
 const Goal = {
   /**
    * Create A Goal
@@ -12,8 +26,8 @@ const Goal = {
   async create(req, res) {
     // pass values from request body into new goal
     const text = `INSERT INTO
-        goals(id, author_id, category, amount, date)
-        VALUES($1, $2, $3, $4, $5)
+        goals(id, author_id, category, amount, date, description)
+        VALUES($1, $2, $3, $4, $5, $6)
         returning *`;
     const values = [
       v4(),
@@ -21,6 +35,7 @@ const Goal = {
       req.body.category,
       req.body.amount,
       req.body.date,
+      req.body.description,
     ];
     try {
       const { rows } = await db.query(text, values); // pass query to db
@@ -40,7 +55,8 @@ const Goal = {
     const findAllQuery = `SELECT * FROM goals where author_id = $1`;
     try {
       const { rows, rowCount } = await db.query(findAllQuery, [req.user.id]); // pass query to db
-      return res.status(200).send({ rows, rowCount }); // if successful return all rows
+      const categoryTotals = calculateTotals(rows);
+      return res.status(200).send({ rows, rowCount, categoryTotals }); // if successful return all rows
     } catch (error) {
       return res.status(400).send(error);
     }
@@ -74,8 +90,8 @@ const Goal = {
     // get goal of a given id, and pass in updated values from request body
     const findOneQuery = `SELECT * FROM goals WHERE id=$1 AND author_id=$2`; // find the goal
     const updateOneQuery = `UPDATE goals
-        SET category=$1,amount=$2,date=$3
-        WHERE id=$4 AND author_id=$5 returning *`;
+        SET category=$1, amount=$2, date=$3, description=$4
+        WHERE id=$5 AND author_id=$6 returning *`;
     try {
       const { rows } = await db.query(findOneQuery, [
         req.params.id,
@@ -88,6 +104,7 @@ const Goal = {
         req.body.category || rows[0].category,
         req.body.amount || rows[0].amount,
         req.body.date || rows[0].date,
+        req.body.description || rows[0].description,
         req.params.id,
         req.user.id,
       ];

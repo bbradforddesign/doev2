@@ -21,6 +21,7 @@ const createGoalTable = () => {
       id UUID PRIMARY KEY,
       author_id UUID NOT NULL,
       category TEXT NOT NULL,
+      description TEXT NOT NULL,
       amount float(2) NOT NULL,
       date DATE NOT NULL,
       FOREIGN KEY (author_id) REFERENCES users (id) ON DELETE CASCADE
@@ -45,7 +46,6 @@ const createTransactionTable = () => {
       transactions(
         id UUID PRIMARY KEY,
         author_id UUID NOT NULL,
-        type TEXT NOT NULL,
         category TEXT NOT NULL,
         description TEXT NOT NULL,
         amount float(2) NOT NULL,

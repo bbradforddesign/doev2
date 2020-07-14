@@ -22,6 +22,18 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 // access to database functions
 
+// category total calculation utility. Should be separated?
+var calculateTotals = function calculateTotals(arr) {
+  var Totals = {
+    All: 0
+  };
+  arr.map(function (e) {
+    Totals.All += e.amount;
+    Totals[e.category] ? Totals[e.category] += e.amount : Totals[e.category] = e.amount;
+  });
+  return Totals;
+};
+
 var Goal = {
   /**
    * Create A Goal
@@ -38,8 +50,8 @@ var Goal = {
           switch (_context.prev = _context.next) {
             case 0:
               // pass values from request body into new goal
-              text = "INSERT INTO\n        goals(id, author_id, category, amount, date)\n        VALUES($1, $2, $3, $4, $5)\n        returning *";
-              values = [(0, _uuid.v4)(), req.user.id, req.body.category, req.body.amount, req.body.date];
+              text = "INSERT INTO\n        goals(id, author_id, category, amount, date, description)\n        VALUES($1, $2, $3, $4, $5, $6)\n        returning *";
+              values = [(0, _uuid.v4)(), req.user.id, req.body.category, req.body.amount, req.body.date, req.body.description];
               _context.prev = 2;
               _context.next = 5;
               return _db2.default.query(text, values);
@@ -78,7 +90,7 @@ var Goal = {
    */
   getAll: function () {
     var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(req, res) {
-      var findAllQuery, _ref4, rows, rowCount;
+      var findAllQuery, _ref4, rows, rowCount, categoryTotals;
 
       return regeneratorRuntime.wrap(function _callee2$(_context2) {
         while (1) {
@@ -93,19 +105,21 @@ var Goal = {
               _ref4 = _context2.sent;
               rows = _ref4.rows;
               rowCount = _ref4.rowCount;
-              return _context2.abrupt("return", res.status(200).send({ rows: rows, rowCount: rowCount }));
+              // pass query to db
+              categoryTotals = calculateTotals(rows);
+              return _context2.abrupt("return", res.status(200).send({ rows: rows, rowCount: rowCount, categoryTotals: categoryTotals }));
 
-            case 10:
-              _context2.prev = 10;
+            case 11:
+              _context2.prev = 11;
               _context2.t0 = _context2["catch"](1);
               return _context2.abrupt("return", res.status(400).send(_context2.t0));
 
-            case 13:
+            case 14:
             case "end":
               return _context2.stop();
           }
         }
-      }, _callee2, this, [[1, 10]]);
+      }, _callee2, this, [[1, 11]]);
     }));
 
     function getAll(_x3, _x4) {
@@ -186,7 +200,7 @@ var Goal = {
               // get goal of a given id, and pass in updated values from request body
               findOneQuery = "SELECT * FROM goals WHERE id=$1 AND author_id=$2"; // find the goal
 
-              updateOneQuery = "UPDATE goals\n        SET category=$1,amount=$2,date=$3\n        WHERE id=$4 AND author_id=$5 returning *";
+              updateOneQuery = "UPDATE goals\n        SET category=$1, amount=$2, date=$3, description=$4\n        WHERE id=$5 AND author_id=$6 returning *";
               _context4.prev = 2;
               _context4.next = 5;
               return _db2.default.query(findOneQuery, [req.params.id, req.user.id]);
@@ -203,7 +217,7 @@ var Goal = {
               return _context4.abrupt("return", res.status(404).send({ message: "goal not found" }));
 
             case 9:
-              values = [req.body.category || rows[0].category, req.body.amount || rows[0].amount, req.body.date || rows[0].date, req.params.id, req.user.id];
+              values = [req.body.category || rows[0].category, req.body.amount || rows[0].amount, req.body.date || rows[0].date, req.body.description || rows[0].description, req.params.id, req.user.id];
               _context4.next = 12;
               return _db2.default.query(updateOneQuery, values);
 
