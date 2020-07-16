@@ -2,20 +2,6 @@ import moment from "moment"; // date formatting
 import { v4 } from "uuid"; // generating unique id
 import db from "../db"; // access to database functions
 
-// category total calculation utility. Should be separated?
-const calculateTotals = (arr) => {
-  const Totals = {
-    All: 0,
-  };
-  arr.map((e) => {
-    Totals.All += e.amount;
-    Totals[e.category]
-      ? (Totals[e.category] += e.amount)
-      : (Totals[e.category] = e.amount);
-  });
-  return Totals;
-};
-
 const Transaction = {
   /**
    * Create A Transaction
@@ -54,11 +40,24 @@ const Transaction = {
    * @returns {object} transactions array
    */
   async getAll(req, res) {
+    // calculate monthly totals
+    const calculateTotals = (arr) => {
+      const months = {};
+      arr.map((e) => {
+        const month = moment(e.created_date).format("MM/YY");
+        if (!months[month]) {
+          months[month] = e.amount;
+        } else {
+          months[month] += e.amount;
+        }
+      });
+      return months;
+    };
     const findAllQuery = `SELECT * FROM transactions WHERE author_id = $1`;
     try {
       const { rows, rowCount } = await db.query(findAllQuery, [req.user.id]); // pass query to db
-      const categoryTotals = calculateTotals(rows); // tally up category totals
-      return res.status(200).send({ rows, rowCount, categoryTotals });
+      const monthlyTotals = calculateTotals(rows); // tally up category totals
+      return res.status(200).send({ rows, rowCount, monthlyTotals });
     } catch (error) {
       return res.status(400).send(error);
     }
@@ -71,6 +70,19 @@ const Transaction = {
    * @returns {object} transactions array
    */
   async getRange(req, res) {
+    // category total calculation utility. Should be separated?
+    const calculateTotals = (arr) => {
+      const Totals = {
+        All: 0,
+      };
+      arr.map((e) => {
+        Totals.All += e.amount;
+        Totals[e.category]
+          ? (Totals[e.category] += e.amount)
+          : (Totals[e.category] = e.amount);
+      });
+      return Totals;
+    };
     const text = `SELECT * FROM transactions WHERE author_id = $1 AND created_date >= $2 AND created_date <= $3`;
     try {
       const { rows, rowCount } = await db.query(text, [

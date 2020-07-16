@@ -22,18 +22,6 @@ function _asyncToGenerator(fn) { return function () { var gen = fn.apply(this, a
 
 // access to database functions
 
-// category total calculation utility. Should be separated?
-var calculateTotals = function calculateTotals(arr) {
-  var Totals = {
-    All: 0
-  };
-  arr.map(function (e) {
-    Totals.All += e.amount;
-    Totals[e.category] ? Totals[e.category] += e.amount : Totals[e.category] = e.amount;
-  });
-  return Totals;
-};
-
 var Transaction = {
   /**
    * Create A Transaction
@@ -90,37 +78,51 @@ var Transaction = {
    */
   getAll: function () {
     var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(req, res) {
-      var findAllQuery, _ref4, rows, rowCount, categoryTotals;
+      var calculateTotals, findAllQuery, _ref4, rows, rowCount, monthlyTotals;
 
       return regeneratorRuntime.wrap(function _callee2$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
+              // calculate monthly totals
+              calculateTotals = function calculateTotals(arr) {
+                var months = {};
+                arr.map(function (e) {
+                  var month = (0, _moment2.default)(e.created_date).format("MM/YY");
+                  if (!months[month]) {
+                    months[month] = e.amount;
+                  } else {
+                    months[month] += e.amount;
+                  }
+                });
+                return months;
+              };
+
               findAllQuery = "SELECT * FROM transactions WHERE author_id = $1";
-              _context2.prev = 1;
-              _context2.next = 4;
+              _context2.prev = 2;
+              _context2.next = 5;
               return _db2.default.query(findAllQuery, [req.user.id]);
 
-            case 4:
+            case 5:
               _ref4 = _context2.sent;
               rows = _ref4.rows;
               rowCount = _ref4.rowCount;
               // pass query to db
-              categoryTotals = calculateTotals(rows); // tally up category totals
+              monthlyTotals = calculateTotals(rows); // tally up category totals
 
-              return _context2.abrupt("return", res.status(200).send({ rows: rows, rowCount: rowCount, categoryTotals: categoryTotals }));
+              return _context2.abrupt("return", res.status(200).send({ rows: rows, rowCount: rowCount, monthlyTotals: monthlyTotals }));
 
-            case 11:
-              _context2.prev = 11;
-              _context2.t0 = _context2["catch"](1);
+            case 12:
+              _context2.prev = 12;
+              _context2.t0 = _context2["catch"](2);
               return _context2.abrupt("return", res.status(400).send(_context2.t0));
 
-            case 14:
+            case 15:
             case "end":
               return _context2.stop();
           }
         }
-      }, _callee2, this, [[1, 11]]);
+      }, _callee2, this, [[2, 12]]);
     }));
 
     function getAll(_x3, _x4) {
@@ -139,18 +141,30 @@ var Transaction = {
    */
   getRange: function () {
     var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(req, res) {
-      var text, _ref6, rows, rowCount, categoryTotals;
+      var calculateTotals, text, _ref6, rows, rowCount, categoryTotals;
 
       return regeneratorRuntime.wrap(function _callee3$(_context3) {
         while (1) {
           switch (_context3.prev = _context3.next) {
             case 0:
+              // category total calculation utility. Should be separated?
+              calculateTotals = function calculateTotals(arr) {
+                var Totals = {
+                  All: 0
+                };
+                arr.map(function (e) {
+                  Totals.All += e.amount;
+                  Totals[e.category] ? Totals[e.category] += e.amount : Totals[e.category] = e.amount;
+                });
+                return Totals;
+              };
+
               text = "SELECT * FROM transactions WHERE author_id = $1 AND created_date >= $2 AND created_date <= $3";
-              _context3.prev = 1;
-              _context3.next = 4;
+              _context3.prev = 2;
+              _context3.next = 5;
               return _db2.default.query(text, [req.user.id, req.body.beginning, req.body.end]);
 
-            case 4:
+            case 5:
               _ref6 = _context3.sent;
               rows = _ref6.rows;
               rowCount = _ref6.rowCount;
@@ -158,17 +172,17 @@ var Transaction = {
               categoryTotals = calculateTotals(rows);
               return _context3.abrupt("return", res.status(200).send({ rows: rows, rowCount: rowCount, categoryTotals: categoryTotals }));
 
-            case 11:
-              _context3.prev = 11;
-              _context3.t0 = _context3["catch"](1);
+            case 12:
+              _context3.prev = 12;
+              _context3.t0 = _context3["catch"](2);
               return _context3.abrupt("return", res.status(400).send(_context3.t0));
 
-            case 14:
+            case 15:
             case "end":
               return _context3.stop();
           }
         }
-      }, _callee3, this, [[1, 11]]);
+      }, _callee3, this, [[2, 12]]);
     }));
 
     function getRange(_x5, _x6) {
