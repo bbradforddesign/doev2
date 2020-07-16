@@ -42,25 +42,6 @@ const App = () => {
           </div>
           {auth.loggedIn ? (
             <>
-              <ul
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  listStyle: "none",
-                  flex: 1,
-                }}
-              >
-                <li>
-                  <Link to="/" style={{ textDecoration: "none" }}>
-                    Home
-                  </Link>
-                </li>
-                <li>
-                  <Link to="/main" style={{ textDecoration: "none" }}>
-                    Main
-                  </Link>
-                </li>
-              </ul>
               <Logout />
             </>
           ) : (
@@ -75,11 +56,6 @@ const App = () => {
             }}
           >
             <Switch>
-              <Route exact path="/">
-                <div>
-                  <h2>Home</h2>
-                </div>
-              </Route>
               <Route path="/login">
                 <LoginForm />
               </Route>

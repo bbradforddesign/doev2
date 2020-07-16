@@ -1,17 +1,19 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  fetchTransactions,
-  fetchTransactionsInRange,
+  fetchMonthly,
+  fetchAll,
   transactionsSelector,
 } from "../slices/transactions";
-import { setActive, sidebarSelector } from "../slices/sidebar";
+import { setSidebar, setGraph, uiSelector } from "../slices/ui";
 import { fetchGoals, goalsSelector } from "../slices/goals";
 import { authSelector } from "../slices/auth";
 import { Button, ButtonGroup, Box, Paper } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import TransactionBar from "./Sidebar/TransactionBar";
 import GoalBar from "./Sidebar/GoalBar";
+
+import moment from "moment";
 
 import LineGraph from "./Graphs/LineGraph";
 import PieChart from "./Graphs/PieChart";
@@ -27,32 +29,49 @@ const useStyles = makeStyles({
     height: "80vh",
   },
   sidebar: {
-    width: "20%",
+    width: "20vw",
     padding: "2%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  graphBox: {
+    width: "40vw",
+    margin: "0 5%",
+    padding: "2%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  toggleGroup: {
+    marginTop: "5%",
   },
 });
 
 const Main = () => {
+  const [month, setMonth] = useState(moment());
+
   const classes = useStyles();
 
   // Redux
   const dispatch = useDispatch();
-  const {
-    transactions,
-    loadingTransactions,
-    hasErrorsTransactions,
-  } = useSelector(transactionsSelector);
-  const active = useSelector(sidebarSelector);
+  const { monthly, loadingTransactions, hasErrorsTransactions } = useSelector(
+    transactionsSelector
+  );
+  const active = useSelector(uiSelector);
   const { goals, loading, hasErrors } = useSelector(goalsSelector);
   const auth = useSelector(authSelector);
 
-  // on mount, fetch transactions to render. Need to add date filter
+  // on mount, fetch transactions to render
   useEffect(() => {
     if (auth.loggedIn === true) {
-      dispatch(fetchTransactions());
+      dispatch(fetchMonthly(month));
       dispatch(fetchGoals());
+      dispatch(fetchAll());
     }
-  }, [dispatch, auth]);
+  }, [dispatch, auth, month]);
 
   const renderTransactions = () => {
     if (loadingTransactions) return <p>Loading Transactions</p>;
@@ -62,42 +81,56 @@ const Main = () => {
 
     return (
       <>
-        {transactions && (
+        {monthly && (
           <Box className={classes.contentBox}>
             <Paper className={classes.sidebar}>
-              {active.active === "transactions" ? (
+              {active.sidebar === "transactions" ? (
                 // should filter by current month
-                <TransactionBar transactions={transactions} />
+                <TransactionBar
+                  transactions={monthly}
+                  month={month.format("MM/YYYY")}
+                />
               ) : (
                 <GoalBar goals={goals} />
               )}
-              <ButtonGroup
-                style={{
-                  width: "90%",
-                  margin: "0 5%",
-                }}
-              >
+              <ButtonGroup className={classes.toggleGroup}>
                 <Button
                   variant={
                     active.active === "transactions" ? "contained" : "outlined"
                   }
-                  onClick={() => dispatch(setActive("transactions"))}
+                  onClick={() => dispatch(setSidebar("transactions"))}
                 >
                   Transactions
                 </Button>
                 <Button
                   variant={active.active === "goals" ? "contained" : "outlined"}
-                  onClick={() => dispatch(setActive("goals"))}
+                  onClick={() => dispatch(setSidebar("goals"))}
                 >
                   Goals
                 </Button>
               </ButtonGroup>
             </Paper>
-            <Paper style={{ height: "100%", width: "40%" }}>
-              <PieChart />
-              <LineGraph />
+            <Paper className={classes.graphBox}>
+              {active.graph === "pie" ? <PieChart /> : <LineGraph />}
+              <ButtonGroup className={classes.toggleGroup}>
+                <Button onClick={() => dispatch(setGraph("pie"))}>
+                  Current
+                </Button>
+                <Button onClick={() => dispatch(setGraph("line"))}>
+                  Trends
+                </Button>
+              </ButtonGroup>
             </Paper>
-            <CompoundBar />
+            <CompoundBar month={month} />
+            <Button
+              onClick={() => setMonth(moment(month).subtract(1, "months"))}
+            >
+              Back
+            </Button>
+            <Button onClick={() => setMonth(moment())}>Current</Button>
+            <Button onClick={() => setMonth(moment(month).add(1, "months"))}>
+              Forward
+            </Button>
           </Box>
         )}
       </>

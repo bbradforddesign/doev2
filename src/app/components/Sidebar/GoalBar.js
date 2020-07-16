@@ -45,9 +45,7 @@ const GoalBar = React.forwardRef((props, ref) => {
                 textAlign="left"
                 style={{ alignSelf: "center" }}
               >
-                <strong>
-                  {e.category} - {moment(e.date).format("MM/YYYY")}
-                </strong>
+                <strong>{e.category}</strong>
               </Typography>
               <Link
                 to={{
@@ -64,7 +62,7 @@ const GoalBar = React.forwardRef((props, ref) => {
                 }}
               >
                 <IconButton>
-                  <EditIcon />
+                  <EditIcon fontSize="small" />
                 </IconButton>
               </Link>
             </div>
@@ -85,20 +83,12 @@ const GoalBar = React.forwardRef((props, ref) => {
             <hr />
           </li>
         ))}
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "center",
-          }}
-        >
-          <Link to="/goal/new">
-            <IconButton>
-              <AddCircleIcon fontSize="large" />
-            </IconButton>
-          </Link>
-        </div>
       </ul>
+      <Link to="/goal/new">
+        <IconButton>
+          <AddCircleIcon fontSize="large" />
+        </IconButton>
+      </Link>
     </section>
   );
 });

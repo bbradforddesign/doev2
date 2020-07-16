@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Line } from "react-chartjs-2";
 import moment from "moment";
 import { useSelector } from "react-redux";
@@ -7,26 +7,16 @@ import { transactionsSelector } from "../../slices/transactions";
 const LineGraph = () => {
   const transactionState = useSelector(transactionsSelector);
 
-  const months = {};
+  const monthlyTotals = transactionState.monthlyTotals;
 
-  // need to calculate monthly totals. shift to backend?
-  transactionState.transactions.filter((e) => {
-    const month = moment(e.created_date).format("MM/YY");
-    if (!months[month]) {
-      months[month] = e.amount;
-    } else {
-      months[month] += e.amount;
-    }
-  });
   // need to sort months by date
   const toSort = [];
-  for (const month in months) {
-    toSort.push([month, months[month]]);
+  for (const month in monthlyTotals) {
+    toSort.push([month, monthlyTotals[month]]);
   }
   const sortedMonths = toSort.sort(
     (a, b) => new moment(a[0]) - new moment(b[0])
   );
-  console.log(sortedMonths);
 
   const state = {
     labels: [],
@@ -56,6 +46,7 @@ const LineGraph = () => {
       }}
     >
       <Line
+        height={385}
         data={state}
         options={{
           title: {
@@ -67,6 +58,15 @@ const LineGraph = () => {
             display: false,
           },
           spanGaps: true,
+          scales: {
+            yAxes: [
+              {
+                ticks: {
+                  maxTicksLimit: 6,
+                },
+              },
+            ],
+          },
         }}
       />
     </div>

@@ -7,7 +7,7 @@ import { Paper } from "@material-ui/core";
 
 const PieChart = () => {
   const transactionState = useSelector(transactionsSelector);
-  const totals = transactionState.totals;
+  const totals = transactionState.categoryTotals;
 
   const state = {
     labels: [],
@@ -50,7 +50,7 @@ const PieChart = () => {
       <h4>${totals.All} Total Spent This Month</h4>
 
       <Pie
-        height={150}
+        height={300}
         data={state}
         options={{
           legend: {

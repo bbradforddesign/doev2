@@ -7,7 +7,6 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { goalsSelector } from "../../slices/goals";
 import { transactionsSelector } from "../../slices/transactions";
-
 import { Paper } from "@material-ui/core";
 
 const GoalProgress = (props) => {
@@ -38,7 +37,7 @@ const GoalProgress = (props) => {
   );
 };
 
-const CompoundBar = () => {
+const CompoundBar = (props) => {
   // pull goals from redux store
   const goalState = useSelector(goalsSelector);
   const totals = goalState.totals;
@@ -63,10 +62,20 @@ const CompoundBar = () => {
         width: "18vw",
         margin: "0 1vw 5vh",
         padding: "0 2%",
-        height: "40vh",
       }}
     >
-      <p>Goal Forecast</p>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+          width: "100%",
+        }}
+      >
+        <h3>Goal Forecast</h3>
+        <p>{props.month.format("MM/YYYY")}</p>
+      </div>
       <ul
         style={{
           padding: "0",
@@ -78,16 +87,16 @@ const CompoundBar = () => {
             <p style={{ marginBottom: 2, fontSize: ".85em" }}>
               {e.category}: $
               {e.amount -
-                (transactionState.totals[e.category]
-                  ? transactionState.totals[e.category]
+                (transactionState.categoryTotals[e.category]
+                  ? transactionState.categoryTotals[e.category]
                   : 0)}{" "}
               remaining
             </p>
             <GoalProgress
               max={e.amount}
               current={
-                transactionState.totals[e.category]
-                  ? transactionState.totals[e.category]
+                transactionState.categoryTotals[e.category]
+                  ? transactionState.categoryTotals[e.category]
                   : 0
               }
               label={e.label}

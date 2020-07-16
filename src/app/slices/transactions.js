@@ -1,10 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
+import moment from "moment";
 
 export const initialState = {
   loadingTransactions: false,
   hasErrorsTransactions: false,
-  transactions: [],
-  totals: [],
+  all: [],
+  monthlyTotals: [],
+  monthly: [],
+  categoryTotals: [],
 };
 
 const transactionsSlice = createSlice({
@@ -14,9 +17,15 @@ const transactionsSlice = createSlice({
     getTransactions: (state) => {
       state.loadingTransactions = true;
     },
-    getTransactionsSuccess: (state, { payload }) => {
-      state.transactions = payload.rows;
-      state.totals = payload.categoryTotals;
+    getMonthly: (state, { payload }) => {
+      state.monthly = payload.rows;
+      state.categoryTotals = payload.categoryTotals;
+    },
+    getAll: (state, { payload }) => {
+      state.all = payload.rows;
+      state.monthlyTotals = payload.monthlyTotals;
+    },
+    getTransactionsSuccess: (state) => {
       state.loadingTransactions = false;
       state.hasErrorsTransactions = false;
     },
@@ -31,13 +40,15 @@ export const {
   getTransactions,
   getTransactionsSuccess,
   getTransactionsFailure,
+  getAll,
+  getMonthly,
 } = transactionsSlice.actions;
 
 export const transactionsSelector = (state) => state.transactions;
 
 export default transactionsSlice.reducer;
 
-export function fetchTransactions() {
+export function fetchAll() {
   return async (dispatch) => {
     dispatch(getTransactions());
 
@@ -53,14 +64,16 @@ export function fetchTransactions() {
         }
       );
       const data = await response.json();
-      dispatch(getTransactionsSuccess(data));
+      dispatch(getAll(data));
+      dispatch(getTransactionsSuccess());
     } catch (error) {
+      console.log(error);
       dispatch(getTransactionsFailure());
     }
   };
 }
 
-export function fetchTransactionsInRange(beginning, end) {
+export function fetchMonthly(month) {
   return async (dispatch) => {
     dispatch(getTransactions());
 
@@ -74,13 +87,14 @@ export function fetchTransactionsInRange(beginning, end) {
             "Content-Type": "application/json",
           }),
           body: JSON.stringify({
-            beginning: beginning,
-            end: end,
+            beginning: moment(month).startOf("month"),
+            end: moment(month).endOf("month"),
           }),
         }
       );
       const data = await response.json();
-      dispatch(getTransactionsSuccess(data));
+      dispatch(getMonthly(data));
+      dispatch(getTransactionsSuccess());
     } catch (error) {
       dispatch(getTransactionsFailure());
     }

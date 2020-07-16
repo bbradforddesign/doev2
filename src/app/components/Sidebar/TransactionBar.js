@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import moment from "moment";
-import { Typography, IconButton } from "@material-ui/core";
+import { Typography, IconButton, Button } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 
@@ -18,7 +18,7 @@ const TransactionBar = React.forwardRef((props, ref) => {
       }}
       ref={ref}
     >
-      <Typography variant="h5">Record Transactions</Typography>
+      <Typography variant="h5">{props.month} Expenses</Typography>
       <ul
         style={{
           listStyle: "none",
@@ -63,7 +63,7 @@ const TransactionBar = React.forwardRef((props, ref) => {
                 }}
               >
                 <IconButton>
-                  <EditIcon />
+                  <EditIcon fontSize="small" />
                 </IconButton>
               </Link>
             </div>
@@ -84,20 +84,12 @@ const TransactionBar = React.forwardRef((props, ref) => {
             <hr />
           </li>
         ))}
-        <div
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "center",
-          }}
-        >
-          <Link to="/transaction/new">
-            <IconButton>
-              <AddCircleIcon fontSize="large" />
-            </IconButton>
-          </Link>
-        </div>
       </ul>
+      <Link to="/transaction/new">
+        <IconButton>
+          <AddCircleIcon fontSize="large" />
+        </IconButton>
+      </Link>
     </section>
   );
 });
