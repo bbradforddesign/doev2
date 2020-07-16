@@ -18,7 +18,7 @@ const GoalBar = React.forwardRef((props, ref) => {
       }}
       ref={ref}
     >
-      <Typography variant="h5">Set Goals</Typography>
+      <Typography variant="h5">Goals</Typography>
       <ul
         style={{
           listStyle: "none",

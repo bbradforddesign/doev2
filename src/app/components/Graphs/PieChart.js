@@ -2,10 +2,9 @@ import React from "react";
 import { Pie } from "react-chartjs-2";
 import { useSelector } from "react-redux";
 import { transactionsSelector } from "../../slices/transactions";
+import moment from "moment";
 
-import { Paper } from "@material-ui/core";
-
-const PieChart = () => {
+const PieChart = (props) => {
   const transactionState = useSelector(transactionsSelector);
   const totals = transactionState.categoryTotals;
 
@@ -45,9 +44,9 @@ const PieChart = () => {
 
   // NOTE: need to set text to show data's date range
   return (
-    <div style={{ textAlign: "center", top: 10, bottom: 10 }}>
-      <h2>Expense Report</h2>
-      <h4>${totals.All} Total Spent This Month</h4>
+    <div style={{ textAlign: "center" }}>
+      <h2>{moment(props.month).format("MMMM YYYY")}</h2>
+      <p>${totals.All} spent this month</p>
 
       <Pie
         height={300}

@@ -2,6 +2,7 @@ import React from "react";
 import { Redirect } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser, authSelector } from "../../slices/auth";
+import { Button } from "@material-ui/core";
 
 const Logout = () => {
   // moving auth from localstorage to redux
@@ -15,7 +16,7 @@ const Logout = () => {
   return (
     <div>
       {auth.loggedIn ? (
-        <button onClick={() => handleLogout()}>Logout</button>
+        <Button onClick={() => handleLogout()}>Logout</Button>
       ) : (
         <Redirect to={{ pathname: "/login" }} />
       )}

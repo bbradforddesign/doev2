@@ -1,19 +1,28 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Redirect } from "react-router-dom";
 import {
   fetchMonthly,
   fetchAll,
   transactionsSelector,
 } from "../slices/transactions";
-import { setSidebar, setGraph, uiSelector } from "../slices/ui";
+import {
+  setSidebar,
+  setGraph,
+  uiSelector,
+  incMonth,
+  decMonth,
+  resetMonth,
+} from "../slices/ui";
 import { fetchGoals, goalsSelector } from "../slices/goals";
 import { authSelector } from "../slices/auth";
-import { Button, ButtonGroup, Box, Paper } from "@material-ui/core";
+import { Button, IconButton, ButtonGroup, Box, Paper } from "@material-ui/core";
+import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
+import ArrowBackIcon from "@material-ui/icons/ArrowBack";
+import ReplayIcon from "@material-ui/icons/Replay";
 import { makeStyles } from "@material-ui/core/styles";
 import TransactionBar from "./Sidebar/TransactionBar";
 import GoalBar from "./Sidebar/GoalBar";
-
-import moment from "moment";
 
 import LineGraph from "./Graphs/LineGraph";
 import PieChart from "./Graphs/PieChart";
@@ -37,7 +46,6 @@ const useStyles = makeStyles({
     alignItems: "center",
   },
   graphBox: {
-    width: "40vw",
     margin: "0 5%",
     padding: "2%",
     display: "flex",
@@ -46,39 +54,61 @@ const useStyles = makeStyles({
     alignItems: "center",
   },
   toggleGroup: {
-    marginTop: "5%",
+    margin: "5%",
   },
 });
 
 const Main = () => {
-  const [month, setMonth] = useState(moment());
-
   const classes = useStyles();
 
   // Redux
   const dispatch = useDispatch();
-  const { monthly, loadingTransactions, hasErrorsTransactions } = useSelector(
-    transactionsSelector
-  );
+  const {
+    monthly,
+    hasErrorsTransactions,
+    loadingTransactions,
+    responseCode,
+  } = useSelector(transactionsSelector);
   const active = useSelector(uiSelector);
-  const { goals, loading, hasErrors } = useSelector(goalsSelector);
+  const { goals, hasErrors } = useSelector(goalsSelector);
   const auth = useSelector(authSelector);
 
   // on mount, fetch transactions to render
   useEffect(() => {
     if (auth.loggedIn === true) {
-      dispatch(fetchMonthly(month));
+      dispatch(fetchMonthly(active.month));
       dispatch(fetchGoals());
       dispatch(fetchAll());
     }
-  }, [dispatch, auth, month]);
+  }, [dispatch, auth, active.month]);
 
   const renderTransactions = () => {
-    if (loadingTransactions) return <p>Loading Transactions</p>;
-    if (hasErrorsTransactions) return <p>Unable to Retrieve Transactions</p>;
-    if (loading) return <p>Loading Goals</p>;
-    if (hasErrors) return <p>Unable to Retrieve Goals</p>;
-
+    if (responseCode !== 200) {
+      return (
+        <Box
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            width: "100vw",
+            height: "80vh",
+          }}
+        >
+          <h1>Error {responseCode} :(</h1>
+          {responseCode === 400 ? (
+            <p>
+              Your session has expired. Please log out and sign back in to keep
+              working!
+            </p>
+          ) : (
+            <p>
+              An error has occurred with our system. Please try again later!
+            </p>
+          )}
+        </Box>
+      );
+    }
     return (
       <>
         {monthly && (
@@ -86,32 +116,36 @@ const Main = () => {
             <Paper className={classes.sidebar}>
               {active.sidebar === "transactions" ? (
                 // should filter by current month
-                <TransactionBar
-                  transactions={monthly}
-                  month={month.format("MM/YYYY")}
-                />
+                <TransactionBar transactions={monthly} month={active.month} />
               ) : (
                 <GoalBar goals={goals} />
               )}
               <ButtonGroup className={classes.toggleGroup}>
                 <Button
                   variant={
-                    active.active === "transactions" ? "contained" : "outlined"
+                    active.sidebar === "transactions" ? "contained" : "outlined"
                   }
                   onClick={() => dispatch(setSidebar("transactions"))}
                 >
                   Transactions
                 </Button>
                 <Button
-                  variant={active.active === "goals" ? "contained" : "outlined"}
+                  variant={
+                    active.sidebar === "goals" ? "contained" : "outlined"
+                  }
                   onClick={() => dispatch(setSidebar("goals"))}
                 >
                   Goals
                 </Button>
               </ButtonGroup>
             </Paper>
+
             <Paper className={classes.graphBox}>
-              {active.graph === "pie" ? <PieChart /> : <LineGraph />}
+              {active.graph === "pie" ? (
+                <PieChart month={active.month} />
+              ) : (
+                <LineGraph />
+              )}
               <ButtonGroup className={classes.toggleGroup}>
                 <Button onClick={() => dispatch(setGraph("pie"))}>
                   Current
@@ -120,24 +154,26 @@ const Main = () => {
                   Trends
                 </Button>
               </ButtonGroup>
+              <ButtonGroup>
+                <IconButton onClick={() => dispatch(decMonth(active.month))}>
+                  <ArrowBackIcon fontSize="large" />
+                </IconButton>
+                <IconButton onClick={() => dispatch(resetMonth())}>
+                  <ReplayIcon fontSize="large" />
+                </IconButton>
+                <IconButton onClick={() => dispatch(incMonth(active.month))}>
+                  <ArrowForwardIcon fontSize="large" />
+                </IconButton>
+              </ButtonGroup>
             </Paper>
-            <CompoundBar month={month} />
-            <Button
-              onClick={() => setMonth(moment(month).subtract(1, "months"))}
-            >
-              Back
-            </Button>
-            <Button onClick={() => setMonth(moment())}>Current</Button>
-            <Button onClick={() => setMonth(moment(month).add(1, "months"))}>
-              Forward
-            </Button>
+            <CompoundBar month={active.month} />
           </Box>
         )}
       </>
     );
   };
 
-  return <>{auth.loggedIn ? renderTransactions() : <p>Please log in.</p>}</>;
+  return <>{auth.loggedIn ? renderTransactions() : <Redirect to="/login" />}</>;
 };
 
 export default Main;

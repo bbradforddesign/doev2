@@ -8,6 +8,7 @@ import { useSelector } from "react-redux";
 import { goalsSelector } from "../../slices/goals";
 import { transactionsSelector } from "../../slices/transactions";
 import { Paper } from "@material-ui/core";
+import moment from "moment";
 
 const GoalProgress = (props) => {
   return (
@@ -74,7 +75,6 @@ const CompoundBar = (props) => {
         }}
       >
         <h3>Goal Forecast</h3>
-        <p>{props.month.format("MM/YYYY")}</p>
       </div>
       <ul
         style={{

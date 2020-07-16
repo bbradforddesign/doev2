@@ -18,7 +18,7 @@ const TransactionBar = React.forwardRef((props, ref) => {
       }}
       ref={ref}
     >
-      <Typography variant="h5">{props.month} Expenses</Typography>
+      <Typography variant="h5">Expenses</Typography>
       <ul
         style={{
           listStyle: "none",

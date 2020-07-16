@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { logoutUser, authSelector } from "./slices/auth";
 
 // component imports
-import { Container } from "@material-ui/core";
+import { Container, Button } from "@material-ui/core";
 import Logout from "./components/Login/Logout";
 import LoginForm from "./components/Forms/LoginForm";
 import Main from "./components/Main";
@@ -25,7 +25,7 @@ const App = () => {
 
   return (
     <Router>
-      <Container style={{ backgroundColor: "#F6F6F6" }}>
+      <Container>
         <nav
           style={{
             display: "flex",
@@ -36,16 +36,15 @@ const App = () => {
         >
           <div style={{ flex: 1 }}>
             <h1>Doe</h1>
-            <h3>
-              <em>Save Bucks, Use Doe</em>
-            </h3>
           </div>
           {auth.loggedIn ? (
             <>
               <Logout />
             </>
           ) : (
-            <Link to="/login">Login</Link>
+            <Link to="/login" style={{ textDecoration: "none" }}>
+              <Button>Login</Button>
+            </Link>
           )}
         </nav>
         <div>

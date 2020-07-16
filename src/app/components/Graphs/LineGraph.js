@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Line } from "react-chartjs-2";
 import moment from "moment";
 import { useSelector } from "react-redux";
@@ -14,9 +14,13 @@ const LineGraph = () => {
   for (const month in monthlyTotals) {
     toSort.push([month, monthlyTotals[month]]);
   }
-  const sortedMonths = toSort.sort(
-    (a, b) => new moment(a[0]) - new moment(b[0])
+
+  const toSlice = toSort.sort(
+    (a, b) => moment(a[0], "MM YY") - moment(b[0], "MM YY")
   );
+
+  const sortedMonths =
+    toSlice.length > 12 ? toSlice.slice(toSlice.length - 12) : toSlice;
 
   const state = {
     labels: [],
@@ -42,17 +46,15 @@ const LineGraph = () => {
     <div
       style={{
         padding: "2%",
-        marginTop: "2vh",
       }}
     >
+      <h2 style={{ textAlign: "center" }}>Monthly Trends</h2>
       <Line
         height={385}
         data={state}
         options={{
           title: {
-            display: true,
-            text: "Monthly Trends",
-            fontSize: 20,
+            display: false,
           },
           legend: {
             display: false,

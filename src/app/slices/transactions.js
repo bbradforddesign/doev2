@@ -4,6 +4,7 @@ import moment from "moment";
 export const initialState = {
   loadingTransactions: false,
   hasErrorsTransactions: false,
+  responseCode: "",
   all: [],
   monthlyTotals: [],
   monthly: [],
@@ -25,6 +26,9 @@ const transactionsSlice = createSlice({
       state.all = payload.rows;
       state.monthlyTotals = payload.monthlyTotals;
     },
+    setCode: (state, { payload }) => {
+      state.responseCode = payload;
+    },
     getTransactionsSuccess: (state) => {
       state.loadingTransactions = false;
       state.hasErrorsTransactions = false;
@@ -42,6 +46,7 @@ export const {
   getTransactionsFailure,
   getAll,
   getMonthly,
+  setCode,
 } = transactionsSlice.actions;
 
 export const transactionsSelector = (state) => state.transactions;
@@ -51,7 +56,6 @@ export default transactionsSlice.reducer;
 export function fetchAll() {
   return async (dispatch) => {
     dispatch(getTransactions());
-
     try {
       const response = await fetch(
         "http://localhost:3001/api/v1/transactions/all",
@@ -64,10 +68,10 @@ export function fetchAll() {
         }
       );
       const data = await response.json();
+      dispatch(setCode(response.status));
       dispatch(getAll(data));
       dispatch(getTransactionsSuccess());
     } catch (error) {
-      console.log(error);
       dispatch(getTransactionsFailure());
     }
   };
@@ -76,7 +80,6 @@ export function fetchAll() {
 export function fetchMonthly(month) {
   return async (dispatch) => {
     dispatch(getTransactions());
-
     try {
       const response = await fetch(
         "http://localhost:3001/api/v1/transactions/range",
@@ -93,6 +96,7 @@ export function fetchMonthly(month) {
         }
       );
       const data = await response.json();
+      dispatch(setCode(response.status));
       dispatch(getMonthly(data));
       dispatch(getTransactionsSuccess());
     } catch (error) {
