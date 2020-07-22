@@ -90,9 +90,9 @@ const TransactionForm = (props) => {
     }
   }, [routerProps]);
 
-  // redirects to main page
+  // redirects to current page
   const handleSubmit = () => {
-    props.history.replace("/main");
+    props.history.replace("/current");
     window.location.reload();
   };
 
@@ -183,7 +183,7 @@ const TransactionForm = (props) => {
         >
           <Link
             to={{
-              pathname: "/main",
+              pathname: "/current",
             }}
             className={classes.buttonLink}
           >

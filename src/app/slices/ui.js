@@ -3,7 +3,7 @@ import moment from "moment";
 
 export const initialState = {
   sidebar: "transactions",
-  graph: "pie",
+  viewSide: true,
   month: moment().format("YYYY-MM-DD"),
 };
 
@@ -14,16 +14,16 @@ const uiSlice = createSlice({
     loadSidebar: (state, { payload }) => {
       state.sidebar = payload;
     },
-    loadGraph: (state, { payload }) => {
-      state.graph = payload;
-    },
     loadMonth: (state, { payload }) => {
       state.month = payload;
+    },
+    loadSide: (state) => {
+      state.viewSide = !state.viewSide;
     },
   },
 });
 
-export const { loadSidebar, loadGraph, loadMonth } = uiSlice.actions;
+export const { loadSidebar, loadMonth, loadSide } = uiSlice.actions;
 
 export const uiSelector = (state) => state.ui;
 
@@ -32,12 +32,6 @@ export default uiSlice.reducer;
 export function setSidebar(barName) {
   return (dispatch) => {
     dispatch(loadSidebar(barName));
-  };
-}
-
-export function setGraph(graphName) {
-  return (dispatch) => {
-    dispatch(loadGraph(graphName));
   };
 }
 

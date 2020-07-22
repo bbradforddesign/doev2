@@ -3,6 +3,7 @@ import { Line } from "react-chartjs-2";
 import moment from "moment";
 import { useSelector } from "react-redux";
 import { transactionsSelector } from "../../slices/transactions";
+import { Typography } from "@material-ui/core";
 
 const LineGraph = () => {
   const transactionState = useSelector(transactionsSelector);
@@ -46,11 +47,18 @@ const LineGraph = () => {
     <div
       style={{
         padding: "2%",
+        height: "75vh",
+        width: "90vw",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        alignItems: "center",
       }}
     >
-      <h2 style={{ textAlign: "center" }}>Monthly Trends</h2>
+      <Typography variant="h2">Progress</Typography>
       <Line
-        height={385}
+        width={550}
+        height={230}
         data={state}
         options={{
           title: {

@@ -83,9 +83,9 @@ const GoalForm = (props) => {
     }
   }, [routerProps]);
 
-  // redirects to main page; need to add props to keep sidebar open persistently.
+  // redirects to current page; need to add props to keep sidebar open persistently.
   const handleSubmit = () => {
-    props.history.replace("/main");
+    props.history.replace("/current");
     window.location.reload();
   };
 
@@ -162,7 +162,7 @@ const GoalForm = (props) => {
         >
           <Link
             to={{
-              pathname: "/main",
+              pathname: "/current",
             }}
             className={classes.buttonLink}
           >

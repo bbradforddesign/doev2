@@ -1,16 +1,16 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import "./App.css";
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser, authSelector } from "./slices/auth";
 
 // component imports
-import { Container, Button } from "@material-ui/core";
+import { Container, Button, ButtonGroup } from "@material-ui/core";
 import Logout from "./components/Login/Logout";
 import LoginForm from "./components/Forms/LoginForm";
 import Main from "./components/Main";
 import TransactionForm from "./components/Forms/TransactionForm";
 import GoalForm from "./components/Forms/GoalForm";
+import LineGraph from "./components/Graphs/LineGraph";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -32,10 +32,21 @@ const App = () => {
             flexDirection: "row",
             alignItems: "center",
             width: "100%",
+            justifyContent: "space-between",
+            backgroundColor: "rgba(240,240,240)",
+            height: "5vh",
+            padding: "0 1%",
+            margin: "2vh 0",
           }}
         >
-          <div style={{ flex: 1 }}>
-            <h1>Doe</h1>
+          <h1>Doe</h1>
+          <div>
+            <Link to="/current" style={{ textDecoration: "none" }}>
+              <Button>Current</Button>
+            </Link>
+            <Link to="/progress" style={{ textDecoration: "none" }}>
+              <Button>Progress</Button>
+            </Link>
           </div>
           {auth.loggedIn ? (
             <>
@@ -58,7 +69,7 @@ const App = () => {
               <Route path="/login">
                 <LoginForm />
               </Route>
-              <Route path="/main" render={(props) => <Main {...props} />} />
+              <Route path="/current" render={(props) => <Main {...props} />} />
               <Route path="/transaction/new">
                 <TransactionForm />
               </Route>
@@ -73,6 +84,9 @@ const App = () => {
                 path="/goal/edit"
                 render={(props) => <GoalForm {...props} />}
               />
+              <Route path="/progress">
+                <LineGraph />
+              </Route>
             </Switch>
           </div>
         </div>
