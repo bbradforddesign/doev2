@@ -7,19 +7,36 @@ import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import ReplayIcon from "@material-ui/icons/Replay";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
 
+import { makeStyles } from "@material-ui/core/styles";
+
+// styling and breakpoints
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: "flex",
+
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: "#02A887",
+
+    [theme.breakpoints.down("sm")]: {
+      flexDirection: "row",
+    },
+    [theme.breakpoints.between("sm", "md")]: {
+      flexDirection: "column",
+    },
+    [theme.breakpoints.up("lg")]: {
+      flexDirection: "column",
+    },
+  },
+}));
+
 const MonthNav = () => {
+  const classes = useStyles();
+
   const active = useSelector(uiSelector);
   const dispatch = useDispatch();
   return (
-    <Paper
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between",
-        alignItems: "center",
-        backgroundColor: "#02A887",
-      }}
-    >
+    <Paper className={classes.root}>
       <Typography variant="h3" align="center">
         {moment(active.month).format("MMM YYYY")}
       </Typography>

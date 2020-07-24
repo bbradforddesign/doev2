@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { Box, Paper, Button, ButtonGroup, Typography } from "@material-ui/core";
+import { Box, Button, ButtonGroup, Typography } from "@material-ui/core";
 
 import { makeStyles } from "@material-ui/core/styles";
 import TransactionBar from "./Sidebar/TransactionBar";
@@ -10,16 +10,25 @@ import { setSidebar, uiSelector } from "../slices/ui";
 import { transactionsSelector, fetchMonthly } from "../slices/transactions";
 import { goalsSelector, fetchGoals } from "../slices/goals";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles((theme) => ({
   sidebar: {
-    height: "80%",
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    width: "280px",
     paddingTop: "2%",
+    [theme.breakpoints.down("sm")]: {
+      width: "400px",
+    },
+    [theme.breakpoints.between("sm", "md")]: {
+      width: "280px",
+      height: "70%",
+    },
+    [theme.breakpoints.up("lg")]: {
+      width: "300px",
+      height: "80%",
+    },
   },
-});
+}));
 
 const Sidebar = () => {
   const classes = useStyles();

@@ -4,24 +4,30 @@ import { Typography, IconButton } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 
+import { makeStyles } from "@material-ui/core/styles";
+
+// styling and breakpoints
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    padding: "3% 0",
+    width: "100%",
+  },
+}));
+
 const GoalBar = (props) => {
+  const classes = useStyles();
+
   return (
-    <section
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "flex-start",
-        width: "80%",
-        maxWidth: "300px",
-        padding: "3% 0",
-      }}
-    >
+    <section className={classes.root}>
       <ul
         style={{
           listStyle: "none",
           height: "50vh",
-          width: "100%",
+          width: "80%",
           overflow: "hidden",
           overflowY: "scroll",
           padding: 0,

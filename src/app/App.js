@@ -64,7 +64,7 @@ const App = () => {
   const useStyles = makeStyles((theme) => ({
     root: {
       display: "flex",
-
+      marginBottom: "2px",
       justifyContent: "space-between",
       width: "100%",
       height: "80vh",
@@ -115,6 +115,29 @@ const App = () => {
         {monthly && (
           <>
             <div>
+              <BottomNavigation
+                value={value}
+                onChange={(event, newValue) => {
+                  setValue(newValue);
+                }}
+                showLabels
+              >
+                <BottomNavigationAction
+                  label="Record"
+                  component={Link}
+                  to="/record"
+                />
+                <BottomNavigationAction
+                  label="Current"
+                  component={Link}
+                  to="/current"
+                />
+                <BottomNavigationAction
+                  label="Trends"
+                  component={Link}
+                  to="/trends"
+                />
+              </BottomNavigation>
               <div className={classes.root}>
                 <MonthNav />
                 <Switch>
@@ -144,30 +167,6 @@ const App = () => {
                 </Switch>
               </div>
             </div>
-            <BottomNavigation
-              value={value}
-              onChange={(event, newValue) => {
-                setValue(newValue);
-              }}
-              showLabels
-              style={{ marginTop: "2%" }}
-            >
-              <BottomNavigationAction
-                label="Record"
-                component={Link}
-                to="/record"
-              />
-              <BottomNavigationAction
-                label="Current"
-                component={Link}
-                to="/current"
-              />
-              <BottomNavigationAction
-                label="Trends"
-                component={Link}
-                to="/trends"
-              />
-            </BottomNavigation>
           </>
         )}
       </>

@@ -1,13 +1,28 @@
-/**
- * TODO:
- *
- * Need to generate 'health bars' for each goal, to display how much funds remain for each category.
- */
 import React from "react";
 import { useSelector } from "react-redux";
 import { goalsSelector } from "../../slices/goals";
 import { transactionsSelector } from "../../slices/transactions";
-import { Typography, Paper } from "@material-ui/core";
+import { Typography } from "@material-ui/core";
+
+import { makeStyles } from "@material-ui/core/styles";
+
+// styling and breakpoints
+const useStyles = makeStyles((theme) => ({
+  root: {
+    width: "60%",
+    padding: "2%",
+
+    [theme.breakpoints.down("sm")]: {
+      width: "90%",
+    },
+    [theme.breakpoints.between("sm", "md")]: {
+      width: "80%",
+    },
+    [theme.breakpoints.up("lg")]: {
+      width: "80%",
+    },
+  },
+}));
 
 const GoalProgress = (props) => {
   return (
@@ -56,29 +71,18 @@ const CompoundBar = () => {
     }
   }
 
+  const classes = useStyles();
+
   return (
-    <div style={{ width: "60%", padding: "2%" }}>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "space-between",
-          alignItems: "center",
-          width: "100%",
-        }}
-      >
-        <Typography variant="h4">Progress</Typography>
-        <Typography variant="h5">
-          Total Spent: ${Number.parseFloat(currentTotal.All).toFixed(2)}
-        </Typography>
-      </div>
+    <div className={classes.root}>
+      <Typography variant="h4">Progress</Typography>
 
       <ul
         style={{
           padding: 0,
           listStyle: "none",
           width: "100%",
-          height: "90%",
+          height: "60%",
           overflow: "hidden",
           overflowY: "scroll",
         }}
@@ -106,6 +110,9 @@ const CompoundBar = () => {
           </li>
         ))}
       </ul>
+      <Typography variant="h5">
+        Total Spent: ${Number.parseFloat(currentTotal.All).toFixed(2)}
+      </Typography>
     </div>
   );
 };
