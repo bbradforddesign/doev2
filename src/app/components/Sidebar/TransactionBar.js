@@ -1,29 +1,28 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import moment from "moment";
-import { Typography, IconButton, Button } from "@material-ui/core";
+import { Typography, IconButton } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 
-const TransactionBar = React.forwardRef((props, ref) => {
+const TransactionBar = (props) => {
   return (
     <section
       style={{
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
+        justifyContent: "flex-start",
         width: "100%",
         maxWidth: "300px",
         padding: "3% 0",
       }}
-      ref={ref}
     >
-      <Typography variant="h5">Expenses</Typography>
       <ul
         style={{
           listStyle: "none",
           height: "50vh",
-          width: "100%",
+          width: "80%",
           overflow: "hidden",
           overflowY: "scroll",
           padding: 0,
@@ -92,6 +91,6 @@ const TransactionBar = React.forwardRef((props, ref) => {
       </Link>
     </section>
   );
-});
+};
 
 export default TransactionBar;

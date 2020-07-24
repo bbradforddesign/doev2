@@ -7,7 +7,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { goalsSelector } from "../../slices/goals";
 import { transactionsSelector } from "../../slices/transactions";
-import { Typography } from "@material-ui/core";
+import { Typography, Paper } from "@material-ui/core";
 
 const GoalProgress = (props) => {
   return (
@@ -57,27 +57,39 @@ const CompoundBar = () => {
   }
 
   return (
-    <div
-      style={{
-        width: "100%",
-      }}
-    >
+    <div style={{ width: "60%", padding: "2%" }}>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+          width: "100%",
+        }}
+      >
+        <Typography variant="h4">Progress</Typography>
+        <Typography variant="h5">
+          Total Spent: ${Number.parseFloat(currentTotal.All).toFixed(2)}
+        </Typography>
+      </div>
+
       <ul
         style={{
           padding: 0,
           listStyle: "none",
-          margin: "0 0 10%",
           width: "100%",
+          height: "90%",
+          overflow: "hidden",
+          overflowY: "scroll",
         }}
       >
         {bars.map((e) => (
-          <li key={e.category}>
+          <li key={e.category} style={{ margin: "2% 2% 0 0" }}>
             <div
               style={{
                 display: "flex",
                 flexDirection: "row",
                 justifyContent: "space-between",
-                marginTop: "2%",
               }}
             >
               <Typography variant="h5">{e.category}</Typography>
@@ -94,16 +106,6 @@ const CompoundBar = () => {
           </li>
         ))}
       </ul>
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "row",
-          justifyContent: "center",
-          width: "100%",
-        }}
-      >
-        <Typography variant="h5">Total Spent: ${currentTotal.All}</Typography>
-      </div>
     </div>
   );
 };

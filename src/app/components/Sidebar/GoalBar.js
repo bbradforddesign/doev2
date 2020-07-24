@@ -1,24 +1,22 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import moment from "moment";
 import { Typography, IconButton } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 
-const GoalBar = React.forwardRef((props, ref) => {
+const GoalBar = (props) => {
   return (
     <section
       style={{
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        width: "100%",
+        justifyContent: "flex-start",
+        width: "80%",
         maxWidth: "300px",
         padding: "3% 0",
       }}
-      ref={ref}
     >
-      <Typography variant="h5">Goals</Typography>
       <ul
         style={{
           listStyle: "none",
@@ -34,19 +32,12 @@ const GoalBar = React.forwardRef((props, ref) => {
             <div
               style={{
                 display: "flex",
-                flexDirection: "row",
+                flexDirection: "row-reverse",
                 alignItems: "flex-start",
                 justifyContent: "space-between",
                 marginBottom: "5%",
               }}
             >
-              <Typography
-                variant="caption"
-                textAlign="left"
-                style={{ alignSelf: "center" }}
-              >
-                <strong>{e.category}</strong>
-              </Typography>
               <Link
                 to={{
                   pathname: "/goal/edit",
@@ -75,7 +66,7 @@ const GoalBar = React.forwardRef((props, ref) => {
                 marginRight: "5%",
               }}
             >
-              <Typography variant="subtitle1">{e.description}</Typography>
+              <Typography variant="subtitle1">{e.category}</Typography>
               <Typography variant="subtitle1">
                 <strong>${e.amount}</strong>
               </Typography>
@@ -91,6 +82,6 @@ const GoalBar = React.forwardRef((props, ref) => {
       </Link>
     </section>
   );
-});
+};
 
 export default GoalBar;

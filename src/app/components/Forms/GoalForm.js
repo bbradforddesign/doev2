@@ -45,23 +45,16 @@ const GoalForm = (props) => {
   const [item, setItem] = useState({
     category: "",
     amount: 0,
-    description: "",
     date: moment().format("YYYY/MM/DD"),
   });
 
   const routerProps = props.location.props;
 
   const handleCreate = () => {
-    apiMethods.Create(item.category, item.amount, item.date, item.description);
+    apiMethods.Create(item.category, item.amount, item.date);
   };
   const handleUpdate = () => {
-    apiMethods.Update(
-      routerProps.id,
-      item.category,
-      item.amount,
-      item.date,
-      item.description
-    );
+    apiMethods.Update(routerProps.id, item.category, item.amount, item.date);
   };
   const handleDelete = () => {
     apiMethods.Delete(routerProps.id);
@@ -78,14 +71,13 @@ const GoalForm = (props) => {
       setItem({
         category: routerProps.category,
         amount: routerProps.amount,
-        description: routerProps.description,
       });
     }
   }, [routerProps]);
 
   // redirects to current page; need to add props to keep sidebar open persistently.
   const handleSubmit = () => {
-    props.history.replace("/current");
+    props.history.replace("/record");
     window.location.reload();
   };
 
@@ -130,16 +122,6 @@ const GoalForm = (props) => {
             </MenuItem>
           ))}
         </TextField>
-        <TextField
-          variant="outlined"
-          label="Description"
-          name="description"
-          onChange={handleItem}
-          placeholder={"Description"}
-          defaultValue={routerProps && routerProps.description}
-          margin="normal"
-          fullWidth={true}
-        />
         <TextField
           variant="outlined"
           label="Amount"

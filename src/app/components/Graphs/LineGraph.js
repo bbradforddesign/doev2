@@ -3,7 +3,7 @@ import { Line } from "react-chartjs-2";
 import moment from "moment";
 import { useSelector } from "react-redux";
 import { transactionsSelector } from "../../slices/transactions";
-import { Typography } from "@material-ui/core";
+import { Paper, Typography } from "@material-ui/core";
 
 const LineGraph = () => {
   const transactionState = useSelector(transactionsSelector);
@@ -44,18 +44,15 @@ const LineGraph = () => {
   });
 
   return (
-    <div
+    <Paper
       style={{
         padding: "2%",
-        height: "75vh",
-        width: "90vw",
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "space-between",
-        alignItems: "center",
+        width: "100%",
       }}
     >
-      <Typography variant="h2">Progress</Typography>
+      <Typography variant="h2" align="center" style={{ marginBottom: "2%" }}>
+        Trends
+      </Typography>
       <Line
         width={550}
         height={230}
@@ -73,13 +70,14 @@ const LineGraph = () => {
               {
                 ticks: {
                   maxTicksLimit: 6,
+                  min: 0,
                 },
               },
             ],
           },
         }}
       />
-    </div>
+    </Paper>
   );
 };
 

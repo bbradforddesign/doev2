@@ -1,4 +1,5 @@
 import React from "react";
+import { Paper, Typography } from "@material-ui/core";
 import { Doughnut } from "react-chartjs-2";
 import { useSelector } from "react-redux";
 import { transactionsSelector } from "../../slices/transactions";
@@ -43,9 +44,17 @@ const PieChart = () => {
 
   // NOTE: need to set text to show data's date range
   return (
-    <>
+    <Paper
+      style={{
+        padding: "2%",
+        width: "100%",
+      }}
+    >
+      <Typography variant="h2" align="center" style={{ marginBottom: "2%" }}>
+        Current
+      </Typography>
       <Doughnut
-        height={220}
+        height={120}
         data={state}
         options={{
           legend: {
@@ -54,7 +63,7 @@ const PieChart = () => {
           },
         }}
       />
-    </>
+    </Paper>
   );
 };
 

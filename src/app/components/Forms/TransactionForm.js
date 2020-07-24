@@ -92,7 +92,7 @@ const TransactionForm = (props) => {
 
   // redirects to current page
   const handleSubmit = () => {
-    props.history.replace("/current");
+    props.history.replace("/record");
     window.location.reload();
   };
 
