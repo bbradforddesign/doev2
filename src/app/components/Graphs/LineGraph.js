@@ -75,52 +75,62 @@ const LineGraph = () => {
 
   return (
     <Box className={classes.root}>
-      <div>
-        <Typography variant="h2" align="center" style={{ marginBottom: "2%" }}>
-          Trends
-        </Typography>
-        <div className={classes.chart}>
-          <Line
-            data={state}
-            options={{
-              responsive: true,
-              maintainAspectRatio: true,
-              title: {
-                display: false,
-              },
-              legend: {
-                display: false,
-              },
-              spanGaps: true,
-              scales: {
-                yAxes: [
-                  {
-                    ticks: {
-                      maxTicksLimit: 6,
-                      min: 0,
-                    },
+      {maxes.length > 0 ? (
+        <>
+          <div>
+            <Typography
+              variant="h2"
+              align="center"
+              style={{ marginBottom: "2%" }}
+            >
+              Trends
+            </Typography>
+            <div className={classes.chart}>
+              <Line
+                data={state}
+                options={{
+                  responsive: true,
+                  maintainAspectRatio: true,
+                  title: {
+                    display: false,
                   },
-                ],
-              },
-            }}
-          />
-        </div>
-      </div>
-      <div style={{ marginTop: "1px" }}>
-        <Typography variant="subtitle2" align="right">
-          Average month: $
-          {(maxes.reduce((i, e) => i + e) / maxes.length).toFixed(2)}
-        </Typography>
-        <Typography variant="subtitle2" align="right">
-          12 month total: ${maxes.reduce((i, e) => i + e).toFixed(2)}
-        </Typography>
-        <Typography variant="subtitle2" align="right">
-          Highest month: ${Math.max(...maxes)}
-        </Typography>
-        <Typography variant="subtitle2" align="right">
-          Lowest month: ${Math.min(...maxes)}
-        </Typography>
-      </div>
+                  legend: {
+                    display: false,
+                  },
+                  spanGaps: true,
+                  scales: {
+                    yAxes: [
+                      {
+                        ticks: {
+                          maxTicksLimit: 6,
+                          min: 0,
+                        },
+                      },
+                    ],
+                  },
+                }}
+              />
+            </div>
+          </div>
+          <div style={{ marginTop: "1px" }}>
+            <Typography variant="subtitle2" align="right">
+              Total: ${maxes.reduce((i, e) => i + e).toFixed(2)}
+            </Typography>
+            <Typography variant="subtitle2" align="right">
+              Max: ${Math.max(...maxes).toFixed(2)}
+            </Typography>
+            <Typography variant="subtitle2" align="right">
+              Min: ${Math.min(...maxes).toFixed(2)}
+            </Typography>
+            <Typography variant="subtitle2" align="right">
+              Average: $
+              {(maxes.reduce((i, e) => i + e) / maxes.length).toFixed(2)}
+            </Typography>
+          </div>
+        </>
+      ) : (
+        <Typography variant="h3">No transactions recorded.</Typography>
+      )}
     </Box>
   );
 };

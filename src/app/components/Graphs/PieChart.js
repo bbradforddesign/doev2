@@ -92,24 +92,34 @@ const PieChart = () => {
 
   return (
     <Box className={classes.root}>
-      <div className={classes.content}>
-        <CompoundBar month={active.month} />
-      </div>
-      <div className={classes.chart}>
-        <Typography variant="h2" align="center" style={{ marginBottom: "2%" }}>
-          Current
-        </Typography>
-        <Doughnut
-          height={240}
-          data={state}
-          options={{
-            legend: {
-              display: true,
-              position: "bottom",
-            },
-          }}
-        />
-      </div>
+      {state.labels.length > 0 ? (
+        <>
+          <div className={classes.content}>
+            <CompoundBar month={active.month} />
+          </div>
+          <div className={classes.chart}>
+            <Typography
+              variant="h2"
+              align="center"
+              style={{ marginBottom: "2%" }}
+            >
+              Current
+            </Typography>
+            <Doughnut
+              height={240}
+              data={state}
+              options={{
+                legend: {
+                  display: true,
+                  position: "bottom",
+                },
+              }}
+            />
+          </div>{" "}
+        </>
+      ) : (
+        <Typography variant="h3">No transactions recorded.</Typography>
+      )}
     </Box>
   );
 };

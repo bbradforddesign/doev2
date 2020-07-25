@@ -64,17 +64,25 @@ export function logoutUser() {
 
 export function registerUser(u, p) {
   return async (dispatch) => {
-    await fetch(`http://localhost:3001/api/v1/users`, {
-      method: "post",
-      credentials: "include",
-      headers: new Headers({
-        "Content-Type": "application/json",
-      }),
-      body: JSON.stringify({
-        username: u,
-        password: p,
-      }),
-    });
-    dispatch(setAuth());
+    try {
+      const response = await fetch(`http://localhost:3001/api/v1/users`, {
+        method: "post",
+        credentials: "include",
+        headers: new Headers({
+          "Content-Type": "application/json",
+        }),
+        body: JSON.stringify({
+          username: u,
+          password: p,
+        }),
+      });
+      if (response.status === 200) {
+        dispatch(setAuth());
+      } else {
+        window.alert("Username already taken.");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 }
