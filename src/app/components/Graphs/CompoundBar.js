@@ -11,9 +11,10 @@ const useStyles = makeStyles((theme) => ({
   root: {
     width: "60%",
     padding: "2%",
+    height: "60vh",
 
     [theme.breakpoints.down("sm")]: {
-      width: "90%",
+      width: "100%",
     },
     [theme.breakpoints.between("sm", "md")]: {
       width: "80%",
@@ -82,7 +83,7 @@ const CompoundBar = () => {
           padding: 0,
           listStyle: "none",
           width: "100%",
-          height: "60%",
+          height: "80%",
           overflow: "hidden",
           overflowY: "scroll",
         }}

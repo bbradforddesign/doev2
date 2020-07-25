@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import moment from "moment";
 import { uiSelector, incMonth, decMonth, resetMonth } from "../../slices/ui";
-import { Typography, ButtonGroup, IconButton, Paper } from "@material-ui/core";
+import { Typography, ButtonGroup, IconButton, Box } from "@material-ui/core";
 import ArrowBackIcon from "@material-ui/icons/ArrowBack";
 import ReplayIcon from "@material-ui/icons/Replay";
 import ArrowForwardIcon from "@material-ui/icons/ArrowForward";
@@ -13,20 +13,13 @@ import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
-
     justifyContent: "space-between",
     alignItems: "center",
-    backgroundColor: "#02A887",
-
-    [theme.breakpoints.down("sm")]: {
-      flexDirection: "row",
-    },
-    [theme.breakpoints.between("sm", "md")]: {
-      flexDirection: "column",
-    },
-    [theme.breakpoints.up("lg")]: {
-      flexDirection: "column",
-    },
+    backgroundColor: "#DDD",
+    flexDirection: "column",
+    marginBottom: "5vh",
+    padding: "2%",
+    width: "120px",
   },
 }));
 
@@ -36,11 +29,11 @@ const MonthNav = () => {
   const active = useSelector(uiSelector);
   const dispatch = useDispatch();
   return (
-    <Paper className={classes.root}>
+    <Box className={classes.root}>
       <Typography variant="h3" align="center">
         {moment(active.month).format("MMM YYYY")}
       </Typography>
-      <ButtonGroup>
+      <ButtonGroup orientation="vertical">
         <IconButton onClick={() => dispatch(decMonth(active.month))}>
           <ArrowBackIcon fontSize="large" />
         </IconButton>
@@ -51,7 +44,7 @@ const MonthNav = () => {
           <ArrowForwardIcon fontSize="large" />
         </IconButton>
       </ButtonGroup>
-    </Paper>
+    </Box>
   );
 };
 

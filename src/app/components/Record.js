@@ -1,11 +1,8 @@
 import React from "react";
 
-import { useSelector } from "react-redux";
-import { uiSelector } from "../slices/ui";
-
 import Sidebar from "./Sidebar";
-import CompoundBar from "./Graphs/CompoundBar";
-import { Paper } from "@material-ui/core";
+
+import { Box } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 // styling and breakpoints
@@ -18,6 +15,9 @@ const useStyles = makeStyles((theme) => ({
 
     [theme.breakpoints.down("sm")]: {
       flexDirection: "column",
+      alignItems: "center",
+      height: "90%",
+      marginTop: "0",
     },
     [theme.breakpoints.between("sm", "md")]: {
       flexDirection: "row",
@@ -30,12 +30,10 @@ const useStyles = makeStyles((theme) => ({
 
 const Record = () => {
   const classes = useStyles();
-  const active = useSelector(uiSelector);
   return (
-    <Paper className={classes.root}>
+    <Box className={classes.root}>
       <Sidebar />
-      <CompoundBar month={active.month} />
-    </Paper>
+    </Box>
   );
 };
 

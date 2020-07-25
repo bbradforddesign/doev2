@@ -68,15 +68,7 @@ const App = () => {
       justifyContent: "space-between",
       width: "100%",
       height: "80vh",
-      [theme.breakpoints.down("sm")]: {
-        flexDirection: "column",
-      },
-      [theme.breakpoints.up("md")]: {
-        flexDirection: "row",
-      },
-      [theme.breakpoints.up("lg")]: {
-        flexDirection: "row",
-      },
+      flexDirection: "row",
     },
   }));
 
@@ -115,29 +107,6 @@ const App = () => {
         {monthly && (
           <>
             <div>
-              <BottomNavigation
-                value={value}
-                onChange={(event, newValue) => {
-                  setValue(newValue);
-                }}
-                showLabels
-              >
-                <BottomNavigationAction
-                  label="Record"
-                  component={Link}
-                  to="/record"
-                />
-                <BottomNavigationAction
-                  label="Current"
-                  component={Link}
-                  to="/current"
-                />
-                <BottomNavigationAction
-                  label="Trends"
-                  component={Link}
-                  to="/trends"
-                />
-              </BottomNavigation>
               <div className={classes.root}>
                 <MonthNav />
                 <Switch>
@@ -166,6 +135,34 @@ const App = () => {
                   </Route>
                 </Switch>
               </div>
+              <BottomNavigation
+                value={value}
+                onChange={(event, newValue) => {
+                  setValue(newValue);
+                }}
+                showLabels
+                style={{
+                  position: "fixed",
+                  bottom: 0,
+                  width: "95vw",
+                }}
+              >
+                <BottomNavigationAction
+                  label="Record"
+                  component={Link}
+                  to="/record"
+                />
+                <BottomNavigationAction
+                  label="Current"
+                  component={Link}
+                  to="/current"
+                />
+                <BottomNavigationAction
+                  label="Trends"
+                  component={Link}
+                  to="/trends"
+                />
+              </BottomNavigation>
             </div>
           </>
         )}

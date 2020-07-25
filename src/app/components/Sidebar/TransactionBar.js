@@ -16,6 +16,15 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "flex-start",
     padding: "3% 0",
     width: "100%",
+    [theme.breakpoints.down("sm")]: {
+      height: "100%",
+    },
+    [theme.breakpoints.between("sm", "md")]: {
+      height: "90%",
+    },
+    [theme.breakpoints.up("lg")]: {
+      height: "100%",
+    },
   },
 }));
 

@@ -15,17 +15,16 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    paddingTop: "2%",
+    padding: "2% 0",
+    height: "75%",
     [theme.breakpoints.down("sm")]: {
-      width: "400px",
+      width: "375px",
     },
     [theme.breakpoints.between("sm", "md")]: {
-      width: "280px",
-      height: "70%",
+      width: "400px",
     },
     [theme.breakpoints.up("lg")]: {
-      width: "300px",
-      height: "80%",
+      width: "400px",
     },
   },
 }));
