@@ -142,9 +142,8 @@ const App = () => {
                 }}
                 showLabels
                 style={{
-                  position: "fixed",
-                  bottom: 0,
-                  width: "95vw",
+                  alignSelf: "flex-end",
+                  justifySelf: "center",
                 }}
               >
                 <BottomNavigationAction
