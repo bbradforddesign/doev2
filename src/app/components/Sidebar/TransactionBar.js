@@ -65,7 +65,7 @@ const TransactionBar = () => {
               <Link
                 style={{ textDecoration: "none" }}
                 to={{
-                  pathname: "/transaction/edit",
+                  pathname: "/edit/transaction",
                   props: {
                     id: e.id,
                     description: e.description,

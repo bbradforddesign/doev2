@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "row",
     padding: "0 2%",
     width: "90%",
-    border: "1px solid black",
+    margin: "2vh 0",
   },
 }));
 

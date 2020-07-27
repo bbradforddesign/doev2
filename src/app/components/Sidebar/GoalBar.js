@@ -56,7 +56,7 @@ const GoalBar = () => {
               >
                 <Link
                   to={{
-                    pathname: "/goal/edit",
+                    pathname: "/edit/goal",
                     props: {
                       id: e.id,
                       category: e.category,
