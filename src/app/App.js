@@ -30,7 +30,7 @@ import LoginForm from "./components/Forms/LoginForm";
 import TransactionForm from "./components/Forms/TransactionForm";
 import GoalForm from "./components/Forms/GoalForm";
 import LineGraph from "./components/Graphs/LineGraph";
-import PieChart from "./components/Graphs/PieChart";
+import Breakdown from "./components/Pages/Breakdown";
 import Record from "./components/Record";
 import MonthNav from "./components/Sidebar/MonthNav";
 
@@ -111,7 +111,7 @@ const App = () => {
                 <MonthNav />
                 <Switch>
                   <Route path="/current">
-                    <PieChart />
+                    <Breakdown />
                   </Route>
                   <Route path="/transaction/new">
                     <TransactionForm />

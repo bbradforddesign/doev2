@@ -1,7 +1,4 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import { goalsSelector } from "../../slices/goals";
-import { transactionsSelector } from "../../slices/transactions";
 import { Typography } from "@material-ui/core";
 
 import { makeStyles } from "@material-ui/core/styles";
@@ -56,13 +53,11 @@ const GoalProgress = (props) => {
   );
 };
 
-const CompoundBar = () => {
+const CompoundBar = (props) => {
   // pull goals from redux store
-  const goalState = useSelector(goalsSelector);
+  const goalState = props.goalState;
   const totals = goalState.totals;
-  // pull transactions to determine goal progress
-  const transactionState = useSelector(transactionsSelector);
-  const currentTotal = transactionState.categoryTotals;
+  const currentTotal = props.totals;
 
   const bars = [];
 
