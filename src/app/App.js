@@ -31,8 +31,9 @@ import TransactionForm from "./components/Forms/TransactionForm";
 import GoalForm from "./components/Forms/GoalForm";
 import LineGraph from "./components/Graphs/LineGraph";
 import Breakdown from "./components/Pages/Breakdown";
-import Record from "./components/Record";
 import MonthNav from "./components/Sidebar/MonthNav";
+import GoalBar from "./components/Sidebar/GoalBar";
+import TransactionBar from "./components/Sidebar/TransactionBar";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -68,7 +69,7 @@ const App = () => {
       justifyContent: "space-between",
       width: "100%",
       height: "80vh",
-      flexDirection: "row",
+      flexDirection: "column",
     },
   }));
 
@@ -110,6 +111,12 @@ const App = () => {
               <div className={classes.root}>
                 <MonthNav />
                 <Switch>
+                  <Route path="/transaction">
+                    <TransactionBar />
+                  </Route>
+                  <Route path="/goal">
+                    <GoalBar />
+                  </Route>
                   <Route path="/current">
                     <Breakdown />
                   </Route>
@@ -130,9 +137,6 @@ const App = () => {
                   <Route path="/trends">
                     <LineGraph />
                   </Route>
-                  <Route path="/record">
-                    <Record />
-                  </Route>
                 </Switch>
               </div>
               <BottomNavigation
@@ -147,9 +151,14 @@ const App = () => {
                 }}
               >
                 <BottomNavigationAction
-                  label="Record"
+                  label="Transactions"
                   component={Link}
-                  to="/record"
+                  to="/transaction"
+                />
+                <BottomNavigationAction
+                  label="Goals"
+                  component={Link}
+                  to="/goal"
                 />
                 <BottomNavigationAction
                   label="Current"

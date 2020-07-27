@@ -1,10 +1,13 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import moment from "moment";
+
+import { useSelector } from "react-redux";
+import { transactionsSelector } from "../../slices/transactions";
+
 import { Typography, IconButton } from "@material-ui/core";
 import EditIcon from "@material-ui/icons/Edit";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
-
 import { makeStyles } from "@material-ui/core/styles";
 
 // styling and breakpoints
@@ -28,8 +31,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const TransactionBar = (props) => {
+const TransactionBar = () => {
   const classes = useStyles();
+
+  const transactions = useSelector(transactionsSelector);
 
   return (
     <section className={classes.root}>
@@ -43,7 +48,7 @@ const TransactionBar = (props) => {
           padding: 0,
         }}
       >
-        {props.transactions.map((e) => (
+        {transactions.monthly.map((e) => (
           <li key={e.id}>
             <div
               style={{

@@ -61,7 +61,7 @@ const PieChart = (props) => {
         Current
       </Typography>
       <Doughnut
-        height={240}
+        height={200}
         data={state}
         options={{
           legend: {

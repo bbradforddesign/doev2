@@ -16,10 +16,10 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "space-between",
     alignItems: "center",
     backgroundColor: "#DDD",
-    flexDirection: "column",
+    flexDirection: "row",
     marginBottom: "5vh",
-    padding: "2%",
-    width: "120px",
+    padding: "0 2%",
+    width: "90%",
   },
 }));
 
@@ -33,7 +33,7 @@ const MonthNav = () => {
       <Typography variant="h3" align="center">
         {moment(active.month).format("MMM YYYY")}
       </Typography>
-      <ButtonGroup orientation="vertical">
+      <ButtonGroup>
         <IconButton onClick={() => dispatch(decMonth(active.month))}>
           <ArrowBackIcon fontSize="large" />
         </IconButton>
