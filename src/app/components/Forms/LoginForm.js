@@ -69,7 +69,7 @@ const LoginForm = () => {
     <Box className={classes.formContainer}>
       <Paper className={classes.formBody}>
         {auth.loggedIn ? (
-          <Redirect to={{ pathname: "/record" }} />
+          <Redirect to={{ pathname: "/transaction" }} />
         ) : (
           <>
             <div className={classes.formHeader}>

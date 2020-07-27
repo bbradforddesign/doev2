@@ -120,18 +120,18 @@ const App = () => {
                   <Route path="/current">
                     <Breakdown />
                   </Route>
-                  <Route path="/transaction/new">
+                  <Route path="/create/transaction">
                     <TransactionForm />
                   </Route>
                   <Route
-                    path="/transaction/edit"
+                    path="/edit/transaction"
                     render={(props) => <TransactionForm {...props} />}
                   />
-                  <Route path="/goal/new">
+                  <Route path="/create/goal">
                     <GoalForm />
                   </Route>
                   <Route
-                    path="/goal/edit"
+                    path="/edit/goal"
                     render={(props) => <GoalForm {...props} />}
                   />
                   <Route path="/trends">

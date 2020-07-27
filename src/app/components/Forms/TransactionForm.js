@@ -92,7 +92,7 @@ const TransactionForm = (props) => {
 
   // redirects to current page
   const handleSubmit = () => {
-    props.history.replace("/record");
+    props.history.replace("/transaction");
     window.location.reload();
   };
 
@@ -183,7 +183,7 @@ const TransactionForm = (props) => {
         >
           <Link
             to={{
-              pathname: "/current",
+              pathname: "/transaction",
             }}
             className={classes.buttonLink}
           >

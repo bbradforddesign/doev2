@@ -38,6 +38,7 @@ const GoalBar = () => {
   console.log(goals);
   return (
     <section className={classes.root}>
+      <Typography variant="h1">Monthly Goals</Typography>
       <ul
         style={{
           listStyle: "none",
@@ -100,7 +101,7 @@ const GoalBar = () => {
           <Typography>Record Goals</Typography>
         )}
       </ul>
-      <Link to="/goal/new">
+      <Link to="/create/goal">
         <IconButton>
           <AddCircleIcon fontSize="large" />
         </IconButton>

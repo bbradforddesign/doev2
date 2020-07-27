@@ -73,51 +73,53 @@ const CompoundBar = (props) => {
     <div className={classes.root}>
       <Typography variant="h4">Goal Progress</Typography>
 
-      <ul
-        style={{
-          padding: 0,
-          listStyle: "none",
-          width: "100%",
-          height: "80%",
-          overflow: "hidden",
-          overflowY: "scroll",
-        }}
-      >
-        {bars.length > 0 ? (
-          bars.map((e) => (
-            <li key={e.category} style={{ margin: "2% 2% 0 0" }}>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                }}
-              >
-                <Typography variant="h5">{e.category}</Typography>
-                <Typography
-                  variant="subtitle1"
-                  style={{ alignSelf: "flex-end" }}
+      {bars.length > 0 ? (
+        <>
+          <Typography variant="h5">
+            Total Spent: ${Number.parseFloat(currentTotal.All).toFixed(2)}
+          </Typography>
+          <ul
+            style={{
+              padding: 0,
+              listStyle: "none",
+              width: "100%",
+              height: "80%",
+              overflow: "hidden",
+              overflowY: "scroll",
+            }}
+          >
+            {bars.map((e) => (
+              <li key={e.category} style={{ margin: "2% 2% 0 0" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                  }}
                 >
-                  ${currentTotal[e.category] ? currentTotal[e.category] : 0} / $
-                  {e.amount} Spent
-                </Typography>
-              </div>
-              <GoalProgress
-                max={e.amount}
-                current={
-                  currentTotal[e.category] ? currentTotal[e.category] : 0
-                }
-                label={e.label}
-              />
-            </li>
-          ))
-        ) : (
-          <Typography>No goals set</Typography>
-        )}
-      </ul>
-      <Typography variant="h5">
-        Total Spent: ${Number.parseFloat(currentTotal.All).toFixed(2)}
-      </Typography>
+                  <Typography variant="h5">{e.category}</Typography>
+                  <Typography
+                    variant="subtitle1"
+                    style={{ alignSelf: "flex-end" }}
+                  >
+                    ${currentTotal[e.category] ? currentTotal[e.category] : 0} /
+                    ${e.amount} Spent
+                  </Typography>
+                </div>
+                <GoalProgress
+                  max={e.amount}
+                  current={
+                    currentTotal[e.category] ? currentTotal[e.category] : 0
+                  }
+                  label={e.label}
+                />
+              </li>
+            ))}
+          </ul>
+        </>
+      ) : (
+        <Typography>No goals set</Typography>
+      )}
     </div>
   );
 };

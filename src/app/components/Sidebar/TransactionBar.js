@@ -38,6 +38,7 @@ const TransactionBar = () => {
 
   return (
     <section className={classes.root}>
+      <Typography variant="h1">Monthly Transactions</Typography>
       <ul
         style={{
           listStyle: "none",
@@ -104,7 +105,7 @@ const TransactionBar = () => {
           </li>
         ))}
       </ul>
-      <Link to="/transaction/new">
+      <Link to="/create/transaction">
         <IconButton>
           <AddCircleIcon fontSize="large" />
         </IconButton>
