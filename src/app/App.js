@@ -22,8 +22,11 @@ import {
   Box,
   BottomNavigation,
   BottomNavigationAction,
+  Typography,
 } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { makeStyles, ThemeProvider } from "@material-ui/core/styles";
+
+import theme from "./theme/Theme";
 
 import Logout from "./components/Login/Logout";
 import LoginForm from "./components/Forms/LoginForm";
@@ -66,7 +69,6 @@ const App = () => {
     root: {
       display: "flex",
       marginBottom: "2px",
-      justifyContent: "space-between",
       width: "100%",
       height: "80vh",
       flexDirection: "column",
@@ -117,7 +119,7 @@ const App = () => {
                   <Route path="/goal">
                     <GoalBar />
                   </Route>
-                  <Route path="/current">
+                  <Route path="/breakdown">
                     <Breakdown />
                   </Route>
                   <Route path="/create/transaction">
@@ -161,9 +163,9 @@ const App = () => {
                   to="/goal"
                 />
                 <BottomNavigationAction
-                  label="Current"
+                  label="Breakdown"
                   component={Link}
-                  to="/current"
+                  to="/breakdown"
                 />
                 <BottomNavigationAction
                   label="Trends"
@@ -180,33 +182,37 @@ const App = () => {
 
   return (
     <Router>
-      <Container>
-        <Box
-          style={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-            alignItems: "center",
-          }}
-        >
-          <h1>Doe</h1>
-          {auth.loggedIn ? (
-            <>
-              <Logout />
-            </>
-          ) : (
-            <Link to="/login" style={{ textDecoration: "none" }}>
-              <Button>Login</Button>
-            </Link>
-          )}
-        </Box>
+      <ThemeProvider theme={theme}>
+        <Container>
+          <Box
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "center",
+              height: "8vh",
+              width: "90%",
+            }}
+          >
+            <Typography variant="h1">Doe</Typography>
+            {auth.loggedIn ? (
+              <>
+                <Logout />
+              </>
+            ) : (
+              <Link to="/login" style={{ textDecoration: "none" }}>
+                <Button>Login</Button>
+              </Link>
+            )}
+          </Box>
 
-        <Route path="/login">
-          <LoginForm />
-        </Route>
+          <Route path="/login">
+            <LoginForm />
+          </Route>
 
-        {auth.loggedIn ? protectedContent() : <Redirect to="/login" />}
-      </Container>
+          {auth.loggedIn ? protectedContent() : <Redirect to="/login" />}
+        </Container>
+      </ThemeProvider>
     </Router>
   );
 };

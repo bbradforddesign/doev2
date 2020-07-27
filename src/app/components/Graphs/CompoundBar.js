@@ -71,11 +71,9 @@ const CompoundBar = (props) => {
 
   return (
     <div className={classes.root}>
-      <Typography variant="h4">Goal Progress</Typography>
-
       {bars.length > 0 ? (
         <>
-          <Typography variant="h5">
+          <Typography variant="h4">
             Total Spent: ${Number.parseFloat(currentTotal.All).toFixed(2)}
           </Typography>
           <ul

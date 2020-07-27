@@ -16,17 +16,8 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "flex-start",
-    padding: "3% 0",
     width: "100%",
-    [theme.breakpoints.down("sm")]: {
-      height: "100%",
-    },
-    [theme.breakpoints.between("sm", "md")]: {
-      height: "90%",
-    },
-    [theme.breakpoints.up("lg")]: {
-      height: "100%",
-    },
+    height: "90%",
   },
 }));
 
@@ -38,7 +29,9 @@ const GoalBar = () => {
   console.log(goals);
   return (
     <section className={classes.root}>
-      <Typography variant="h1">Monthly Goals</Typography>
+      <Typography variant="h3" align="center">
+        Monthly Goals
+      </Typography>
       <ul
         style={{
           listStyle: "none",

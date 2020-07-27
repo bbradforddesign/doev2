@@ -1,5 +1,4 @@
 import React from "react";
-import { Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { Doughnut } from "react-chartjs-2";
 
@@ -57,11 +56,8 @@ const PieChart = (props) => {
 
   return (
     <div className={classes.chart}>
-      <Typography variant="h2" align="center" style={{ marginBottom: "2%" }}>
-        Current
-      </Typography>
       <Doughnut
-        height={200}
+        height={150}
         data={state}
         options={{
           legend: {

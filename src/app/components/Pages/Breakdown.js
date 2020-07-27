@@ -51,11 +51,14 @@ const Breakdown = () => {
 
   return (
     <Box className={classes.root}>
-      {console.log(totals)}
+      <Typography variant="h3" align="center">
+        Category Breakdown
+      </Typography>
       {
         // assert that data exists for graphs. otherwise, display message
         totals.All > 0 ? (
           <>
+            <PieChart totals={totals} />
             <div className={classes.content}>
               <CompoundBar
                 goalState={goalState}
@@ -63,10 +66,9 @@ const Breakdown = () => {
                 month={active.month}
               />
             </div>
-            <PieChart totals={totals} />
           </>
         ) : (
-          <Typography variant="h3">No transactions recorded.</Typography>
+          <Typography variant="h2">No transactions recorded.</Typography>
         )
       }
     </Box>

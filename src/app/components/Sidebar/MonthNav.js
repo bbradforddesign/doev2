@@ -11,15 +11,16 @@ import { makeStyles } from "@material-ui/core/styles";
 
 // styling and breakpoints
 const useStyles = makeStyles((theme) => ({
+  theme,
   root: {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
     backgroundColor: "#DDD",
     flexDirection: "row",
-    marginBottom: "5vh",
     padding: "0 2%",
     width: "90%",
+    border: "1px solid black",
   },
 }));
 
@@ -30,7 +31,7 @@ const MonthNav = () => {
   const dispatch = useDispatch();
   return (
     <Box className={classes.root}>
-      <Typography variant="h3" align="center">
+      <Typography variant="h2" align="center">
         {moment(active.month).format("MMM YYYY")}
       </Typography>
       <ButtonGroup>

@@ -12,17 +12,9 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     display: "flex",
     justifyContent: "space-between",
-    alignItems: "flex-end",
-    [theme.breakpoints.down("sm")]: {
-      width: "60%",
-      height: "50vh",
-    },
-    [theme.breakpoints.up("md")]: {
-      paddingRight: "10%",
-      height: "60vh",
-      width: "100%",
-      flexDirection: "row",
-    },
+    alignItems: "center",
+    width: "90%",
+    height: "70%",
   },
   chart: { width: "60vw", maxWidth: "600px", height: "80%" },
 }));
@@ -75,16 +67,10 @@ const LineGraph = () => {
 
   return (
     <Box className={classes.root}>
+      <Typography variant="h3">Trends</Typography>
       {maxes.length > 0 ? (
         <>
           <div>
-            <Typography
-              variant="h2"
-              align="center"
-              style={{ marginBottom: "2%" }}
-            >
-              Trends
-            </Typography>
             <div className={classes.chart}>
               <Line
                 data={state}
