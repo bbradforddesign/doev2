@@ -10,9 +10,8 @@ import PieChart from "../Graphs/PieChart";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    padding: "2%",
-    width: "88%",
-    height: "70vh",
+    width: "100%",
+    height: "80vh",
     display: "flex",
     flexDirection: "row",
     justifyContent: "space-between",
@@ -20,8 +19,7 @@ const useStyles = makeStyles((theme) => ({
 
     [theme.breakpoints.down("sm")]: {
       flexDirection: "column",
-      marginBottom: "2vh",
-      width: "90%",
+      width: "100%",
       overflow: "hidden",
       overflowY: "scroll",
     },
@@ -31,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
   },
   content: {
     [theme.breakpoints.down("sm")]: {
-      width: "100%",
+      width: "90%",
     },
     [theme.breakpoints.up("md")]: {
       width: "45%",

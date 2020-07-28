@@ -16,10 +16,11 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    backgroundColor: "#DDD",
+    backgroundColor: "rgba(150,200,240,1)",
+    boxShadow: "0px 6px 6px -3px rgba(0,0,0,.5)",
     flexDirection: "row",
     padding: "0 2%",
-    width: "90%",
+    width: "96%",
     margin: "2vh 0",
   },
 }));

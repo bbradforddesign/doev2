@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -52,9 +52,6 @@ const App = () => {
     dispatch(logoutUser);
   }, 1000 * 60 * 120);
 
-  // bottom nav state
-  const [value, setValue] = useState(0);
-
   // on mount, fetch transactions to render
   useEffect(() => {
     if (auth.loggedIn === true) {
@@ -70,8 +67,14 @@ const App = () => {
       display: "flex",
       marginBottom: "2px",
       width: "100%",
-      height: "80vh",
+      height: "94vh",
       flexDirection: "column",
+    },
+    bottomNav: {
+      backgroundColor: "rgba(150,200,240,1)",
+      alignSelf: "flex-end",
+      justifySelf: "center",
+      width: "100%",
     },
   }));
 
@@ -141,17 +144,7 @@ const App = () => {
                   </Route>
                 </Switch>
               </div>
-              <BottomNavigation
-                value={value}
-                onChange={(event, newValue) => {
-                  setValue(newValue);
-                }}
-                showLabels
-                style={{
-                  alignSelf: "flex-end",
-                  justifySelf: "center",
-                }}
-              >
+              <BottomNavigation showLabels className={classes.bottomNav}>
                 <BottomNavigationAction
                   label="Transactions"
                   component={Link}
