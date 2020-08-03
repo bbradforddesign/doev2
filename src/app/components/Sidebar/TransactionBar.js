@@ -58,8 +58,8 @@ const TransactionBar = () => {
   return (
     <section className={classes.root}>
       <Box className={classes.head}>
-        <Typography variant="h3" align="center">
-          Monthly Transactions
+        <Typography variant="h2" align="center">
+          Transaction Record
         </Typography>
       </Box>
       <Box className={classes.body}>

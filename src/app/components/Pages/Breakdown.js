@@ -23,17 +23,25 @@ const useStyles = makeStyles((theme) => ({
       overflow: "hidden",
       overflowY: "scroll",
     },
-    [theme.breakpoints.up("md")]: {
-      paddingRight: "10%",
-    },
   },
   content: {
+    display: "flex",
+
+    alignItems: "center",
     [theme.breakpoints.down("sm")]: {
       width: "90%",
+      flexDirection: "column",
     },
     [theme.breakpoints.up("md")]: {
-      width: "45%",
+      width: "100%",
+      height: "100%",
+      flexDirection: "row",
+      justifyContent: "space-between",
     },
+  },
+  tile: {
+    margin: "2%",
+    padding: "2% 0",
   },
 }));
 
@@ -49,22 +57,32 @@ const Breakdown = () => {
 
   return (
     <Box className={classes.root}>
-      <Typography variant="h3" align="center">
-        Category Breakdown
-      </Typography>
       {
         // assert that data exists for graphs. otherwise, display message
         totals.All > 0 ? (
-          <>
-            <PieChart totals={totals} />
-            <div className={classes.content}>
-              <CompoundBar
-                goalState={goalState}
-                totals={totals}
-                month={active.month}
-              />
-            </div>
-          </>
+          <Box className={classes.content}>
+            <Box
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                height: "80%",
+              }}
+            >
+              <Typography variant="h2" align="center">
+                Category Breakdown
+              </Typography>
+              <Typography variant="h4" align="center">
+                Total Spent: ${Number.parseFloat(totals.All).toFixed(2)}
+              </Typography>
+              <PieChart totals={totals} />
+            </Box>
+            <CompoundBar
+              goalState={goalState}
+              totals={totals}
+              month={active.month}
+            />
+          </Box>
         ) : (
           <Typography variant="h2">No transactions recorded.</Typography>
         )

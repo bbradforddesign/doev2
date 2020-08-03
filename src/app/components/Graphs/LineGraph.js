@@ -3,20 +3,35 @@ import { Line } from "react-chartjs-2";
 import moment from "moment";
 import { useSelector } from "react-redux";
 import { transactionsSelector } from "../../slices/transactions";
-import { Box, Typography } from "@material-ui/core";
+import { Box, Paper, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    padding: "0 2%",
     flexDirection: "column",
     display: "flex",
-    justifyContent: "space-between",
     alignItems: "center",
-    width: "90%",
-    height: "70%",
   },
-  chart: { width: "60vw", maxWidth: "600px", height: "80%" },
+  body: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    width: "90%",
+    padding: "5px",
+    [theme.breakpoints.up("md")]: {
+      flexDirection: "row",
+      justifyContent: "space-between",
+    },
+  },
+  chart: {
+    [theme.breakpoints.up("md")]: {
+      width: "80%",
+    },
+    [theme.breakpoints.down("sm")]: {
+      width: "90%",
+      marginBottom: "5%",
+    },
+  },
 }));
 
 const LineGraph = () => {
@@ -67,38 +82,36 @@ const LineGraph = () => {
 
   return (
     <Box className={classes.root}>
-      <Typography variant="h3">Trends</Typography>
+      <Typography variant="h2">Trends</Typography>
       {maxes.length > 0 ? (
-        <>
-          <div>
-            <div className={classes.chart}>
-              <Line
-                data={state}
-                options={{
-                  responsive: true,
-                  maintainAspectRatio: true,
-                  title: {
-                    display: false,
-                  },
-                  legend: {
-                    display: false,
-                  },
-                  spanGaps: true,
-                  scales: {
-                    yAxes: [
-                      {
-                        ticks: {
-                          maxTicksLimit: 6,
-                          min: 0,
-                        },
+        <Paper className={classes.body}>
+          <div className={classes.chart}>
+            <Line
+              data={state}
+              options={{
+                responsive: true,
+                maintainAspectRatio: true,
+                title: {
+                  display: false,
+                },
+                legend: {
+                  display: false,
+                },
+                spanGaps: true,
+                scales: {
+                  yAxes: [
+                    {
+                      ticks: {
+                        maxTicksLimit: 6,
+                        min: 0,
                       },
-                    ],
-                  },
-                }}
-              />
-            </div>
+                    },
+                  ],
+                },
+              }}
+            />
           </div>
-          <div style={{ marginTop: "1px" }}>
+          <div>
             <Typography variant="subtitle2" align="right">
               Total: ${maxes.reduce((i, e) => i + e).toFixed(2)}
             </Typography>
@@ -113,7 +126,7 @@ const LineGraph = () => {
               {(maxes.reduce((i, e) => i + e) / maxes.length).toFixed(2)}
             </Typography>
           </div>
-        </>
+        </Paper>
       ) : (
         <Typography variant="h3">No transactions recorded.</Typography>
       )}

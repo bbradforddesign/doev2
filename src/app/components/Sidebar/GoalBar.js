@@ -58,8 +58,8 @@ const GoalBar = () => {
   return (
     <section className={classes.root}>
       <Box className={classes.head}>
-        <Typography variant="h3" align="center">
-          Monthly Goals
+        <Typography variant="h2" align="center">
+          Category Goals
         </Typography>
       </Box>
       <Box className={classes.body}>

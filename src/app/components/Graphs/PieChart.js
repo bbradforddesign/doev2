@@ -4,13 +4,10 @@ import { Doughnut } from "react-chartjs-2";
 
 const useStyles = makeStyles((theme) => ({
   chart: {
+    maxWidth: "600px",
     [theme.breakpoints.down("sm")]: {
-      width: "100%",
-      height: "50vh",
+      width: "90vw",
       margin: "10vh 0",
-    },
-    [theme.breakpoints.up("md")]: {
-      width: "45%",
     },
   },
 }));
@@ -57,7 +54,6 @@ const PieChart = (props) => {
   return (
     <div className={classes.chart}>
       <Doughnut
-        height={150}
         data={state}
         options={{
           legend: {

@@ -151,7 +151,7 @@ const App = () => {
                   to="/transaction"
                 />
                 <BottomNavigationAction
-                  label="Goals"
+                  label="Categories"
                   component={Link}
                   to="/goal"
                 />

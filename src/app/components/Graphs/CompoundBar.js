@@ -6,18 +6,14 @@ import { makeStyles } from "@material-ui/core/styles";
 // styling and breakpoints
 const useStyles = makeStyles((theme) => ({
   root: {
-    width: "60%",
     padding: "2%",
-    height: "60vh",
-
     [theme.breakpoints.down("sm")]: {
-      width: "100%",
+      width: "80vw",
+      height: "50vh",
     },
-    [theme.breakpoints.between("sm", "md")]: {
-      width: "80%",
-    },
-    [theme.breakpoints.up("lg")]: {
-      width: "80%",
+    [theme.breakpoints.up("md")]: {
+      width: "30vw",
+      height: "60vh",
     },
   },
 }));
@@ -28,17 +24,15 @@ const GoalProgress = (props) => {
       style={{
         display: "flex",
         flexDirection: "row",
-        height: "2vh",
+        height: "8px",
         width: "100%",
-        boxShadow: "2px 2px 4px #CCC",
+        marginBottom: "8px",
       }}
     >
       <div
         style={{
           backgroundColor:
-            props.max <= props.current
-              ? "rgba(225,125,125)"
-              : "rgba(125,225,125)",
+            props.max <= props.current ? "rgba(225,125,125)" : "rgba(0,0,0)",
           flex: props.current,
         }}
       />
@@ -72,49 +66,44 @@ const CompoundBar = (props) => {
   return (
     <div className={classes.root}>
       {bars.length > 0 ? (
-        <>
-          <Typography variant="h4">
-            Total Spent: ${Number.parseFloat(currentTotal.All).toFixed(2)}
-          </Typography>
-          <ul
-            style={{
-              padding: 0,
-              listStyle: "none",
-              width: "100%",
-              height: "80%",
-              overflow: "hidden",
-              overflowY: "scroll",
-            }}
-          >
-            {bars.map((e) => (
-              <li key={e.category} style={{ margin: "2% 2% 0 0" }}>
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "row",
-                    justifyContent: "space-between",
-                  }}
+        <ul
+          style={{
+            padding: 0,
+            listStyle: "none",
+            width: "100%",
+            height: "85%",
+            overflow: "hidden",
+            overflowY: "scroll",
+          }}
+        >
+          {bars.map((e) => (
+            <li key={e.category}>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <Typography variant="subtitle2">{e.category}</Typography>
+                <Typography
+                  variant="subtitle1"
+                  style={{ alignSelf: "flex-end" }}
                 >
-                  <Typography variant="h5">{e.category}</Typography>
-                  <Typography
-                    variant="subtitle1"
-                    style={{ alignSelf: "flex-end" }}
-                  >
-                    ${currentTotal[e.category] ? currentTotal[e.category] : 0} /
-                    ${e.amount} Spent
-                  </Typography>
-                </div>
-                <GoalProgress
-                  max={e.amount}
-                  current={
-                    currentTotal[e.category] ? currentTotal[e.category] : 0
-                  }
-                  label={e.label}
-                />
-              </li>
-            ))}
-          </ul>
-        </>
+                  ${currentTotal[e.category] ? currentTotal[e.category] : 0} / $
+                  {e.amount} Spent
+                </Typography>
+              </div>
+              <GoalProgress
+                max={e.amount}
+                current={
+                  currentTotal[e.category] ? currentTotal[e.category] : 0
+                }
+                label={e.label}
+              />
+            </li>
+          ))}
+        </ul>
       ) : (
         <Typography>No goals set</Typography>
       )}
