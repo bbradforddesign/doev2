@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Typography } from "@material-ui/core";
+import { Box, Paper, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { useSelector } from "react-redux";
 import { goalsSelector } from "../../slices/goals";
@@ -7,6 +7,7 @@ import { transactionsSelector } from "../../slices/transactions";
 import { uiSelector } from "../../slices/ui";
 import CompoundBar from "../Graphs/CompoundBar";
 import PieChart from "../Graphs/PieChart";
+import LineGraph from "../Graphs/LineGraph";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -75,13 +76,30 @@ const Breakdown = () => {
               <Typography variant="h4" align="center">
                 Total Spent: ${Number.parseFloat(totals.All).toFixed(2)}
               </Typography>
-              <PieChart totals={totals} />
+              <Paper>
+                <PieChart totals={totals} />
+              </Paper>
             </Box>
-            <CompoundBar
-              goalState={goalState}
-              totals={totals}
-              month={active.month}
-            />
+            <Box
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                width: "inherit",
+              }}
+            >
+              <Paper
+                style={{ width: "90%", maxWidth: "400px", margin: "5% 0" }}
+              >
+                <CompoundBar
+                  goalState={goalState}
+                  totals={totals}
+                  month={active.month}
+                />
+              </Paper>
+              <Paper style={{ width: "90%", marginBottom: "5%" }}>
+                <LineGraph />
+              </Paper>
+            </Box>
           </Box>
         ) : (
           <Typography variant="h2">No transactions recorded.</Typography>

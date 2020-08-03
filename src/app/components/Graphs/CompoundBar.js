@@ -6,13 +6,11 @@ import { makeStyles } from "@material-ui/core/styles";
 // styling and breakpoints
 const useStyles = makeStyles((theme) => ({
   root: {
-    padding: "2%",
+    padding: "5%",
     [theme.breakpoints.down("sm")]: {
-      width: "80vw",
       height: "50vh",
     },
     [theme.breakpoints.up("md")]: {
-      width: "30vw",
       height: "60vh",
     },
   },
@@ -69,9 +67,8 @@ const CompoundBar = (props) => {
         <ul
           style={{
             padding: 0,
+            height: "95%",
             listStyle: "none",
-            width: "100%",
-            height: "85%",
             overflow: "hidden",
             overflowY: "scroll",
           }}
