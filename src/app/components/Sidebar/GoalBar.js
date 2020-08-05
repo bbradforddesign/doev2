@@ -23,8 +23,6 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   scrollList: {
-    padding: 0,
-    listStyle: "none",
     overflow: "hidden",
     overflowY: "scroll",
     height: "90%",
@@ -59,7 +57,7 @@ const GoalBar = () => {
     <section className={classes.root}>
       <Box className={classes.head}>
         <Typography variant="h2" align="center">
-          Category Goals
+          Goals
         </Typography>
       </Box>
       <Box className={classes.body}>

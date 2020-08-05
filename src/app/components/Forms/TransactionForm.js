@@ -9,6 +9,7 @@ import {
   Button,
   ButtonGroup,
   Box,
+  Typography,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 
@@ -118,7 +119,9 @@ const TransactionForm = (props) => {
   return (
     <Box className={classes.formBackground}>
       <Paper className={classes.formModal}>
-        <h2>{routerProps ? "Edit Expense" : "New Expense"}</h2>
+        <Typography variant="h2">
+          {routerProps ? "Edit Expense" : "New Expense"}
+        </Typography>
         <TextField
           id="date"
           label="Date"

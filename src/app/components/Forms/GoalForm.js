@@ -9,6 +9,7 @@ import {
   Button,
   ButtonGroup,
   Box,
+  Typography,
 } from "@material-ui/core";
 import { makeStyles } from "@material-ui/styles";
 
@@ -102,7 +103,9 @@ const GoalForm = (props) => {
   return (
     <Box className={classes.formBackground}>
       <Paper className={classes.formModal}>
-        <h2>{routerProps ? "Edit Goal" : "New Goal"}</h2>
+        <Typography variant="h2">
+          {routerProps ? "Edit Goal" : "New Goal"}
+        </Typography>
         <TextField
           label="Category"
           id="category"

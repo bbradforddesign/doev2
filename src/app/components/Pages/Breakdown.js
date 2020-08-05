@@ -17,7 +17,6 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-
     [theme.breakpoints.down("sm")]: {
       flexDirection: "column",
       justifyContent: "flex-start",
@@ -42,7 +41,6 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    justifyContent: "space-between",
     [theme.breakpoints.down("sm")]: {
       width: "100%",
     },
@@ -52,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   tile: {
-    margin: "0 0 3%",
+    margin: "0 0 2%",
     padding: "2% 0",
     width: "95%",
     maxWidth: "400px",

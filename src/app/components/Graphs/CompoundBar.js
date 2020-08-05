@@ -11,13 +11,12 @@ const useStyles = makeStyles((theme) => ({
       height: "90%",
     },
     [theme.breakpoints.up("md")]: {
-      height: "35vh",
+      height: "30vh",
     },
   },
   scrollList: {
-    padding: 0,
-    height: "100%",
-    listStyle: "none",
+    padding: "0 3% 0 0",
+    height: "75%",
     [theme.breakpoints.up("md")]: {
       overflow: "hidden",
       overflowY: "scroll",
@@ -72,6 +71,9 @@ const CompoundBar = (props) => {
 
   return (
     <div className={classes.root}>
+      <Typography variant="h4" align="center">
+        Goal Progress
+      </Typography>
       {bars.length > 0 ? (
         <ul className={classes.scrollList}>
           {bars.map((e) => (

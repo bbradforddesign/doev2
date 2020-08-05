@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "row",
     justifyContent: "center",
     width: "90%",
-    padding: "5px",
+    padding: "5px 15px",
   },
   chart: {
     [theme.breakpoints.up("md")]: {
@@ -78,12 +78,13 @@ const LineGraph = () => {
 
   return (
     <Box className={classes.root}>
+      <Typography variant="h4">Monthly Trends</Typography>
       {maxes.length > 0 ? (
         <Box className={classes.body}>
           <div className={classes.chart}>
             <Line
               data={state}
-              height={240}
+              height={260}
               options={{
                 responsive: true,
                 maintainAspectRatio: true,
@@ -108,19 +109,30 @@ const LineGraph = () => {
             />
           </div>
           <div>
-            <Typography variant="subtitle1" align="right">
-              <strong>Total:</strong> $
-              {maxes.reduce((i, e) => i + e).toFixed(2)}
+            <Typography variant="h6" align="right">
+              Total
             </Typography>
             <Typography variant="subtitle1" align="right">
-              <strong>Max:</strong> ${Math.max(...maxes).toFixed(2)}
+              ${maxes.reduce((i, e) => i + e).toFixed(2)}
+            </Typography>
+            <Typography variant="h6" align="right">
+              Max
             </Typography>
             <Typography variant="subtitle1" align="right">
-              <strong>Min:</strong> ${Math.min(...maxes).toFixed(2)}
+              ${Math.max(...maxes).toFixed(2)}
+            </Typography>
+            <Typography variant="h6" align="right">
+              Min
             </Typography>
             <Typography variant="subtitle1" align="right">
-              <strong>Average:</strong> $
-              {(maxes.reduce((i, e) => i + e) / maxes.length).toFixed(2)}
+              {" "}
+              ${Math.min(...maxes).toFixed(2)}
+            </Typography>
+            <Typography variant="h6" align="right">
+              Avg
+            </Typography>
+            <Typography variant="subtitle1" align="right">
+              ${(maxes.reduce((i, e) => i + e) / maxes.length).toFixed(2)}
             </Typography>
           </div>
         </Box>

@@ -24,6 +24,9 @@ import {
   BottomNavigationAction,
   Typography,
 } from "@material-ui/core";
+import CreateIcon from "@material-ui/icons/Create";
+import TrackChangesIcon from "@material-ui/icons/TrackChanges";
+import PieChartIcon from "@material-ui/icons/PieChart";
 import { makeStyles, ThemeProvider } from "@material-ui/core/styles";
 
 import theme from "./theme/Theme";
@@ -64,13 +67,10 @@ const App = () => {
   const useStyles = makeStyles((theme) => ({
     root: {
       display: "flex",
-      marginBottom: "2px",
-      width: "100%",
       height: "94vh",
       flexDirection: "column",
     },
     bottomNav: {
-      backgroundColor: "rgba(150,200,240,1)",
       alignSelf: "flex-end",
       justifySelf: "center",
       width: "100%",
@@ -93,16 +93,18 @@ const App = () => {
           }}
         >
           {responseCode !== 200 ? (
-            <h1>Error {responseCode} :(</h1>
+            <Typography variant="h2">Error {responseCode} :(</Typography>
           ) : (
-            <h1>Redirecting...</h1>
+            <Typography variant="h2">Redirecting...</Typography>
           )}
           {responseCode === 400 ? (
-            <p>Your session has expired. Please log out and sign back in.</p>
+            <Typography variant="body1">
+              Your session has expired. Please log out and sign back in.
+            </Typography>
           ) : (
-            <p>
+            <Typography variant="body1">
               An error has occurred with our system. Please try again later!
-            </p>
+            </Typography>
           )}
         </Box>
       );
@@ -143,16 +145,19 @@ const App = () => {
               <BottomNavigation showLabels className={classes.bottomNav}>
                 <BottomNavigationAction
                   label="Transactions"
+                  icon={<CreateIcon />}
                   component={Link}
                   to="/transaction"
                 />
                 <BottomNavigationAction
-                  label="Categories"
+                  label="Goals"
+                  icon={<TrackChangesIcon />}
                   component={Link}
                   to="/goal"
                 />
                 <BottomNavigationAction
                   label="Breakdown"
+                  icon={<PieChartIcon />}
                   component={Link}
                   to="/breakdown"
                 />
@@ -184,7 +189,7 @@ const App = () => {
                 <Logout />
               </>
             ) : (
-              <Link to="/login" style={{ textDecoration: "none" }}>
+              <Link to="/login">
                 <Button>Login</Button>
               </Link>
             )}

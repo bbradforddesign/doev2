@@ -1,7 +1,17 @@
 import React from "react";
+import { Box, Typography } from "@material-ui/core";
 import { Doughnut } from "react-chartjs-2";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme) => ({
+  head: {
+    marginBottom: "5%",
+  },
+}));
 
 const PieChart = (props) => {
+  const classes = useStyles();
+
   const totals = props.totals;
 
   const state = {
@@ -39,16 +49,21 @@ const PieChart = (props) => {
   }
 
   return (
-    <Doughnut
-      data={state}
-      height={280}
-      options={{
-        legend: {
-          display: true,
-          position: "bottom",
-        },
-      }}
-    />
+    <Box>
+      <Typography variant="h4" align="center" className={classes.head}>
+        Categories
+      </Typography>
+      <Doughnut
+        data={state}
+        height={280}
+        options={{
+          legend: {
+            display: true,
+            position: "bottom",
+          },
+        }}
+      />
+    </Box>
   );
 };
 
