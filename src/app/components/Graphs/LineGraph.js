@@ -3,7 +3,7 @@ import { Line } from "react-chartjs-2";
 import moment from "moment";
 import { useSelector } from "react-redux";
 import { transactionsSelector } from "../../slices/transactions";
-import { Box, Paper, Typography } from "@material-ui/core";
+import { Box, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 const useStyles = makeStyles((theme) => ({
@@ -14,14 +14,10 @@ const useStyles = makeStyles((theme) => ({
   },
   body: {
     display: "flex",
-    flexDirection: "column",
+    flexDirection: "row",
     justifyContent: "center",
     width: "90%",
     padding: "5px",
-    [theme.breakpoints.up("md")]: {
-      flexDirection: "row",
-      justifyContent: "space-between",
-    },
   },
   chart: {
     [theme.breakpoints.up("md")]: {
@@ -82,12 +78,12 @@ const LineGraph = () => {
 
   return (
     <Box className={classes.root}>
-      <Typography variant="h2">Trends</Typography>
       {maxes.length > 0 ? (
-        <Paper className={classes.body}>
+        <Box className={classes.body}>
           <div className={classes.chart}>
             <Line
               data={state}
+              height={240}
               options={{
                 responsive: true,
                 maintainAspectRatio: true,
@@ -112,21 +108,22 @@ const LineGraph = () => {
             />
           </div>
           <div>
-            <Typography variant="subtitle2" align="right">
-              Total: ${maxes.reduce((i, e) => i + e).toFixed(2)}
+            <Typography variant="subtitle1" align="right">
+              <strong>Total:</strong> $
+              {maxes.reduce((i, e) => i + e).toFixed(2)}
             </Typography>
-            <Typography variant="subtitle2" align="right">
-              Max: ${Math.max(...maxes).toFixed(2)}
+            <Typography variant="subtitle1" align="right">
+              <strong>Max:</strong> ${Math.max(...maxes).toFixed(2)}
             </Typography>
-            <Typography variant="subtitle2" align="right">
-              Min: ${Math.min(...maxes).toFixed(2)}
+            <Typography variant="subtitle1" align="right">
+              <strong>Min:</strong> ${Math.min(...maxes).toFixed(2)}
             </Typography>
-            <Typography variant="subtitle2" align="right">
-              Average: $
+            <Typography variant="subtitle1" align="right">
+              <strong>Average:</strong> $
               {(maxes.reduce((i, e) => i + e) / maxes.length).toFixed(2)}
             </Typography>
           </div>
-        </Paper>
+        </Box>
       ) : (
         <Typography variant="h3">No transactions recorded.</Typography>
       )}

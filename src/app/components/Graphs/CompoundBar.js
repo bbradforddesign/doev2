@@ -6,12 +6,21 @@ import { makeStyles } from "@material-ui/core/styles";
 // styling and breakpoints
 const useStyles = makeStyles((theme) => ({
   root: {
-    padding: "5%",
+    padding: "0 5%",
     [theme.breakpoints.down("sm")]: {
-      height: "50vh",
+      height: "90%",
     },
     [theme.breakpoints.up("md")]: {
-      height: "60vh",
+      height: "35vh",
+    },
+  },
+  scrollList: {
+    padding: 0,
+    height: "100%",
+    listStyle: "none",
+    [theme.breakpoints.up("md")]: {
+      overflow: "hidden",
+      overflowY: "scroll",
     },
   },
 }));
@@ -64,15 +73,7 @@ const CompoundBar = (props) => {
   return (
     <div className={classes.root}>
       {bars.length > 0 ? (
-        <ul
-          style={{
-            padding: 0,
-            height: "95%",
-            listStyle: "none",
-            overflow: "hidden",
-            overflowY: "scroll",
-          }}
-        >
+        <ul className={classes.scrollList}>
           {bars.map((e) => (
             <li key={e.category}>
               <div

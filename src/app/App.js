@@ -32,7 +32,6 @@ import Logout from "./components/Login/Logout";
 import LoginForm from "./components/Forms/LoginForm";
 import TransactionForm from "./components/Forms/TransactionForm";
 import GoalForm from "./components/Forms/GoalForm";
-import LineGraph from "./components/Graphs/LineGraph";
 import Breakdown from "./components/Pages/Breakdown";
 import MonthNav from "./components/Sidebar/MonthNav";
 import GoalBar from "./components/Sidebar/GoalBar";
@@ -139,9 +138,6 @@ const App = () => {
                     path="/edit/goal"
                     render={(props) => <GoalForm {...props} />}
                   />
-                  <Route path="/trends">
-                    <LineGraph />
-                  </Route>
                 </Switch>
               </div>
               <BottomNavigation showLabels className={classes.bottomNav}>
@@ -159,11 +155,6 @@ const App = () => {
                   label="Breakdown"
                   component={Link}
                   to="/breakdown"
-                />
-                <BottomNavigationAction
-                  label="Trends"
-                  component={Link}
-                  to="/trends"
                 />
               </BottomNavigation>
             </div>
