@@ -33,7 +33,7 @@ app.use(express.urlencoded({ extended: false })); // allow access to req.body
 app.use(express.json()); // allow requests to be parsed as JSON
 app.use(
   cors({
-    origin: ["http://localhost:3000"],
+    origin: [process.env.ALLOWED_ORIGIN],
     credentials: true,
     methods: ["GET", "PUT", "POST", "DELETE"],
   })

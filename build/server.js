@@ -67,7 +67,7 @@ app.use((0, _expressSession2.default)({
 app.use(_express2.default.urlencoded({ extended: false })); // allow access to req.body
 app.use(_express2.default.json()); // allow requests to be parsed as JSON
 app.use((0, _cors2.default)({
-  origin: ["http://localhost:3000"],
+  origin: [process.env.ALLOWED_ORIGIN],
   credentials: true,
   methods: ["GET", "PUT", "POST", "DELETE"]
 })); // allow access to only our react app. need to change origin in production, localhost only for testing
