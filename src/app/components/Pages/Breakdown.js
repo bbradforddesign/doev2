@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     height: "80vh",
     display: "flex",
     flexDirection: "row",
-    justifyContent: "center",
+    justifyContent: "space-between",
     alignItems: "center",
     [theme.breakpoints.down("sm")]: {
       flexDirection: "column",
@@ -28,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
   content: {
     display: "flex",
     alignItems: "center",
+    width: "100%",
     [theme.breakpoints.down("sm")]: {
       flexDirection: "column",
     },
@@ -45,8 +46,24 @@ const useStyles = makeStyles((theme) => ({
       width: "100%",
     },
     [theme.breakpoints.up("md")]: {
-      width: "50%",
+      width: "30%",
       height: "100%",
+      alignItems: "center",
+      justifyContent: "center",
+    },
+  },
+  blockPie: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    [theme.breakpoints.down("sm")]: {
+      width: "100%",
+    },
+    [theme.breakpoints.up("md")]: {
+      width: "40%",
+      height: "100%",
+      alignItems: "center",
+      justifyContent: "center",
     },
   },
   tile: {
@@ -54,6 +71,17 @@ const useStyles = makeStyles((theme) => ({
     padding: "2% 0",
     width: "95%",
     maxWidth: "400px",
+  },
+  message: {
+    display: "flex",
+    alignItems: "center",
+    height: "70%",
+    width: "70%",
+    margin: "10% 0",
+    padding: "0 5%",
+    [theme.breakpoints.up("md")]: {
+      width: "40%",
+    },
   },
 }));
 
@@ -73,17 +101,20 @@ const Breakdown = () => {
         // assert that data exists for graphs. otherwise, display message
         totals.All > 0 ? (
           <Box className={classes.content}>
-            <Box style={{ margin: "10% 0" }}>
+            <Box className={classes.block}>
               <Typography variant="h2" align="center">
-                Data Breakdown
+                Spending Breakdown
               </Typography>
-              <Typography variant="h4" align="center">
-                Total Spent: ${Number.parseFloat(totals.All).toFixed(2)}
+              <Typography align="center" style={{ margin: "5% 0 10%" }}>
+                Current month's total: $
+                {Number.parseFloat(totals.All).toFixed(2)}
               </Typography>
             </Box>
-            <Paper className={classes.tile}>
-              <PieChart totals={totals} />
-            </Paper>
+            <Box className={classes.blockPie}>
+              <Paper className={classes.tile}>
+                <PieChart totals={totals} />
+              </Paper>
+            </Box>
             <Box className={classes.block}>
               <Paper className={classes.tile}>
                 <CompoundBar
@@ -98,7 +129,18 @@ const Breakdown = () => {
             </Box>
           </Box>
         ) : (
-          <Typography variant="h2">No transactions recorded.</Typography>
+          <>
+            <Typography variant="h2" align="center" color="textPrimary">
+              Spending Breakdown
+            </Typography>
+            <Paper className={classes.message}>
+              <Typography variant="h4">
+                This month doesn't have any expenses on record.
+                <br />
+                Record transactions for this month to receive insights!
+              </Typography>
+            </Paper>
+          </>
         )
       }
     </Box>

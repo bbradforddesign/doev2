@@ -18,7 +18,6 @@ const PieChart = (props) => {
     labels: [],
     datasets: [
       {
-        label: "Expenses",
         backgroundColor: [
           "#B21F00",
           "#C9DE00",
@@ -50,7 +49,7 @@ const PieChart = (props) => {
 
   return (
     <Box>
-      <Typography variant="h4" align="center" className={classes.head}>
+      <Typography variant="h3" align="center" className={classes.head}>
         Categories
       </Typography>
       <Doughnut

@@ -6,6 +6,8 @@ import {
   Route,
   Link,
 } from "react-router-dom";
+
+// redux imports
 import { useDispatch, useSelector } from "react-redux";
 import { logoutUser, authSelector } from "./slices/auth";
 import {
@@ -14,8 +16,9 @@ import {
   transactionsSelector,
 } from "./slices/transactions";
 import { uiSelector } from "./slices/ui";
-import { fetchGoals } from "./slices/goals";
+import { fetchGoals, goalsSelector } from "./slices/goals";
 
+// material-ui imports
 import {
   Container,
   Button,
@@ -31,20 +34,27 @@ import { makeStyles, ThemeProvider } from "@material-ui/core/styles";
 
 import theme from "./theme/Theme";
 
+// button that clears auth and redirects to login
 import Logout from "./components/Login/Logout";
+
+// forms
 import LoginForm from "./components/Forms/LoginForm";
 import TransactionForm from "./components/Forms/TransactionForm";
 import GoalForm from "./components/Forms/GoalForm";
-import Breakdown from "./components/Pages/Breakdown";
+
+// persistent navbar
 import MonthNav from "./components/Sidebar/MonthNav";
-import GoalBar from "./components/Sidebar/GoalBar";
-import TransactionBar from "./components/Sidebar/TransactionBar";
+
+// page bodies for react-router
+import ListBody from "./components/Pages/ListBody";
+import Breakdown from "./components/Pages/Breakdown";
 
 const App = () => {
   const dispatch = useDispatch();
 
   // is the user logged in?
   const auth = useSelector(authSelector);
+
   // fetch data on mount/update when actions dispatched
   const { monthly, responseCode } = useSelector(transactionsSelector);
   const active = useSelector(uiSelector);
@@ -79,6 +89,7 @@ const App = () => {
 
   const classes = useStyles();
 
+  // only render if logged in successfully. otherwise, display message
   const protectedContent = () => {
     if (responseCode !== 200) {
       return (
@@ -92,20 +103,26 @@ const App = () => {
             height: "80vh",
           }}
         >
-          {responseCode !== 200 ? (
-            <Typography variant="h2">Error {responseCode} :(</Typography>
-          ) : (
-            <Typography variant="h2">Redirecting...</Typography>
-          )}
-          {responseCode === 400 ? (
-            <Typography variant="body1">
-              Your session has expired. Please log out and sign back in.
-            </Typography>
-          ) : (
-            <Typography variant="body1">
-              An error has occurred with our system. Please try again later!
-            </Typography>
-          )}
+          {
+            // was log in successful? if not, display error
+            responseCode !== 200 ? (
+              <Typography variant="h2">Error {responseCode} :(</Typography>
+            ) : (
+              <Typography variant="h2">Redirecting...</Typography>
+            )
+          }
+          {
+            // if user is logged out, prompt to log back in. otherwise, assume backend error.
+            responseCode === 400 ? (
+              <Typography variant="body1">
+                Your session has expired. Please log out and sign back in.
+              </Typography>
+            ) : (
+              <Typography variant="body1">
+                An error has occurred with our system. Please try again later!
+              </Typography>
+            )
+          }
         </Box>
       );
     }
@@ -118,10 +135,13 @@ const App = () => {
                 <MonthNav />
                 <Switch>
                   <Route path="/transaction">
-                    <TransactionBar />
+                    <ListBody
+                      selector={transactionsSelector}
+                      type="transaction"
+                    />
                   </Route>
                   <Route path="/goal">
-                    <GoalBar />
+                    <ListBody selector={goalsSelector} type="goal" />
                   </Route>
                   <Route path="/breakdown">
                     <Breakdown />

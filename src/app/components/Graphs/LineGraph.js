@@ -109,29 +109,29 @@ const LineGraph = () => {
             />
           </div>
           <div>
-            <Typography variant="h6" align="right">
+            <Typography variant="subtitle1" align="right">
               Total
             </Typography>
-            <Typography variant="subtitle1" align="right">
+            <Typography variant="subtitle2" align="right">
               ${maxes.reduce((i, e) => i + e).toFixed(2)}
             </Typography>
-            <Typography variant="h6" align="right">
+            <Typography variant="subtitle1" align="right">
               Max
             </Typography>
-            <Typography variant="subtitle1" align="right">
+            <Typography variant="subtitle2" align="right">
               ${Math.max(...maxes).toFixed(2)}
             </Typography>
-            <Typography variant="h6" align="right">
+            <Typography variant="subtitle1" align="right">
               Min
             </Typography>
-            <Typography variant="subtitle1" align="right">
+            <Typography variant="subtitle2" align="right">
               {" "}
               ${Math.min(...maxes).toFixed(2)}
             </Typography>
-            <Typography variant="h6" align="right">
+            <Typography variant="subtitle1" align="right">
               Avg
             </Typography>
-            <Typography variant="subtitle1" align="right">
+            <Typography variant="subtitle2" align="right">
               ${(maxes.reduce((i, e) => i + e) / maxes.length).toFixed(2)}
             </Typography>
           </div>

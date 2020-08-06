@@ -19,7 +19,10 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "row",
     padding: "0 2%",
     width: "96%",
+    minWidth: "400px",
     margin: "2vh 0",
+    backgroundColor: "rgb(75,100,255)",
+    color: "#FFF",
   },
 }));
 
@@ -30,18 +33,18 @@ const MonthNav = () => {
   const dispatch = useDispatch();
   return (
     <Paper className={classes.root}>
-      <Typography variant="h2" align="center">
+      <Typography variant="h3" align="left">
         {moment(active.month).format("MMM YYYY")}
       </Typography>
       <ButtonGroup>
         <IconButton onClick={() => dispatch(decMonth(active.month))}>
-          <ArrowBackIcon fontSize="large" />
+          <ArrowBackIcon fontSize="large" htmlColor="#FFF" />
         </IconButton>
         <IconButton onClick={() => dispatch(resetMonth())}>
-          <ReplayIcon fontSize="large" />
+          <ReplayIcon fontSize="large" htmlColor="#FFF" />
         </IconButton>
         <IconButton onClick={() => dispatch(incMonth(active.month))}>
-          <ArrowForwardIcon fontSize="large" />
+          <ArrowForwardIcon fontSize="large" htmlColor="#FFF" />
         </IconButton>
       </ButtonGroup>
     </Paper>

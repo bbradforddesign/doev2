@@ -12,6 +12,10 @@ link {
   text-decoration: none;
 }
 
+.CreateButton {
+  color: white;
+}
+
 *::-webkit-scrollbar {
   width: 0.5em;
 }

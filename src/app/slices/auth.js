@@ -76,7 +76,7 @@ export function registerUser(u, p) {
           password: p,
         }),
       });
-      if (response.status === 200) {
+      if (response.status >= 200 && response.status <= 300) {
         dispatch(setAuth());
       } else {
         window.alert("Username already taken.");

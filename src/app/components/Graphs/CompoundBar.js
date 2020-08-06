@@ -38,7 +38,9 @@ const GoalProgress = (props) => {
       <div
         style={{
           backgroundColor:
-            props.max <= props.current ? "rgba(225,125,125)" : "rgba(0,0,0)",
+            props.max <= props.current
+              ? "rgb(225,125,125)"
+              : "rgb(125,255,125)",
           flex: props.current,
         }}
       />
