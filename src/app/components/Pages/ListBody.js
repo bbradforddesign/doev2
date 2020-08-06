@@ -1,4 +1,6 @@
 import React from "react";
+import PropTypes from "prop-types";
+
 import { Link } from "react-router-dom";
 import moment from "moment";
 import { useSelector } from "react-redux";
@@ -27,7 +29,7 @@ const useStyles = makeStyles((theme) => ({
     overflowY: "scroll",
     height: "70%",
     width: "100%",
-    margin: "10% 0",
+    margin: "5% 0",
   },
   body: {
     height: "85%",
@@ -62,6 +64,11 @@ const ListBody = (props) => {
         <Typography variant="h2" align="center" color="textPrimary">
           {listCategory === "goal" ? "Spending Goals" : "Monthly Expenses"}
         </Typography>
+        <Typography variant="h6" align="center" style={{ marginTop: "5%" }}>
+          {listCategory === "goal"
+            ? "Set budgeting goals for any category"
+            : "Track expenses for each month"}
+        </Typography>
       </Box>
       <Box className={classes.body}>
         {list.length > 0 ? (
@@ -84,7 +91,7 @@ const ListBody = (props) => {
                         <Typography
                           variant="caption"
                           textAlign="left"
-                          style={{ alignSelf: "center" }}
+                          style={{ alignSelf: "center", marginLeft: "3%" }}
                         >
                           <strong>
                             {e.category} -{" "}
@@ -103,7 +110,7 @@ const ListBody = (props) => {
                           }}
                         >
                           <IconButton>
-                            <EditIcon fontSize="medium" color="primary" />
+                            <EditIcon fontSize="small" color="primary" />
                           </IconButton>
                         </Link>
                       </>
@@ -120,7 +127,7 @@ const ListBody = (props) => {
                         }}
                       >
                         <IconButton>
-                          <EditIcon fontSize="medium" color="primary" />
+                          <EditIcon fontSize="small" color="primary" />
                         </IconButton>
                       </Link>
                     )}
@@ -154,13 +161,13 @@ const ListBody = (props) => {
             }}
           >
             {listCategory === "transaction" ? (
-              <Typography variant="h4">
-                No expenses set.
+              <Typography variant="subtitle1">
+                No expenses recorded.
                 <br />
                 Let's get started!
               </Typography>
             ) : (
-              <Typography variant="h4">
+              <Typography variant="subtitle1">
                 No spending goals set.
                 <br />
                 Let's get started!
@@ -190,6 +197,11 @@ const ListBody = (props) => {
       </Box>
     </section>
   );
+};
+
+ListBody.propTypes = {
+  type: PropTypes.string,
+  selector: PropTypes.func,
 };
 
 export default ListBody;

@@ -1,7 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const SERVER = process.env.REACT_APP_BACKEND_URL;
+
 export const initialState = {
   loggedIn: false,
+  message: "",
 };
 
 const authSlice = createSlice({
@@ -14,10 +17,13 @@ const authSlice = createSlice({
     removeAuth: (state) => {
       state.loggedIn = false;
     },
+    loadMessage: (state, { payload }) => {
+      state.message = payload;
+    },
   },
 });
 
-export const { setAuth, removeAuth } = authSlice.actions;
+export const { setAuth, removeAuth, loadMessage } = authSlice.actions;
 
 export const authSelector = (state) => state.auth;
 
@@ -26,7 +32,7 @@ export default authSlice.reducer;
 export function loginUser(u, p) {
   return async (dispatch) => {
     try {
-      const response = await fetch(`http://localhost:3001/api/v1/users/login`, {
+      const response = await fetch(`${SERVER}/api/v1/users/login`, {
         method: "post",
         credentials: "include",
         headers: new Headers({
@@ -39,8 +45,9 @@ export function loginUser(u, p) {
       });
       if (response.status === 200) {
         dispatch(setAuth());
+        dispatch(loadMessage(""));
       } else {
-        window.alert("Invalid Credentials");
+        dispatch(loadMessage("Invalid username/password"));
       }
     } catch (error) {
       console.log(error);
@@ -51,7 +58,7 @@ export function loginUser(u, p) {
 export function logoutUser() {
   return async (dispatch) => {
     try {
-      await fetch("http://localhost:3001/api/v1/users/logout", {
+      await fetch(`${SERVER}/api/v1/users/logout`, {
         method: "get",
         credentials: "include",
       });
@@ -65,7 +72,7 @@ export function logoutUser() {
 export function registerUser(u, p) {
   return async (dispatch) => {
     try {
-      const response = await fetch(`http://localhost:3001/api/v1/users`, {
+      const response = await fetch(`${SERVER}/api/v1/users`, {
         method: "post",
         credentials: "include",
         headers: new Headers({
@@ -78,8 +85,9 @@ export function registerUser(u, p) {
       });
       if (response.status >= 200 && response.status <= 300) {
         dispatch(setAuth());
+        dispatch(loadMessage(""));
       } else {
-        window.alert("Username already taken.");
+        dispatch(loadMessage("Username taken"));
       }
     } catch (error) {
       console.log(error);

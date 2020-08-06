@@ -71,6 +71,9 @@ const useStyles = makeStyles((theme) => ({
     padding: "2% 0",
     width: "95%",
     maxWidth: "400px",
+    [theme.breakpoints.down("sm")]: {
+      marginBottom: "10%",
+    },
   },
   message: {
     display: "flex",
@@ -105,9 +108,12 @@ const Breakdown = () => {
               <Typography variant="h2" align="center">
                 Spending Breakdown
               </Typography>
-              <Typography align="center" style={{ margin: "5% 0 10%" }}>
-                Current month's total: $
-                {Number.parseFloat(totals.All).toFixed(2)}
+              <Typography
+                variant="h6"
+                align="center"
+                style={{ margin: "5% 0 10%" }}
+              >
+                This month's total: ${Number.parseFloat(totals.All).toFixed(2)}
               </Typography>
             </Box>
             <Box className={classes.blockPie}>
@@ -134,10 +140,9 @@ const Breakdown = () => {
               Spending Breakdown
             </Typography>
             <Paper className={classes.message}>
-              <Typography variant="h4">
-                This month doesn't have any expenses on record.
-                <br />
-                Record transactions for this month to receive insights!
+              <Typography variant="subtitle1">
+                This month doesn't have any expenses on record. Record
+                transactions for this month to receive insights!
               </Typography>
             </Paper>
           </>

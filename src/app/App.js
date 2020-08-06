@@ -77,7 +77,7 @@ const App = () => {
   const useStyles = makeStyles((theme) => ({
     root: {
       display: "flex",
-      height: "94vh",
+      height: "93vh",
       flexDirection: "column",
     },
     bottomNav: {
@@ -196,27 +196,33 @@ const App = () => {
           <Box
             style={{
               display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
+              flexDirection: "row-reverse",
               alignItems: "center",
               height: "8vh",
-              width: "90%",
+              width: "100%",
             }}
           >
-            <Typography variant="h1">Doe</Typography>
             {auth.loggedIn ? (
               <>
                 <Logout />
               </>
             ) : (
-              <Link to="/login">
+              <Link to="/login" style={{ textDecoration: "none" }}>
                 <Button>Login</Button>
               </Link>
             )}
           </Box>
 
           <Route path="/login">
-            <LoginForm />
+            <Box
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <LoginForm />
+            </Box>
           </Route>
 
           {auth.loggedIn ? protectedContent() : <Redirect to="/login" />}

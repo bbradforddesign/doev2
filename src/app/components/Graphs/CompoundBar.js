@@ -1,5 +1,5 @@
 import React from "react";
-import { Typography } from "@material-ui/core";
+import { Typography, Box } from "@material-ui/core";
 
 import { makeStyles } from "@material-ui/core/styles";
 
@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
 
 const GoalProgress = (props) => {
   return (
-    <div
+    <Box
       style={{
         display: "flex",
         flexDirection: "row",
@@ -35,7 +35,7 @@ const GoalProgress = (props) => {
         marginBottom: "8px",
       }}
     >
-      <div
+      <Box
         style={{
           backgroundColor:
             props.max <= props.current
@@ -44,14 +44,14 @@ const GoalProgress = (props) => {
           flex: props.current,
         }}
       />
-      <div
+      <Box
         className="growBar"
         style={{
           backgroundColor: "#f0f0f0",
           flex: props.max >= props.current ? props.max - props.current : 0,
         }}
       />
-    </div>
+    </Box>
   );
 };
 
@@ -72,7 +72,7 @@ const CompoundBar = (props) => {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
+    <Box className={classes.root}>
       <Typography variant="h4" align="center">
         Goal Progress
       </Typography>
@@ -80,7 +80,7 @@ const CompoundBar = (props) => {
         <ul className={classes.scrollList}>
           {bars.map((e) => (
             <li key={e.category}>
-              <div
+              <Box
                 style={{
                   display: "flex",
                   flexDirection: "row",
@@ -95,7 +95,7 @@ const CompoundBar = (props) => {
                   ${currentTotal[e.category] ? currentTotal[e.category] : 0} / $
                   {e.amount} Spent
                 </Typography>
-              </div>
+              </Box>
               <GoalProgress
                 max={e.amount}
                 current={
@@ -107,9 +107,23 @@ const CompoundBar = (props) => {
           ))}
         </ul>
       ) : (
-        <Typography>No goals set</Typography>
+        <Box
+          style={{
+            width: "100%",
+            height: "70%",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <Typography variant="subtitle1">
+            No goals set.
+            <br />
+            Set spending goals to view progress!
+          </Typography>
+        </Box>
       )}
-    </div>
+    </Box>
   );
 };
 

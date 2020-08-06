@@ -1,6 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import moment from "moment";
 
+const SERVER = process.env.REACT_APP_BACKEND_URL;
+
 export const initialState = {
   loadingTransactions: false,
   hasErrorsTransactions: false,
@@ -57,16 +59,13 @@ export function fetchAll() {
   return async (dispatch) => {
     dispatch(getTransactions());
     try {
-      const response = await fetch(
-        "http://localhost:3001/api/v1/transactions/all",
-        {
-          method: "get",
-          credentials: "include",
-          headers: new Headers({
-            "Content-Type": "application/json",
-          }),
-        }
-      );
+      const response = await fetch(`${SERVER}/api/v1/transactions/all`, {
+        method: "get",
+        credentials: "include",
+        headers: new Headers({
+          "Content-Type": "application/json",
+        }),
+      });
       const data = await response.json();
       dispatch(setCode(response.status));
       dispatch(getAll(data));
@@ -81,20 +80,17 @@ export function fetchMonthly(month) {
   return async (dispatch) => {
     dispatch(getTransactions());
     try {
-      const response = await fetch(
-        "http://localhost:3001/api/v1/transactions/range",
-        {
-          method: "post",
-          credentials: "include",
-          headers: new Headers({
-            "Content-Type": "application/json",
-          }),
-          body: JSON.stringify({
-            beginning: moment(month).startOf("month"),
-            end: moment(month).endOf("month"),
-          }),
-        }
-      );
+      const response = await fetch(`${SERVER}/api/v1/transactions/range`, {
+        method: "post",
+        credentials: "include",
+        headers: new Headers({
+          "Content-Type": "application/json",
+        }),
+        body: JSON.stringify({
+          beginning: moment(month).startOf("month"),
+          end: moment(month).endOf("month"),
+        }),
+      });
       const data = await response.json();
       dispatch(setCode(response.status));
       dispatch(getMonthly(data));

@@ -110,12 +110,6 @@ const LineGraph = () => {
           </div>
           <div>
             <Typography variant="subtitle1" align="right">
-              Total
-            </Typography>
-            <Typography variant="subtitle2" align="right">
-              ${maxes.reduce((i, e) => i + e).toFixed(2)}
-            </Typography>
-            <Typography variant="subtitle1" align="right">
               Max
             </Typography>
             <Typography variant="subtitle2" align="right">
@@ -133,6 +127,12 @@ const LineGraph = () => {
             </Typography>
             <Typography variant="subtitle2" align="right">
               ${(maxes.reduce((i, e) => i + e) / maxes.length).toFixed(2)}
+            </Typography>
+            <Typography variant="subtitle1" align="right" color="primary">
+              Total
+            </Typography>
+            <Typography variant="subtitle2" align="right" color="primary">
+              ${maxes.reduce((i, e) => i + e).toFixed(2)}
             </Typography>
           </div>
         </Box>

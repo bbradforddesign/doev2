@@ -1,9 +1,11 @@
 const abortController = new AbortController();
 
+const SERVER = process.env.REACT_APP_BACKEND_URL;
+
 const apiMethods = {
   Create: async (category, amount, date, description) => {
     try {
-      await fetch(`http://localhost:3001/api/v1/goals`, {
+      await fetch(`${SERVER}/api/v1/goals`, {
         method: "post",
         credentials: "include",
         headers: new Headers({
@@ -23,7 +25,7 @@ const apiMethods = {
   },
   Update: async (itemId, category, amount, date, description) => {
     try {
-      await fetch(`http://localhost:3001/api/v1/goals/${itemId}`, {
+      await fetch(`${SERVER}/api/v1/goals/${itemId}`, {
         method: "put",
         credentials: "include",
         headers: new Headers({
@@ -43,7 +45,7 @@ const apiMethods = {
   },
   Delete: async (itemId) => {
     try {
-      await fetch(`http://localhost:3001/api/v1/goals/${itemId}`, {
+      await fetch(`${SERVER}S/api/v1/goals/${itemId}`, {
         method: "delete",
         credentials: "include",
         headers: new Headers({

@@ -47,7 +47,7 @@ const LoginForm = () => {
   const dispatch = useDispatch();
   const auth = useSelector(authSelector);
 
-  const [creds, setCreds] = useState();
+  const [creds, setCreds] = useState({ username: "", password: "" });
 
   const handleLogin = () => {
     dispatch(loginUser(creds.username, creds.password));
@@ -78,6 +78,11 @@ const LoginForm = () => {
                 Let's get started.
               </Typography>
             </div>
+            {auth.message && (
+              <Typography variant="subtitle1" color="secondary">
+                {auth.message}
+              </Typography>
+            )}
             <div className={classes.formTextInput}>
               <TextField
                 type="text"
@@ -99,20 +104,33 @@ const LoginForm = () => {
               />
             </div>
             <div className={classes.formButtons}>
-              <Button
-                variant="text"
-                color="primary"
-                onClick={() => handleRegister()}
-              >
-                Register
-              </Button>
-              <Button
-                variant="contained"
-                color="primary"
-                onClick={() => handleLogin()}
-              >
-                Login
-              </Button>
+              {creds.username && creds.password ? (
+                <>
+                  <Button
+                    variant="text"
+                    color="primary"
+                    onClick={() => handleRegister()}
+                  >
+                    Register
+                  </Button>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    onClick={() => handleLogin()}
+                  >
+                    Login
+                  </Button>
+                </>
+              ) : (
+                <>
+                  <Button variant="text" color="primary" disabled>
+                    Register
+                  </Button>
+                  <Button variant="contained" color="primary" disabled>
+                    Login
+                  </Button>
+                </>
+              )}
             </div>
           </>
         )}

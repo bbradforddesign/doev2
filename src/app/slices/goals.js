@@ -1,5 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const SERVER = process.env.REACT_APP_BACKEND_URL;
+
 export const initialState = {
   loading: false,
   hasErrors: false,
@@ -42,7 +44,7 @@ export function fetchGoals() {
     dispatch(getGoals());
 
     try {
-      const response = await fetch("http://localhost:3001/api/v1/goals/all", {
+      const response = await fetch(`${SERVER}/api/v1/goals/all`, {
         method: "get",
         credentials: "include",
         headers: new Headers({
