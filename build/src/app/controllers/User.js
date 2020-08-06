@@ -69,18 +69,9 @@ var User = {
             case 15:
               _context.prev = 15;
               _context.t0 = _context["catch"](5);
-
-              if (!(_context.t0.routine === "_bt_check_unique")) {
-                _context.next = 19;
-                break;
-              }
-
-              return _context.abrupt("return", res.status(400).send({ message: "Username already registered" }));
-
-            case 19:
               return _context.abrupt("return", res.status(400).send(_context.t0));
 
-            case 20:
+            case 18:
             case "end":
               return _context.stop();
           }

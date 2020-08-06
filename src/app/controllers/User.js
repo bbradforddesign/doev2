@@ -34,9 +34,6 @@ const User = {
       res.cookie("token", token, { httpOnly: true });
       return res.status(201).send({ token });
     } catch (error) {
-      if (error.routine === "_bt_check_unique") {
-        return res.status(400).send({ message: "Username already registered" });
-      }
       return res.status(400).send(error);
     }
   },
