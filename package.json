@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "homepage": "https://bbradforddesign.github.io/doev2",
+  "proxy": "https://salty-wildwood-19678.herokuapp.com",
   "dependencies": {
     "@material-ui/core": "^4.10.2",
     "@material-ui/icons": "^4.9.1",
