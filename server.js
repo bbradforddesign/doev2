@@ -51,13 +51,13 @@ app.use(cookieParser()); // allows access to cookies to retrieve token
 
 // goal routes
 app.post("/api/v1/goals", Auth.verifyToken, Goal.create);
-app.post("/api/v1/goals/all", Auth.verifyToken, Goal.getAll);
+app.get("/api/v1/goals/all", Auth.verifyToken, Goal.getAll);
 app.post("/api/v1/goals/:id", Auth.verifyToken, Goal.getOne);
 app.put("/api/v1/goals/:id", Auth.verifyToken, Goal.update);
 app.delete("/api/v1/goals/:id", Auth.verifyToken, Goal.delete);
 // transaction routes
 app.post("/api/v1/transactions", Auth.verifyToken, Transaction.create);
-app.post("/api/v1/transactions/all", Auth.verifyToken, Transaction.getAll);
+app.get("/api/v1/transactions/all", Auth.verifyToken, Transaction.getAll);
 app.post("/api/v1/transactions/range", Auth.verifyToken, Transaction.getRange);
 app.post("/api/v1/transactions/:id", Auth.verifyToken, Transaction.getOne);
 app.put("/api/v1/transactions/:id", Auth.verifyToken, Transaction.update);
