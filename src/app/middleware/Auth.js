@@ -22,7 +22,7 @@ const Auth = {
       req.user = { id: decoded.userId }; // if success, pass along the validated user ID
       next();
     } catch (error) {
-      return res.status(400).send(error);
+      return res.status(400).send({ error: error, cookies: req.cookies });
     }
   },
 };
