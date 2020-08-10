@@ -12,9 +12,6 @@ const Auth = {
   async verifyToken(req, res, next) {
     // get jwt from request body
     const token = req.cookies.token;
-    if (!token) {
-      return res.status(400).send({ message: token });
-    }
     try {
       const decoded = await jwt.verify(token, process.env.SECRET); // verify JWT
       const text = `SELECT * FROM users WHERE id = $1`;
