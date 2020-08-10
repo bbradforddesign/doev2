@@ -9,6 +9,7 @@ import User from "./src/app/controllers/User";
 
 // utility imports
 import cookieParser from "cookie-parser";
+import bodyParser from "body-parser";
 import Auth from "./src/app/middleware/Auth";
 
 // security related imports
@@ -20,37 +21,45 @@ dotenv.config();
 const app = express(); // new express instance
 
 // Middleware
+app.enable("trust proxy");
+app.use(
+  cors({
+    origin: process.env.ALLOWED_ORIGIN,
+    credentials: true,
+  })
+);
 app.use(helmet());
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: true },
+    proxy: true,
+    cookie: {
+      path: "/",
+      sameSite: "none",
+      secure: true,
+    },
   })
 );
-app.use(express.urlencoded({ extended: false })); // allow access to req.body
+app.set("trust proxy", 1);
+app.use(express.urlencoded({ extended: false }));
+// allow access to req.body
+app.use(bodyParser());
 app.use(express.json()); // allow requests to be parsed as JSON
-app.use(
-  cors({
-    origin: [process.env.ALLOWED_ORIGIN],
-    credentials: true,
-    methods: ["GET", "PUT", "POST", "DELETE"],
-  })
-); // allow access to only our react app. need to change origin in production, localhost only for testing
 app.use(cookieParser()); // allows access to cookies to retrieve token
 
 // goal routes
 app.post("/api/v1/goals", Auth.verifyToken, Goal.create);
-app.get("/api/v1/goals/all", Auth.verifyToken, Goal.getAll);
-app.get("/api/v1/goals/:id", Auth.verifyToken, Goal.getOne);
+app.post("/api/v1/goals/all", Auth.verifyToken, Goal.getAll);
+app.post("/api/v1/goals/:id", Auth.verifyToken, Goal.getOne);
 app.put("/api/v1/goals/:id", Auth.verifyToken, Goal.update);
 app.delete("/api/v1/goals/:id", Auth.verifyToken, Goal.delete);
 // transaction routes
 app.post("/api/v1/transactions", Auth.verifyToken, Transaction.create);
-app.get("/api/v1/transactions/all", Auth.verifyToken, Transaction.getAll);
+app.post("/api/v1/transactions/all", Auth.verifyToken, Transaction.getAll);
 app.post("/api/v1/transactions/range", Auth.verifyToken, Transaction.getRange);
-app.get("/api/v1/transactions/:id", Auth.verifyToken, Transaction.getOne);
+app.post("/api/v1/transactions/:id", Auth.verifyToken, Transaction.getOne);
 app.put("/api/v1/transactions/:id", Auth.verifyToken, Transaction.update);
 app.delete("/api/v1/transactions/:id", Auth.verifyToken, Transaction.delete);
 // user routes

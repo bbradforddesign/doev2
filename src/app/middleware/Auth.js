@@ -10,7 +10,8 @@ const Auth = {
    * @returns {object|void} response object
    */
   async verifyToken(req, res, next) {
-    const token = req.cookies.token; // get JWT from token
+    // get jwt from request body
+    const token = req.body.token;
     if (!token) {
       return res.status(400).send({ message: "Token not provided" });
     }

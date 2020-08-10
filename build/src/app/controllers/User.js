@@ -63,7 +63,11 @@ var User = {
               rows = _ref2.rows;
               token = _Helper2.default.generateToken(rows[0].id);
 
-              res.cookie("token", token, { httpOnly: true });
+              res.cookie("token", token, {
+                httpOnly: true,
+                sameSite: "none",
+                secure: true
+              });
               return _context.abrupt("return", res.status(201).send({ token: token }));
 
             case 15:
@@ -137,21 +141,24 @@ var User = {
             case 12:
               token = _Helper2.default.generateToken(rows[0].id); // generate new JWT signed with matched user's id
 
-              res.clearCookie("token");
-              res.cookie("token", token, { httpOnly: true });
+              res.cookie("token", token, {
+                httpOnly: true,
+                sameSite: "none",
+                secure: true
+              });
               return _context2.abrupt("return", res.status(200).send({ token: token }));
 
-            case 18:
-              _context2.prev = 18;
+            case 17:
+              _context2.prev = 17;
               _context2.t0 = _context2["catch"](3);
               return _context2.abrupt("return", res.status(400).send(_context2.t0));
 
-            case 21:
+            case 20:
             case "end":
               return _context2.stop();
           }
         }
-      }, _callee2, this, [[3, 18]]);
+      }, _callee2, this, [[3, 17]]);
     }));
 
     function login(_x3, _x4) {

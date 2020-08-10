@@ -31,7 +31,11 @@ const User = {
     try {
       const { rows } = await db.query(createQuery, values);
       const token = Helper.generateToken(rows[0].id);
-      res.cookie("token", token, { httpOnly: true });
+      res.cookie("token", token, {
+        httpOnly: true,
+        sameSite: "none",
+        secure: true,
+      });
       return res.status(201).send({ token });
     } catch (error) {
       return res.status(400).send(error);
@@ -60,8 +64,11 @@ const User = {
         return res.status(400).send({ message: "Invalid credentials" });
       }
       const token = Helper.generateToken(rows[0].id); // generate new JWT signed with matched user's id
-      res.clearCookie("token");
-      res.cookie("token", token, { httpOnly: true });
+      res.cookie("token", token, {
+        httpOnly: true,
+        sameSite: "none",
+        secure: true,
+      });
       return res.status(200).send({ token });
     } catch (error) {
       return res.status(400).send(error);

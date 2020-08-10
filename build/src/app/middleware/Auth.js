@@ -32,7 +32,8 @@ var Auth = {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              token = req.cookies.token; // get JWT from token
+              // get jwt from request body
+              token = req.body.token;
 
               if (token) {
                 _context.next = 3;
