@@ -21,13 +21,8 @@ dotenv.config();
 const app = express(); // new express instance
 
 // Middleware
+app.use(cors());
 app.enable("trust proxy");
-app.use(
-  cors({
-    origin: process.env.ALLOWED_ORIGIN,
-    credentials: true,
-  })
-);
 app.use(helmet());
 app.use(
   session({
