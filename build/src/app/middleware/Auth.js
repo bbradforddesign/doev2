@@ -33,55 +33,46 @@ var Auth = {
           switch (_context.prev = _context.next) {
             case 0:
               // get jwt from request body
-              token = req.body.token;
-
-              if (token) {
-                _context.next = 3;
-                break;
-              }
-
-              return _context.abrupt("return", res.status(400).send({ message: "Token not provided" }));
-
-            case 3:
-              _context.prev = 3;
-              _context.next = 6;
+              token = req.cookies.token;
+              _context.prev = 1;
+              _context.next = 4;
               return _jsonwebtoken2.default.verify(token, process.env.SECRET);
 
-            case 6:
+            case 4:
               decoded = _context.sent;
               // verify JWT
               text = "SELECT * FROM users WHERE id = $1";
-              _context.next = 10;
+              _context.next = 8;
               return _db2.default.query(text, [decoded.userId]);
 
-            case 10:
+            case 8:
               _ref2 = _context.sent;
               rows = _ref2.rows;
 
               if (rows[0]) {
-                _context.next = 14;
+                _context.next = 12;
                 break;
               }
 
               return _context.abrupt("return", res.status(400).send({ message: "Invalid token" }));
 
-            case 14:
+            case 12:
               req.user = { id: decoded.userId }; // if success, pass along the validated user ID
               next();
-              _context.next = 21;
+              _context.next = 19;
               break;
 
-            case 18:
-              _context.prev = 18;
-              _context.t0 = _context["catch"](3);
-              return _context.abrupt("return", res.status(400).send(_context.t0));
+            case 16:
+              _context.prev = 16;
+              _context.t0 = _context["catch"](1);
+              return _context.abrupt("return", res.status(400).send({ error: _context.t0, cookies: req.cookies }));
 
-            case 21:
+            case 19:
             case "end":
               return _context.stop();
           }
         }
-      }, _callee, this, [[3, 18]]);
+      }, _callee, this, [[1, 16]]);
     }));
 
     function verifyToken(_x, _x2, _x3) {
