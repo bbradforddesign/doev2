@@ -59,11 +59,11 @@ _dotenv2.default.config();
 var app = (0, _express2.default)(); // new express instance
 
 // Middleware
-app.enable("trust proxy");
 app.use((0, _cors2.default)({
   origin: process.env.ALLOWED_ORIGIN,
   credentials: true
 }));
+app.enable("trust proxy");
 app.use((0, _helmet2.default)());
 app.use((0, _expressSession2.default)({
   secret: process.env.SESSION_SECRET,

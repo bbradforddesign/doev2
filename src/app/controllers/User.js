@@ -66,8 +66,6 @@ const User = {
       const token = Helper.generateToken(rows[0].id); // generate new JWT signed with matched user's id
       res.cookie("token", token, {
         httpOnly: true,
-        sameSite: "none",
-        secure: true,
       });
       return res.status(200).send({ token });
     } catch (error) {

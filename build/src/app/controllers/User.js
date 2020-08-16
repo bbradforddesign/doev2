@@ -142,9 +142,7 @@ var User = {
               token = _Helper2.default.generateToken(rows[0].id); // generate new JWT signed with matched user's id
 
               res.cookie("token", token, {
-                httpOnly: true,
-                sameSite: "none",
-                secure: true
+                httpOnly: true
               });
               return _context2.abrupt("return", res.status(200).send({ token: token }));
 
