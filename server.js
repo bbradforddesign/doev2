@@ -75,11 +75,11 @@ app.get("/api/v1", (req, res) => {
 });
 
 // !ensure frontend exists at this location!
-app.use(express.static(path.join(__dirname, "frontend/build")));
+app.use(express.static(path.join(__dirname, "client/build")));
 
 // route to serve frontend (all addresses not defined above)
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname + "/frontend/build/index.html"));
+  res.sendFile(path.join(__dirname + "/client/build/index.html"));
 });
 
 app.listen(process.env.PORT || 5000);
