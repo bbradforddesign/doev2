@@ -1,9 +1,9 @@
-const { Pool } = require("pg");
+const pg = require("pg");
 const dotenv = require("dotenv"); // access env vars
 
 dotenv.config();
 
-const pool = new Pool({
+const pool = new pg.Pool({
   // connect to remote db, create new connection pool
   connectionString: process.env.DATABASE_URL,
 });

@@ -1,21 +1,22 @@
-import express from "express";
-import dotenv from "dotenv";
-import "babel-polyfill"; // allow node to utilize async and Promise features from ES6
+const express = require("express");
+const dotenv = require("dotenv");
 
 // controller imports
-import Goal from "./src/app/controllers/Goal";
-import Transaction from "./src/app/controllers/Transaction";
-import User from "./src/app/controllers/User";
+const Goal = require("./src/app/controllers/Goal");
+const Transaction = require("./src/app/controllers/Transaction");
+const User = require("./src/app/controllers/User");
 
 // utility imports
-import cookieParser from "cookie-parser";
-import bodyParser from "body-parser";
-import Auth from "./src/app/middleware/Auth";
+const cookieParser = require("cookie-parser");
+const bodyParser = require("body-parser");
+const Auth = require("./src/app/middleware/Auth");
+// use filesystem to serve up frontend
+const path = require("path");
 
 // security related imports
-import cors from "cors";
-import helmet from "helmet";
-import session from "express-session";
+const cors = require("cors");
+const helmet = require("helmet");
+const session = require("express-session");
 
 dotenv.config();
 const app = express(); // new express instance
@@ -73,5 +74,13 @@ app.get("/api/v1", (req, res) => {
   res.send("Hello, API!");
 });
 
-app.listen(process.env.PORT || 3001);
-console.log("app is running on port ", 3001);
+// !ensure frontend exists at this location!
+app.use(express.static(path.join(__dirname, "frontend/build")));
+
+// route to serve frontend (all addresses not defined above)
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname + "/frontend/build/index.html"));
+});
+
+app.listen(process.env.PORT || 5000);
+console.log("app is running on port ", 5000);

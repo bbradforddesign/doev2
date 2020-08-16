@@ -1,7 +1,7 @@
-// src/usingDB/models/index.js
-import { Pool } from "pg"; // allow connection pooling
-import dotenv from "dotenv";
+const pg = require("pg");
+const dotenv = require("dotenv");
 
+const Pool = pg.Pool;
 dotenv.config();
 
 const pool = new Pool({
@@ -10,13 +10,7 @@ const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
 });
 
-export default {
-  /**
-   * DB Query
-   * @param {object} req
-   * @param {object} res
-   * @returns {object} object
-   */
+module.exports = {
   query(text, params) {
     return new Promise((resolve, reject) => {
       pool

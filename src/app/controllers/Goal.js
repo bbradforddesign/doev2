@@ -1,6 +1,6 @@
-import moment from "moment"; // date formatting
-import { v4 } from "uuid"; // generating unique id
-import db from "../db"; // access to database functions
+const db = require("../db");
+const uuid = require("uuid");
+const v4 = uuid.v4; // generating unique id
 
 // category total calculation utility. Should be separated?
 const calculateTotals = (arr) => {
@@ -17,12 +17,6 @@ const calculateTotals = (arr) => {
 };
 
 const Goal = {
-  /**
-   * Create A Goal
-   * @param {object} req
-   * @param {object} res
-   * @returns {object} goal object
-   */
   async create(req, res) {
     // pass values from request body into new goal
     const text = `INSERT INTO
@@ -45,12 +39,6 @@ const Goal = {
     }
   },
 
-  /**
-   * Get All Goals
-   * @param {object} req
-   * @param {object} res
-   * @returns {object}
-   */
   async getAll(req, res) {
     const findAllQuery = `SELECT * FROM goals where author_id = $1`;
     try {
@@ -61,12 +49,7 @@ const Goal = {
       return res.status(400).send(error);
     }
   },
-  /**
-   * Get One goal
-   * @param {object} req
-   * @param {object} res
-   * @returns {object}
-   */
+
   async getOne(req, res) {
     // get goal of a given ID from table
     const text = `SELECT * FROM goals where id = $1 AND author_id= $2`;
@@ -80,12 +63,7 @@ const Goal = {
       return res.status(400).send(error);
     }
   },
-  /**
-   * Update A goal
-   * @param {object} req
-   * @param {object} res
-   * @returns {object}
-   */
+
   async update(req, res) {
     // get goal of a given id, and pass in updated values from request body
     const findOneQuery = `SELECT * FROM goals WHERE id=$1 AND author_id=$2`; // find the goal
@@ -115,12 +93,6 @@ const Goal = {
     }
   },
 
-  /**
-   * Delete A Goal
-   * @param {object} req
-   * @param {object} res
-   * @returns {void} return status code 204
-   */
   async delete(req, res) {
     // remove transaction of given id from table
     const deleteQuery = `DELETE FROM goals WHERE id=$1 AND author_id=$2 returning *`;
@@ -140,4 +112,4 @@ const Goal = {
   },
 };
 
-export default Goal;
+module.exports = Goal;
