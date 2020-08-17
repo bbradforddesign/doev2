@@ -19,10 +19,12 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "row",
     padding: "0 2%",
     width: "96%",
-    minWidth: "400px",
     margin: "2vh 0",
     backgroundColor: "rgb(75,100,255)",
     color: "#FFF",
+    [theme.breakpoints.down("xs")]: {
+      flexDirection: "column",
+    },
   },
 }));
 
@@ -33,7 +35,7 @@ const MonthNav = () => {
   const dispatch = useDispatch();
   return (
     <Paper className={classes.root}>
-      <Typography variant="h3" align="left">
+      <Typography variant="h4" align="left">
         {moment(active.month).format("MMM YYYY")}
       </Typography>
       <ButtonGroup>

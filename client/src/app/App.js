@@ -75,6 +75,11 @@ const App = () => {
 
   // styling and breakpoints
   const useStyles = makeStyles((theme) => ({
+    container: {
+      [theme.breakpoints.up("sm")]: {
+        padding: "0",
+      },
+    },
     root: {
       display: "flex",
       height: "93vh",
@@ -175,7 +180,7 @@ const App = () => {
   return (
     <Router>
       <ThemeProvider theme={theme}>
-        <Container>
+        <Container className={classes.container}>
           <Box
             style={{
               display: "flex",

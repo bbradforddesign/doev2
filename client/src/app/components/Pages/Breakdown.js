@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Paper, Typography } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import { useSelector } from "react-redux";
@@ -89,12 +89,22 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Breakdown = () => {
+  const [months, setMonths] = useState([]);
+
   const classes = useStyles();
 
   const transactionState = useSelector(transactionsSelector);
   const goalState = useSelector(goalsSelector);
 
   const totals = transactionState.categoryTotals;
+  const monthlyTotals = transactionState.monthlyTotals;
+
+  useEffect(() => {
+    for (const month in monthlyTotals) {
+      setMonths((months) => [...months, monthlyTotals[month]]);
+    }
+    console.log(months);
+  }, [monthlyTotals]);
 
   const active = useSelector(uiSelector);
 
@@ -108,13 +118,19 @@ const Breakdown = () => {
               <Typography variant="h2" align="center">
                 Spending Breakdown
               </Typography>
-              <Typography
-                variant="h6"
-                align="center"
-                style={{ margin: "5% 0 10%" }}
-              >
-                This month's total: ${Number.parseFloat(totals.All).toFixed(2)}
-              </Typography>
+              <div style={{ margin: "5% 0 10%" }}>
+                <Typography align="right">
+                  Monthly total: ${Number.parseFloat(totals.All).toFixed(2)}
+                </Typography>
+                {months.length > 0 && (
+                  <Typography align="right">
+                    Average month: $
+                    {Number.parseFloat(
+                      months.reduce((i, e) => i + e) / months.length
+                    ).toFixed(2)}
+                  </Typography>
+                )}
+              </div>
             </Box>
             <Box className={classes.blockPie}>
               <Paper className={classes.tile}>

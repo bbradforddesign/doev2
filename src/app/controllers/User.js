@@ -28,7 +28,7 @@ exports.create = async (req, res) => {
     res.cookie("token", token, {
       httpOnly: true,
     });
-    return res.status(201).send({ token });
+    return res.status(201).send({ message: "successfully registered" });
   } catch (error) {
     return res.status(400).send(error);
   }
@@ -53,7 +53,7 @@ exports.login = async (req, res) => {
     res.cookie("token", token, {
       httpOnly: true,
     });
-    return res.status(200).send({ token });
+    return res.status(200).send({ message: "successfully logged in" });
   } catch (error) {
     console.log(error);
     return res.status(400).send(error);

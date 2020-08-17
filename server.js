@@ -38,7 +38,7 @@ app.use(
     proxy: true,
     cookie: {
       path: "/",
-      sameSite: "none",
+      sameSite: "strict",
       secure: true,
     },
   })
@@ -68,11 +68,6 @@ app.post("/api/v1/users", User.create);
 app.post("/api/v1/users/login", User.login);
 app.get("/api/v1/users/logout", User.logout);
 app.delete("/api/v1/users/remove", Auth.verifyToken, User.delete);
-
-// test route
-app.get("/api/v1", (req, res) => {
-  res.send("Hello, API!");
-});
 
 // !ensure frontend exists at this location!
 app.use(express.static(path.join(__dirname, "client/build")));

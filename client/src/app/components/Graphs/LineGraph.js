@@ -84,7 +84,7 @@ const LineGraph = () => {
           <div className={classes.chart}>
             <Line
               data={state}
-              height={260}
+              height={270}
               options={{
                 responsive: true,
                 maintainAspectRatio: true,
@@ -107,33 +107,6 @@ const LineGraph = () => {
                 },
               }}
             />
-          </div>
-          <div>
-            <Typography variant="subtitle1" align="right">
-              Max
-            </Typography>
-            <Typography variant="subtitle2" align="right">
-              ${Math.max(...maxes).toFixed(2)}
-            </Typography>
-            <Typography variant="subtitle1" align="right">
-              Min
-            </Typography>
-            <Typography variant="subtitle2" align="right">
-              {" "}
-              ${Math.min(...maxes).toFixed(2)}
-            </Typography>
-            <Typography variant="subtitle1" align="right">
-              Avg
-            </Typography>
-            <Typography variant="subtitle2" align="right">
-              ${(maxes.reduce((i, e) => i + e) / maxes.length).toFixed(2)}
-            </Typography>
-            <Typography variant="subtitle1" align="right" color="primary">
-              Total
-            </Typography>
-            <Typography variant="subtitle2" align="right" color="primary">
-              ${maxes.reduce((i, e) => i + e).toFixed(2)}
-            </Typography>
           </div>
         </Box>
       ) : (
